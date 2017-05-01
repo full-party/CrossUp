@@ -1,0 +1,24 @@
+version: '2'
+
+services:
+  web:
+    build: ./docker/web
+    ports:
+     - '8000:80'
+    volumes:
+     - ./laravel:/var/www/html
+     - ./docker/web/000-default.conf:/etc/apache2/sites-available/000-default.conf
+    links:
+     - mysql
+  mysql:
+    image: mysql:latest
+    ports:
+     - '33333:3306'
+    volumes:
+     - ./docker/mysql/data:/var/lib/mysql
+     - ./docker/mysql/my.cnf:/etc/mysql/conf.d/my.cnf
+    environment:
+     - MYSQL_ROOT_PASSWORD=root
+     - MYSQL_DATABASE=cross_up
+     - MYSQL_USER=laravel
+     - MYSQL_PASSWORD=laravel
