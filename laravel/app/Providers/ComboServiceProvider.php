@@ -1,7 +1,6 @@
 <?php
 namespace App\Providers;
 
-use App\Service\ComboService;
 use Illuminate\Support\ServiceProvider;
 
 class ComboServiceProvider extends ServiceProvider
@@ -13,6 +12,6 @@ class ComboServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind('ComboService', new ComboService());
+        $this->app->bind('comboService', 'App\Service\ComboService');
     }
 }
