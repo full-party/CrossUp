@@ -180,6 +180,7 @@ return [
         /*
          * cross up
          */
+        App\Providers\GameServiceProvider::class,
         App\Providers\ComboServiceProvider::class,
     ],
 
@@ -230,6 +231,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
 
+        'GameService'  => App\Facades\GameService::class,
         'ComboService' => App\Facades\ComboService::class,
     ],
 
