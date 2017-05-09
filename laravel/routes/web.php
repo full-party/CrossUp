@@ -11,8 +11,6 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-Route::get('/combos', 'Api\ComboController@index');
-
+// view
+Route::get('/', 'TopController@index');
+Route::resource('combo', 'ComboController', ['only' => ['index', 'create', 'show']]);
