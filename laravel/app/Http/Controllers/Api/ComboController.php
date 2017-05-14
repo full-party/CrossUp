@@ -3,13 +3,12 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use ComboService;
 
 class ComboController extends Controller
 {
     public function index()
     {
-        ComboService::find();
+        return 'test';
     }
 
     public function create()
