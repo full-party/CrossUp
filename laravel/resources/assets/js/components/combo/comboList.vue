@@ -8,6 +8,7 @@
         <router-link :to="'/combos/' + combo.id">{{combo.title}}</router-link>
       </li>
     </ul>
+    <fab></fab>
   </section>
 </template>
 
@@ -19,6 +20,9 @@
 
 <script>
   export default {
+    components: {
+      fab: require('../common/button/floating-action-button.vue'),
+    },
     created() {
         this.getCombos()
       },

@@ -9,6 +9,7 @@ window.axios.defaults.headers.common = {
 };
 
 Vue.component('app-header', require('./components/common/app-header.vue'));
+Vue.component('app-sidebar', require('./components/common/app-sidebar.vue'));
 
 const app = new Vue({
     router,
