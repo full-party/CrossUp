@@ -12,10 +12,10 @@
     <transition name="slide">
       <nav v-if="show">
         <ul>
-          <li>hoge</li>
-          <li>hoge</li>
-          <li>hoge</li>
-          <li>hoge</li>
+          <li @click="show = false"><router-link to="/combos/create">create combo</router-link></li>
+          <li @click="show = false"><router-link to="/games">Select to games</router-link></li>
+          <li @click="show = false"><router-link to="/setting">setting</router-link></li>
+          <li>logout</li>
         </ul>
       </nav>
     </transition>

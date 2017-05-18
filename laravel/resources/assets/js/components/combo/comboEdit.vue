@@ -1,8 +1,8 @@
 <template>
   <section>
-    <h1>Combo Detail</h1>
+    <h1>Combo Edit</h1>
     <p>{{ $route.params.id }}</p>
-    <router-link to="/combos">back combo list</router-link>
+    <router-link :to="'/combos/' + $route.params.id">back combo detail</router-link>
   </section>
 </template>
 
