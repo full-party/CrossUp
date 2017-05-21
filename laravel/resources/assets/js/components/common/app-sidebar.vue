@@ -32,8 +32,7 @@
     position: fixed;
     top: 0;
     left: 0;
-    background: black;
-    opacity: 0.7;
+    background-color: rgba(0, 0, 0, .5);
     z-index: 10;
   }
   nav {
@@ -57,6 +56,7 @@
     transition: all 0.7s ease;
   }
   .slide-enter, .slide-leave-to {
+    -webkit-transform: translateX(100%);
     transform: translateX(100%);
     opacity: 0;
   }
