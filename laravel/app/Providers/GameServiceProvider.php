@@ -3,7 +3,7 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 
-class ComboServiceProvider extends ServiceProvider
+class GameServiceProvider extends ServiceProvider
 {
     /**
      * Register any application services.
@@ -12,6 +12,6 @@ class ComboServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind('comboService', 'App\Service\ComboService');
+        $this->app->bind('gameService', 'App\Service\GameService');
     }
 }
