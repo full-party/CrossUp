@@ -6,6 +6,8 @@
 ```
 cd laravel
 npm install
+docker exec -it crossup_web_1 bash
+php artisan migrate
 ```
 
 ## development build

@@ -1,2 +1,4 @@
+.idea
+
 /docker/mysql/data/*
 !/docker/mysql/data/.gitkeep
