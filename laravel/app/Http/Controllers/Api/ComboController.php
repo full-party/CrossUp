@@ -4,12 +4,13 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use ComboService;
+use Illuminate\Http\Request;
 
 class ComboController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        ComboService::find();
+        return ComboService::list($request->all());
     }
 
     public function create()
@@ -17,9 +18,9 @@ class ComboController extends Controller
 
     }
 
-    public function show()
+    public function show(int $comboId)
     {
-
+        return ComboService::find($comboId);
     }
 
     public function update()
