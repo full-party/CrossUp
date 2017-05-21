@@ -13,4 +13,4 @@
 
 // view
 Route::get('/', 'TopController@index');
-Route::resource('combo', 'ComboController', ['only' => ['index', 'create', 'show']]);
+Route::resource('combos', 'ComboController', ['only' => ['index', 'create', 'show']]);
