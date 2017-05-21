@@ -6,8 +6,10 @@
 ```
 cd laravel
 npm install
+
 docker exec -it crossup_web_1 bash
-php artisan migrate
+composer dump-autoload
+php artisan migrate:refresh --seed
 ```
 
 ## development build
