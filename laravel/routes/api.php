@@ -21,4 +21,5 @@ Route::get('comboList',  function() {
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+Route::resource('games', 'Api\GameController', ['only' => ['index']]);
 Route::resource('combos', 'Api\ComboController', ['only' => ['index', 'create', 'show', 'update', 'destroy']]);
