@@ -8,7 +8,42 @@
         <router-link :to="'/combos/' + combo.id">{{combo.title}}</router-link>
       </li>
     </ul>
-    <fab></fab>
+    <fab @click="showModal = true"></fab>
+    <modal v-if="showModal">
+      <div slot="modal-contents">
+        <h2>Search</h2>
+          <accordionBox>
+            <span slot="accordion-title">Select Charactor</span>
+            <p slot="accordion-contents">
+              <ul>
+                <li>hoge</li>
+                <li>hoge1</li>
+                <li>hoge2</li>
+              </ul>
+            </p>
+          </accordionBox>
+          <accordionBox>
+            <span slot="accordion-title">Select First</span>
+            <p slot="accordion-contents">
+              <ul>
+                <li>fuga</li>
+                <li>fuga1</li>
+                <li>fuga2</li>
+              </ul>
+            </p>
+          </accordionBox>
+          <p>
+            <div @click="showModal = false">
+              chancel
+            </div>
+          </p>
+          <p>
+            <div @click="showModal = false">
+              ok
+            </div>
+          </p>
+        </div>
+    </modal>
   </section>
 </template>
 
@@ -22,13 +57,16 @@
   export default {
     components: {
       fab: require('../common/button/floating-action-button.vue'),
+      modal: require('../common/modal.vue'),
+      accordionBox: require('../common/box/accordion-box.vue'),
     },
     created() {
         this.getCombos()
       },
     data() {
       return {
-          combos: []
+          combos: [],
+          showModal: false,
       }
     },
     methods: {
