@@ -1,9 +1,9 @@
 <template>
-  <div class="fab" @click="$emit('click')">?</div>
+  <div @click="$emit('click')">?</div>
 </template>
 
 <style scoped>
-  .fab {
+  div {
     position: fixed;
     right: 16px;
     bottom: 16px;

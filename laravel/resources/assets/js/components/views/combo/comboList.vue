@@ -56,24 +56,24 @@
 <script>
   export default {
     components: {
-      fab: require('../common/button/floating-action-button.vue'),
-      modal: require('../common/modal.vue'),
-      accordionBox: require('../common/box/accordion-box.vue'),
+      fab: require('../../common/button/floating-action-button.vue'),
+      modal: require('../../common/modal.vue'),
+      accordionBox: require('../../common/box/accordion-box.vue'),
     },
     created() {
         this.getCombos()
       },
     data() {
       return {
-          combos: [],
-          showModal: false,
+        combos: [],
+        showModal: false,
       }
     },
     methods: {
       getCombos() {
         axios.get('/api/comboList')
         .then(res =>  {
-          this.combos = res.data
+          this.combos = res.data;
         })
       }
     }
