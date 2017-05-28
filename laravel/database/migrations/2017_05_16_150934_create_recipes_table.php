@@ -17,6 +17,7 @@ class CreateRecipesTable extends Migration
             $table->integer('id', true);
             $table->integer('combo_id')->index('id_idx');
             $table->integer('move_id')->index('id_idx1');
+            $table->integer('order');
             $table->timestamps();
             $table->softDeletes();
         });
