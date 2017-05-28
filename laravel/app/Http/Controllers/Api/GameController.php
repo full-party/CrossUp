@@ -4,12 +4,31 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use GameService;
-use Illuminate\Http\Request;
 
+/**
+ * Class GameController
+ * @package App\Http\Controllers\Api
+ */
 class GameController extends Controller
 {
-    public function index(Request $request)
+    /**
+     * ゲーム一覧
+     *
+     * @return array
+     */
+    public function index()
     {
-        return GameService::find($request->get('id'));
+        return GameService::list();
+    }
+
+    /**
+     * ゲーム詳細
+     *
+     * @param int $gameId
+     * @return mixed
+     */
+    public function show(int $gameId)
+    {
+        return GameService::find($gameId);
     }
 }
