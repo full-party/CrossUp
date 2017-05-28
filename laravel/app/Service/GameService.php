@@ -18,7 +18,7 @@ class GameService
     public function list()
     {
         $game = Game::all();
-        return ['count' => $game, 'data' => $game];
+        return ['count' => count($game), 'data' => $game];
     }
 
     /**

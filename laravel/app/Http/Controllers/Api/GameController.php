@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use GameService;
+use Log;
+use Throwable;
 
 /**
  * Class GameController
@@ -18,7 +20,13 @@ class GameController extends Controller
      */
     public function index()
     {
-        return GameService::list();
+        try {
+            $result = GameService::list();
+        } catch (Throwable $t) {
+            Log::error($t);
+            return response(['message' => 'internal server error'], 500);
+        }
+        return $result;
     }
 
     /**
@@ -27,8 +35,19 @@ class GameController extends Controller
      * @param int $gameId
      * @return mixed
      */
-    public function show(int $gameId)
+    public function show($gameId)
     {
-        return GameService::find($gameId);
+        try {
+            $result = GameService::find($gameId);
+        } catch (Throwable $t) {
+            Log::error($t);
+            return response(['message' => 'internal server error'], 500);
+        }
+
+        if (is_null($result)) {
+            return response(['message' => 'invalid game id'], 400);
+        } else {
+            return $result;
+        }
     }
 }
