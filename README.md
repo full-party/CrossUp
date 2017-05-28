@@ -7,9 +7,16 @@
 cd laravel
 npm install
 
-docker exec -it crossup_web_1 bash
 composer dump-autoload
+```
+
+## migration
+```
+docker exec -it crossup_web_1 bash
 php artisan migrate:refresh --seed
+
+# error occurs
+composer dump-autoload
 ```
 
 ## development build
