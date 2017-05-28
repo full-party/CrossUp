@@ -3,7 +3,11 @@ namespace App\Model;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Character
+/**
+ * Class Character
+ * @package App\Model
+ */
+class Character extends Model
 {
 
 }
