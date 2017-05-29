@@ -1,10 +1,10 @@
 <template>
   <section>
     <h1>Select Games</h1>
-    <router-link to="/">Go to top</router-link>
     <ul>
-      <li><router-link to="/combos/">Street Fighter</router-link></li>
-      <li><router-link to="/combos/">Guilty Gear</router-link></li>
+      <li v-for="game in games">
+        <router-link to="/combos/">{{game.title}}</router-link>
+      </li>
     </ul>
   </section>
 </template>
@@ -14,3 +14,24 @@
     color: red;
   }
 </style>
+
+<script>
+  export default {
+    created() {
+        this.getGames()
+      },
+    data() {
+      return {
+        games: [],
+      }
+    },
+    methods: {
+      getGames() {
+        axios.get('/api/gameList')
+        .then(res =>  {
+          this.games = res.data;
+        })
+      }
+    }
+  }
+</script>

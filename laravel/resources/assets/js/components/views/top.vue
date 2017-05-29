@@ -1,7 +1,7 @@
 <template>
   <section>
     <h1>Cross Up</h1>
-    <form id="form" v-on:submit.prevent="submit">
+    <form id="form">
       <div v-show="addUserMode">
         <input type="text" v-model="User.id" placeholder="User ID">
         <p v-show="!userValidation.id">Please Input User ID</p>
@@ -23,11 +23,11 @@
         <p v-show="userValidation.rePassword">Re Password OK!</p>
       </div>
       <div v-show="!addUserMode">
-        <input type="submit" value="Login" @click="login">
+        <input type="submit" value="Login" v-on:click.prevent="login">
         <p v-if="showError">Error Text</p>
       </div>
       <div v-show="addUserMode" >
-        <input type="submit" value="Add User" @click="addUser">
+        <input type="submit" value="Add User" v-on:click.prevent="addUser">
         <p v-if="showAddUserSuccess">Add User Success!</p>
       </div>
     </form>

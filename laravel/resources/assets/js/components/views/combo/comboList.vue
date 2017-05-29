@@ -1,11 +1,16 @@
 <template>
   <section>
     <h1>Combo List</h1>
-    <router-link to="/games">Select to games</router-link>
     <ul>
       <li v-for="combo in combos">
-        <p>{{combo.damage}}</p>
-        <router-link :to="'/combos/' + combo.id">{{combo.title}}</router-link>
+        <router-link :to="'/combos/' + combo.id">
+          <p>First : {{combo.first}}</p>
+          <p>End : {{combo.end}}</p>
+          <p>Damege : {{combo.damage}}</p>
+          <p>Stun : {{combo.stun}}</p>
+          <p>Meter : {{combo.meter}}</p>
+          <p>Character : {{combo.character}}</p>
+        </router-link>
       </li>
     </ul>
     <fab @click="showModal = true"></fab>
@@ -14,23 +19,33 @@
         <h2>Search</h2>
           <accordionBox>
             <span slot="accordion-title">Select Charactor</span>
-            <p slot="accordion-contents">
-              <ul>
-                <li>hoge</li>
-                <li>hoge1</li>
-                <li>hoge2</li>
-              </ul>
-            </p>
+            <div slot="accordion-contents">
+              <p>Now Select : {{selectCharacter}}</p>
+              <div v-for="character in characters">
+                <input type="radio" v-bind:id="'character' + character.id" v-bind:value="character.name" v-model="selectCharacter">
+                <label v-bind:for="'character' + character.id">{{character.name}}</label>
+              </div>
+            </div>
           </accordionBox>
           <accordionBox>
             <span slot="accordion-title">Select First</span>
-            <p slot="accordion-contents">
-              <ul>
-                <li>fuga</li>
-                <li>fuga1</li>
-                <li>fuga2</li>
-              </ul>
-            </p>
+            <div slot="accordion-contents">
+              <p>Now Select : {{selectFirst}}</p>
+              <div v-for="first in firsts">
+                <input type="radio" v-bind:id="'first' + first.id" v-bind:value="first.name" v-model="selectFirst">
+                <label v-bind:for="'first' + first.id">{{first.name}}</label>
+              </div>
+            </div>
+          </accordionBox>
+          <accordionBox>
+            <span slot="accordion-title">Select Sort</span>
+            <div slot="accordion-contents">
+              <p>Now Select : {{selectSort}}</p>
+              <div v-for="sort in sorts">
+                <input type="radio" v-bind:id="'sort' + sort.id" v-bind:value="sort.name" v-model="selectSort">
+                <label v-bind:for="'sort' + sort.id">{{sort.name}}</label>
+              </div>
+            </div>
           </accordionBox>
           <p>
             <div @click="showModal = false">
@@ -61,12 +76,21 @@
       accordionBox: require('../../common/box/accordion-box.vue'),
     },
     created() {
-        this.getCombos()
+        this.getCombos();
+        this.getCharacters();
+        this.getFirsts();
+        this.getSorts();
       },
     data() {
       return {
         combos: [],
         showModal: false,
+        characters: [],
+        selectCharacter: '',
+        firsts: [],
+        selectFirst: '',
+        sorts: [],
+        selectSort: ''
       }
     },
     methods: {
@@ -74,6 +98,24 @@
         axios.get('/api/comboList')
         .then(res =>  {
           this.combos = res.data;
+        })
+      },
+      getCharacters() {
+       axios.get('/api/characterList')
+        .then(res =>  {
+          this.characters = res.data;
+        })
+      },
+      getFirsts() {
+       axios.get('/api/firstList')
+        .then(res =>  {
+          this.firsts = res.data;
+        })
+      },
+      getSorts() {
+       axios.get('/api/sortList')
+        .then(res =>  {
+          this.sorts = res.data;
         })
       }
     }
