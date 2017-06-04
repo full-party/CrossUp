@@ -3,7 +3,7 @@
     <h1>Select Games</h1>
     <ul>
       <li v-for="game in games">
-        <router-link to="/combos/">{{game.title}}</router-link>
+        <router-link to="/combos/">{{game.name}}</router-link>
       </li>
     </ul>
   </section>
@@ -27,9 +27,9 @@
     },
     methods: {
       getGames() {
-        axios.get('/api/gameList')
+        axios.get('/api/games')
         .then(res =>  {
-          this.games = res.data;
+          this.games = res.data.data;
         })
       }
     }

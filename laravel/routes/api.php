@@ -9,13 +9,6 @@ Route::get('comboList',  function() {
   ];
 });
 
-Route::get('gameList',  function() {
-  return [
-    ['title' => 'Street Fighter'],
-    ['title' => 'Guilty Gear'],
-  ];
-});
-
 Route::get('characterList',  function() {
   return [
     ['id' => '1', 'name' => 'リュウ'],
