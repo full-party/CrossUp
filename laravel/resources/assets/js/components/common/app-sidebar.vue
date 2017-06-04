@@ -1,5 +1,5 @@
 <template>
-  <div class="slidebarWrap">
+  <div class="sidebarWrap">
     <div @click="show = true">
       三
     </div>
@@ -20,7 +20,7 @@
 </template>
 
 <style scoped>
-  .slidebarWrap {
+  .sidebarWrap {
     display: inline-block;
     width: 30px;
     height: 100%;
