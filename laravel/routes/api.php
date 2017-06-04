@@ -2,13 +2,6 @@
 
 use Illuminate\Http\Request;
 
-Route::get('comboList',  function() {
-  return [
-    ['id' => 1, 'first' => '5弱P', 'end' => '波動拳 弱', 'damage' => '10','stun' => '3', 'meter' => '1','character' => 'リュウ'],
-    ['id' => 2, 'first' => '9弱P', 'end' => '波動拳 強', 'damage' => '30','stun' => '7', 'meter' => '2','character' => 'リュウ'],
-  ];
-});
-
 Route::get('characterList',  function() {
   return [
     ['id' => '1', 'name' => 'リュウ'],

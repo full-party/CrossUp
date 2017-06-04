@@ -4,12 +4,10 @@
     <ul>
       <li v-for="combo in combos">
         <router-link :to="'/combos/' + combo.id">
-          <p>First : {{combo.first}}</p>
-          <p>End : {{combo.end}}</p>
           <p>Damege : {{combo.damage}}</p>
           <p>Stun : {{combo.stun}}</p>
-          <p>Meter : {{combo.meter}}</p>
-          <p>Character : {{combo.character}}</p>
+          <p>Memo : {{combo.memo}}</p>
+          <p>Character : {{combo.character_id}}</p>
         </router-link>
       </li>
     </ul>
@@ -95,7 +93,7 @@
     },
     methods: {
       getCombos() {
-        axios.get('/api/comboList')
+        axios.get('/api/combos')
         .then(res =>  {
           this.combos = res.data;
         })
