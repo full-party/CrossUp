@@ -11,9 +11,9 @@ class CharacterService
      *
      * @return \Illuminate\Database\Eloquent\Collection|static[]
      */
-    public function list()
+    public function list($gameId)
     {
-        $character = Character::all();
+        $character = Character::where('game_id',$gameId)->get();
         return ['count' => count($character), 'data' => $character];
     }
 }

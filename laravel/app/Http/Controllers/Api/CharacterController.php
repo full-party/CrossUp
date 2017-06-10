@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use CharacterService;
 use Log;
 use Throwable;
+use Validator;
 
 class CharacterController extends Controller
 {
@@ -14,10 +16,17 @@ class CharacterController extends Controller
      *
      * @return array
      */
-    public function index()
+    public function index(Request $request)
     {
+        $validator = Validator::make($request->all(),[
+            'gameId' => 'required|numeric|min:1|max:2',
+        ]);
+        if ($validator->fails()) {
+            return response(['message' => 'validtaor error'], 500);
+        }
+
         try {
-            $result = CharacterService::list();
+            $result = CharacterService::list($request->input('gameId'));
         } catch (Throwable $t) {
             Log::error($t);
             return response(['message' => 'internal server error'], 500);
