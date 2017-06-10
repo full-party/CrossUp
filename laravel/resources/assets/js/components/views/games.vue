@@ -3,7 +3,7 @@
     <h1>Select Games</h1>
     <ul>
       <li v-for="game in games">
-        <router-link to="/combos/">{{game.name}}</router-link>
+        <span @click="setGame(game.id)">{{game.name}}</span>
       </li>
     </ul>
   </section>
@@ -31,6 +31,10 @@
         .then(res =>  {
           this.games = res.data.data;
         })
+      },
+      setGame(gameId) {
+        localStorage.setItem('gameId', gameId);
+        this.$router.push('combos');
       }
     }
   }
