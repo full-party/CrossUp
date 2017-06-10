@@ -1,6 +1,7 @@
 <template>
   <section>
     <h1>Combo List</h1>
+    <h2>{{gameTitle}}</h2>
     <ul>
       <li v-for="combo in combos">
         <router-link :to="'/combos/' + combo.id">
@@ -78,6 +79,7 @@
         this.getCharacters();
         this.getFirsts();
         this.getSorts();
+        this.getGame();
       },
     data() {
       return {
@@ -88,10 +90,18 @@
         firsts: [],
         selectFirst: '',
         sorts: [],
-        selectSort: ''
+        selectSort: '',
+        gameId: localStorage.getItem('gameId'),
+        gameTitle: ''
       }
     },
     methods: {
+      getGame() {
+        axios.get('/api/games/' + this.gameId)
+        .then(res =>  {
+          this.gameTitle = res.data.name;
+        })
+      },
       getCombos() {
         axios.get('/api/combos')
         .then(res =>  {
@@ -101,7 +111,7 @@
       getCharacters() {
         axios.get('/api/characters',{
           params: {
-            gameId: localStorage.getItem('gameId')
+            gameId: this.gameId
           }
         })
         .then(res =>  {
