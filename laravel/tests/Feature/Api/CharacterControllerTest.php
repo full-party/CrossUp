@@ -41,7 +41,7 @@ class CharacterControllerTest extends TestCase
         $response = $this->json('GET', '/api/characters/?gameId=3');
         $response->assertStatus(400);
         $response->assertJson([
-            'message' => 'validaor error'
+            'message' => 'validator error'
         ]);
     }
 
@@ -50,7 +50,7 @@ class CharacterControllerTest extends TestCase
         $response = $this->json('GET', '/api/characters/?gameId=a');
         $response->assertStatus(400);
         $response->assertJson([
-            'message' => 'validaor error'
+            'message' => 'validator error'
         ]);
     }
 
@@ -59,7 +59,7 @@ class CharacterControllerTest extends TestCase
         $response = $this->json('GET', '/api/characters/');
         $response->assertStatus(400);
         $response->assertJson([
-            'message' => 'validaor error'
+            'message' => 'validator error'
         ]);
     }
 }

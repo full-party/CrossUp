@@ -22,7 +22,7 @@ class CharacterController extends Controller
             'gameId' => 'required|numeric|min:1|max:2',
         ]);
         if ($validator->fails()) {
-            return response(['message' => 'validaor error'], 400);
+            return response(['message' => 'validator error'], 400);
         }
 
         try {
