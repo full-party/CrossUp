@@ -99,9 +99,13 @@
         })
       },
       getCharacters() {
-       axios.get('/api/characterList')
+        axios.get('/api/characters',{
+          params: {
+            gameId: localStorage.getItem('gameId')
+          }
+        })
         .then(res =>  {
-          this.characters = res.data;
+          this.characters = res.data.data;
         })
       },
       getFirsts() {
