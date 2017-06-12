@@ -1,4 +1,5 @@
 .idea
+npm-debug.log
 
 /docker/mysql/data/*
 !/docker/mysql/data/.gitkeep
