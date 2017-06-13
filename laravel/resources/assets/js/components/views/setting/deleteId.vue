@@ -1,7 +1,9 @@
 <template>
   <section>
     <h1>Delete Id</h1>
+    <p>Bye Bye...</p>
     <router-link to="/setting">setting</router-link>
+    <button @click="deleteId">Delete</button>
   </section>
 </template>
 
@@ -10,3 +12,13 @@
     color: red;
   }
 </style>
+
+<script>
+  export default {
+    methods: {
+      deleteId() {
+        console.log('delete');
+      }
+    }
+  }
+</script>
