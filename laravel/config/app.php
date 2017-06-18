@@ -180,9 +180,12 @@ return [
         /*
          * cross up
          */
+        App\Providers\UserServiceProvider::class,
         App\Providers\GameServiceProvider::class,
         App\Providers\ComboServiceProvider::class,
         App\Providers\CharacterServiceProvider::class,
+
+        Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
     ],
 
     /*
@@ -232,6 +235,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
 
+        'UserService'  => App\Facades\UserService::class,
         'GameService'  => App\Facades\GameService::class,
         'ComboService' => App\Facades\ComboService::class,
         'CharacterService' => App\Facades\CharacterService::class,
