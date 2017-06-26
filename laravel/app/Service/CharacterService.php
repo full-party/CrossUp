@@ -16,4 +16,13 @@ class CharacterService
         $character = Character::where('game_id',$gameId)->get();
         return ['count' => count($character), 'data' => $character];
     }
+
+    /**
+     * @param int $characterId
+     * @return mixed
+     */
+    public function find(int $characterId)
+    {
+        return Character::find($characterId);
+    }
 }
