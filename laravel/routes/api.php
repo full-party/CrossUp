@@ -48,4 +48,5 @@ Route::get('moveList',  function() {
 */
 Route::resource('games', 'Api\GameController', ['only' => ['index', 'show']]);
 Route::resource('combos', 'Api\ComboController', ['only' => ['index', 'create', 'show', 'update', 'destroy']]);
+Route::resource('moves', 'Api\MoveController', ['only' => ['index']]);
 Route::resource('characters', 'Api\CharacterController', ['only' => ['index']]);

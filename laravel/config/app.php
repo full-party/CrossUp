@@ -182,6 +182,7 @@ return [
          */
         App\Providers\GameServiceProvider::class,
         App\Providers\ComboServiceProvider::class,
+        App\Providers\MoveServiceProvider::class,
         App\Providers\CharacterServiceProvider::class,
     ],
 
@@ -234,6 +235,7 @@ return [
 
         'GameService'  => App\Facades\GameService::class,
         'ComboService' => App\Facades\ComboService::class,
+        'MoveService' => App\Facades\MoveService::class,
         'CharacterService' => App\Facades\CharacterService::class,
     ],
 
