@@ -3,6 +3,8 @@
 namespace App\Service;
 
 use App\Model\User;
+use Illuminate\Support\Facades\Hash;
+
 
 /**
  * Class UserService
@@ -18,6 +20,7 @@ class UserService
     {
         $user = new User();
         $user->login_id = $parameter['loginId'];
+        $user->password = Hash::make($parameter['password']);
         $user->name = $parameter['name'];
         $user->email = $parameter['email'];
         $user->save();

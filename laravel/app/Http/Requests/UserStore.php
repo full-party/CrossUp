@@ -24,7 +24,8 @@ class UserStore extends FormRequest
     public function rules()
     {
         return [
-            'loginId' => 'required|alpha_num|unique:users,login_id',
+            'loginId' => 'required|alpha_dash|unique:users,login_id',
+            'password' => 'required|min:8|alpha_dash',
             'email' => 'required|email|max:45|unique:users,email',
             'name' => 'required|max:45'
         ];
