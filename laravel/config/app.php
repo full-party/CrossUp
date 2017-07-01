@@ -183,6 +183,7 @@ return [
         App\Providers\UserServiceProvider::class,
         App\Providers\GameServiceProvider::class,
         App\Providers\ComboServiceProvider::class,
+        App\Providers\MoveServiceProvider::class,
         App\Providers\CharacterServiceProvider::class,
 
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
@@ -238,6 +239,7 @@ return [
         'UserService'  => App\Facades\UserService::class,
         'GameService'  => App\Facades\GameService::class,
         'ComboService' => App\Facades\ComboService::class,
+        'MoveService' => App\Facades\MoveService::class,
         'CharacterService' => App\Facades\CharacterService::class,
     ],
 

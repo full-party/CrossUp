@@ -1,10 +1,8 @@
 <template>
   <transition name="modal">
-    <section class="modal-mask">
-      <div class="modal-wrapper">
-        <div class="modal-contents">
-           <slot name="modal-contents"></slot>
-        </div>
+    <section class="modal-mask" @click="$emit('close')">
+      <div class="modal-contents" @click.stop>
+         <slot name="modal-contents"></slot>
       </div>
     </section>
   </transition>
@@ -21,19 +19,21 @@
     background-color: rgba(0, 0, 0, .5);
     z-index: 10;
   }
-  .modal-wrapper {
-    display: table-cell;
-    vertical-align: middle;
-  }
   .modal-contents {
     width: 80vw;
     height: 80vh;
-    margin: 0px auto;
     padding: 20px 30px;
     background-color: #fff;
     border-radius: 2px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, .33);
     overflow: scroll;
+    position: fixed;
+    z-index: 20;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
   }
 
   .modal-enter-active, .modal-leave-active {
