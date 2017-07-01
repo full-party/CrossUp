@@ -46,8 +46,8 @@ Route::get('moveList',  function() {
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+Route::resource('users', 'Api\UserController', ['only' => ['store']]);
 Route::resource('games', 'Api\GameController', ['only' => ['index', 'show']]);
 Route::resource('combos', 'Api\ComboController', ['only' => ['index', 'create', 'show', 'update', 'destroy']]);
 Route::resource('moves', 'Api\MoveController', ['only' => ['index']]);
-Route::resource('users', 'Api\UserController', ['only' => ['store']]);
 Route::resource('characters', 'Api\CharacterController', ['only' => ['index', 'show']]);
