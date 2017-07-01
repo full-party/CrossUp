@@ -14,7 +14,7 @@ class AddPasswordToUsersTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('password', 45)->after('login_id');
+            $table->string('password', 255)->after('login_id');
         });
     }
 
