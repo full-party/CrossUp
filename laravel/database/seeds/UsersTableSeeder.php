@@ -13,7 +13,7 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-        $users = [['admin', 'password', 'admin@example.com', '格メモ管理者']];
+        $users = [['admin', 'admin', 'admin@example.com', '格メモ管理者']];
         foreach ($users as $user) {
             $model = new User();
             $model->login_id = $user[0];
