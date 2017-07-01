@@ -24,6 +24,17 @@ Route::get('sortList',  function() {
   ];
 });
 
+Route::get('moveList',  function() {
+  return [
+    ['id' => '1', 'name' => '5弱P'],
+    ['id' => '2', 'name' => '5中P'],
+    ['id' => '3', 'name' => '波動拳 弱'],
+    ['id' => '4', 'name' => '5P'],
+    ['id' => '5', 'name' => '5K'],
+    ['id' => '6', 'name' => 'ガンフレイム'],
+  ];
+});
+
 
 /*
 |--------------------------------------------------------------------------
@@ -37,4 +48,5 @@ Route::get('sortList',  function() {
 */
 Route::resource('games', 'Api\GameController', ['only' => ['index', 'show']]);
 Route::resource('combos', 'Api\ComboController', ['only' => ['index', 'create', 'show', 'update', 'destroy']]);
-Route::resource('characters', 'Api\CharacterController', ['only' => ['index', 'show']]);
+Route::resource('moves', 'Api\MoveController', ['only' => ['index']]);
+Route::resource('characters', 'Api\CharacterController', ['only' => ['index']]);
