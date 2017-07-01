@@ -18,7 +18,7 @@ class CharacterController extends Controller
      */
     public function index(Request $request)
     {
-        $validator = Validator::make($request->all(),[
+        $validator = Validator::make($request->all(), [
             'gameId' => 'required|numeric|min:1|max:2',
         ]);
         if ($validator->fails()) {
@@ -34,4 +34,17 @@ class CharacterController extends Controller
         return $result;
     }
 
+    /**
+     * @param int $id
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
+     */
+    public function show(int $id)
+    {
+        try {
+            return CharacterService::find($id);
+        } catch (Throwable $t) {
+            Log::error($t);
+            return response(['message' => 'internal server error'], 500);
+        }
+    }
 }
