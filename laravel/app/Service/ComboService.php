@@ -16,7 +16,7 @@ class ComboService
      */
     public function find(int $id)
     {
-        return Combo::find($id);
+        return Combo::with('character', 'recipes')->find($id);
     }
 
     /**
