@@ -159,7 +159,11 @@
             break;
           }
         }
-        axios.get('/api/moveList')
+        axios.get('/api/moves', {
+          params: {
+            characterId: this.Combo.selectCharacterId,
+          }
+        })
         .then(res =>  {
           this.moves = res.data;
         });
