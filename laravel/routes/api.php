@@ -2,13 +2,6 @@
 
 use Illuminate\Http\Request;
 
-Route::get('characterList',  function() {
-  return [
-    ['id' => '1', 'name' => 'リュウ'],
-    ['id' => '2', 'name' => 'ケン'],
-  ];
-});
-
 Route::get('firstList',  function() {
   return [
     ['id' => '1', 'name' => '5弱P'],
@@ -21,17 +14,6 @@ Route::get('sortList',  function() {
   return [
     ['id' => '1', 'name' => 'ダメージ値降順'],
     ['id' => '2', 'name' => 'ダメージ値昇順'],
-  ];
-});
-
-Route::get('moveList',  function() {
-  return [
-    ['id' => '1', 'name' => '5弱P'],
-    ['id' => '2', 'name' => '5中P'],
-    ['id' => '3', 'name' => '波動拳 弱'],
-    ['id' => '4', 'name' => '5P'],
-    ['id' => '5', 'name' => '5K'],
-    ['id' => '6', 'name' => 'ガンフレイム'],
   ];
 });
 
