@@ -19,7 +19,6 @@ class UsersTableSeeder extends Seeder
             $model->login_id = $user[0];
             $model->password = Hash::make($user[1]);
             $model->email = $user[2];
-            $model->name = $user[3];
             $model->save();
         }
     }
