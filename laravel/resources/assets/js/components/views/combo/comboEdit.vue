@@ -6,7 +6,7 @@
       <p>Damege : {{combo.damage}}</p>
       <p>Stun : {{combo.stun}}</p>
       <p>Memo : {{combo.memo}}</p>
-      <p>Character : {{combo.character_id}}</p>
+      <p>Character : {{combo.character.name}}</p>
     </p>
     <router-link :to="'/combos/' + $route.params.id">back combo detail</router-link>
   </section>
@@ -26,7 +26,9 @@
       },
     data() {
       return {
-        combo: '',
+        combo: {
+          character: '',
+        },
       }
     },
     methods: {

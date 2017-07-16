@@ -8,7 +8,7 @@
           <p>Damege : {{combo.damage}}</p>
           <p>Stun : {{combo.stun}}</p>
           <p>Memo : {{combo.memo}}</p>
-          <p>Character : {{combo.character_id}}</p>
+          <p>Character : {{combo.character.name}}</p>
         </router-link>
       </li>
     </ul>
