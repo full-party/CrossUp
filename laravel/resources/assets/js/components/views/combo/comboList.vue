@@ -19,29 +19,29 @@
           <accordionBox>
             <span slot="accordion-title">Select Charactor</span>
             <div slot="accordion-contents">
-              <p>Now Select : {{selectCharacter}}</p>
+              <p>Now Select : {{search.selectCharacter}}</p>
               <div v-for="character in characters">
-                <input type="radio" v-bind:id="'character' + character.id" v-bind:value="character.name" v-model="selectCharacter">
+                <input type="radio" v-bind:id="'character' + character.id" v-bind:value="character.name" v-model="search.selectCharacter">
                 <label v-bind:for="'character' + character.id">{{character.name}}</label>
               </div>
             </div>
           </accordionBox>
           <accordionBox>
-            <span slot="accordion-title">Select First</span>
+            <span slot="accordion-title">Select Move</span>
             <div slot="accordion-contents">
-              <p>Now Select : {{selectFirst}}</p>
-              <div v-for="first in firsts">
-                <input type="radio" v-bind:id="'first' + first.id" v-bind:value="first.name" v-model="selectFirst">
-                <label v-bind:for="'first' + first.id">{{first.name}}</label>
+              <p>Now Select : {{search.selectMove}}</p>
+              <div v-for="move in search.moves">
+                <input type="radio" v-bind:id="'moveId_' + move.id" v-bind:value="move.name" v-model="search.selectMove">
+                <label v-bind:for="'moveId_' + move.id">{{move.name}}</label>
               </div>
             </div>
           </accordionBox>
           <accordionBox>
             <span slot="accordion-title">Select Sort</span>
             <div slot="accordion-contents">
-              <p>Now Select : {{selectSort}}</p>
-              <div v-for="sort in sorts">
-                <input type="radio" v-bind:id="'sort' + sort.id" v-bind:value="sort.name" v-model="selectSort">
+              <p>Now Select : {{search.selectSort}}</p>
+              <div v-for="sort in search.sorts">
+                <input type="radio" v-bind:id="'sort' + sort.id" v-bind:value="sort.name" v-model="search.selectSort">
                 <label v-bind:for="'sort' + sort.id">{{sort.name}}</label>
               </div>
             </div>
@@ -77,7 +77,6 @@
     created() {
         this.getCombos();
         this.getCharacters();
-        this.getFirsts();
         this.getSorts();
         this.getGame();
       },
@@ -86,14 +85,39 @@
         combos: [],
         showModal: false,
         characters: [],
-        selectCharacter: '',
-        firsts: [],
-        selectFirst: '',
-        sorts: [],
-        selectSort: '',
+        search: {
+          selectCharacter: '',
+          selectCharacterId: '',
+          moves: [],
+          selectMove: '',
+          sorts: [],
+          selectSort: '',
+        },
         gameId: localStorage.getItem('gameId'),
         gameTitle: ''
       }
+    },
+    watch: {
+      'search.selectCharacter': {
+        handler: function () {
+          for(let id in this.characters) {
+            if(this.search.selectCharacter === this.characters[id].name) {
+              this.search.selectCharacterId = this.characters[id].id;
+              break;
+            }
+          }
+          axios.get('/api/moves', {
+            params: {
+              characterId: this.search.selectCharacterId,
+            }
+          })
+          .then(res =>  {
+            this.search.selectMove = '';
+            this.search.moves = res.data;
+          });
+        },
+        deep: true
+      },
     },
     methods: {
       getGame() {
@@ -118,16 +142,10 @@
           this.characters = res.data.data;
         })
       },
-      getFirsts() {
-       axios.get('/api/firstList')
-        .then(res =>  {
-          this.firsts = res.data;
-        })
-      },
       getSorts() {
        axios.get('/api/sortList')
         .then(res =>  {
-          this.sorts = res.data;
+          this.search.sorts = res.data;
         })
       }
     }
