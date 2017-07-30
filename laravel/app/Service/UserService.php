@@ -26,4 +26,13 @@ class UserService
 
         return $user->id;
     }
+
+    /**
+     * @param string $loginId
+     * @return mixed
+     */
+    public function find(string $loginId)
+    {
+        return User::where('login_id', $loginId)->first();
+    }
 }

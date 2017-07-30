@@ -28,6 +28,7 @@ Route::get('sortList',  function() {
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+Route::get('login', 'Api\UserController@login');
 Route::resource('users', 'Api\UserController', ['only' => ['store']]);
 Route::resource('games', 'Api\GameController', ['only' => ['index', 'show']]);
 Route::resource('combos', 'Api\ComboController', ['only' => ['index', 'create', 'show', 'update', 'destroy']]);
