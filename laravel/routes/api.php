@@ -2,14 +2,6 @@
 
 use Illuminate\Http\Request;
 
-Route::get('firstList',  function() {
-  return [
-    ['id' => '1', 'name' => '5弱P'],
-    ['id' => '2', 'name' => '波動拳 弱'],
-  ];
-});
-
-
 Route::get('sortList',  function() {
   return [
     ['id' => '1', 'name' => 'ダメージ値降順'],
