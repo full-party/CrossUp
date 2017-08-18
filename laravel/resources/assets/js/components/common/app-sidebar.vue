@@ -9,6 +9,7 @@
     <transition name="slide">
       <nav v-if="show">
         <ul>
+          <li @click="show = false"><router-link to="/combos">combo list</router-link></li>
           <li @click="show = false"><router-link to="/combos/create">create combo</router-link></li>
           <li @click="show = false"><router-link to="/games">Select to games</router-link></li>
           <li @click="show = false"><router-link to="/setting">setting</router-link></li>
