@@ -31,8 +31,6 @@ class ComboService
             $result = Combo::with('character');
         }
 
-        return response($result->with(['recipes' => function ($query) {
-            $query->where('order', 1);
-        }])->get());
+        return response($result->with('recipes.move')->get());
     }
 }

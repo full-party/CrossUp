@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use ComboService;
 use Illuminate\Http\Request;
 use Throwable;
+use Log;
 
 class ComboController extends Controller
 {
