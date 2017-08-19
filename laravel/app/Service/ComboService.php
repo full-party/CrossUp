@@ -16,7 +16,10 @@ class ComboService
      */
     public function find(int $id)
     {
-        return Combo::with('character', 'recipes')->find($id);
+        $result = Combo::with('character', 'recipes.move')->find($id)->toArray();
+        $result['meter'] = $this->sumMeter($result['recipes']);
+
+        return response($result);
     }
 
     /**
@@ -26,11 +29,31 @@ class ComboService
     public function list(array $params)
     {
         if (count($params) > 0) {
-            $result = Combo::where($params)->with('character');
+            $query = Combo::where($params)->with('character');
         } else {
-            $result = Combo::with('character');
+            $query = Combo::with('character');
+        }
+        $resultList = $query->with('recipes.move')->get()->toArray();
+
+        foreach ($resultList as &$result) {
+            $result['meter'] = $this->sumMeter($result['recipes']);
         }
 
-        return response($result->with('recipes.move')->get());
+        return response($resultList);
+    }
+
+    /**
+     * レシピコレクションから技ゲージの合計値を返す
+     *
+     * @param $recipes
+     * @return int
+     */
+    public function sumMeter(array $recipes): int
+    {
+        $meter = 0;
+        foreach ($recipes as $recipe) {
+            $meter += $recipe['move']['meter'];
+        }
+        return $meter;
     }
 }
