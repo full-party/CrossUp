@@ -76,7 +76,7 @@
           id: !!this.User.id.trim(),
           email: emailRE.test(this.User.email),
           password: !!this.User.password.trim(),
-          rePassword: !!this.User.rePassword.trim(),
+          lengthPassword: this.User.password.length >= this.minPasswordLength,
           equalPassword: this.User.password === this.User.rePassword
         }
       },
@@ -111,7 +111,18 @@
       },
       addUser() {
         if(this.isValid(this.userValidation)) {
-          this.showAddUserSuccess = true;
+          axios.post('/api/users',{
+            loginId: this.User.id,
+            password: this.User.password,
+            email: this.User.email
+          })
+          .then(res =>  {
+            // 登録成功
+            this.showAddUserSuccess = true;
+          })
+          .catch(error => {
+            // 登録失敗
+          });
         } else {
         }
       }
