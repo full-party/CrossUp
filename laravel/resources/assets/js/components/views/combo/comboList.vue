@@ -11,6 +11,7 @@
           <p>Character : {{combo.character.name}}</p>
           <p>Meter : {{combo.meter}}</p>
           <p>First Move : {{combo.recipes[0].move.name}}</p>
+          <p>End Move : {{combo.recipes[combo.recipes.length - 1].move.name}}</p>
         </router-link>
       </li>
     </ul>
