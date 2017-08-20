@@ -7,6 +7,7 @@
       <p>Stun : {{combo.stun}}</p>
       <p>Memo : {{combo.memo}}</p>
       <p>Character : {{combo.character.name}}</p>
+      <p>Meter : {{combo.meter}}</p>
     </p>
     <p>
       <router-link :to="'/combos/' + $route.params.id + '/edit'">edit combo</router-link>
