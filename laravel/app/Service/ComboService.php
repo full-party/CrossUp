@@ -48,7 +48,7 @@ class ComboService
      * @param $recipes
      * @return int
      */
-    public function sumMeter(array $recipes): int
+    private function sumMeter(array $recipes): int
     {
         $meter = 0;
         foreach ($recipes as $recipe) {
