@@ -8,6 +8,12 @@
       <p>Memo : {{combo.memo}}</p>
       <p>Character : {{combo.character.name}}</p>
       <p>Meter : {{combo.meter}}</p>
+      <p>Recipe</p>
+      <ul>
+        <li v-for="recipe in combo.recipes">
+          {{recipe.move.name}}
+        </li>
+      </ul>
     </p>
     <p>
       <router-link :to="'/combos/' + $route.params.id + '/edit'">edit combo</router-link>
