@@ -2,12 +2,12 @@
   <section>
     <h1>Cross Up</h1>
     <form id="form">
-      <div v-show="addUserMode">
+      <div>
         <input type="text" v-model="User.id" placeholder="User ID">
         <p v-show="!userValidation.id">Please Input User ID</p>
         <p v-show="userValidation.id">User ID OK!</p>
       </div>
-      <div>
+      <div v-show="addUserMode">
         <input type="email" v-model="User.email" placeholder="Email">
         <p v-show="!userValidation.email">Please Input Email</p>
         <p v-show="userValidation.email">Email OK!</p>
@@ -24,7 +24,7 @@
       </div>
       <div v-show="!addUserMode">
         <input type="submit" value="Login" v-on:click.prevent="login">
-        <p v-if="showError">Error Text</p>
+        <p v-if="showError">Error Text {{errorMessage}}</p>
       </div>
       <div v-show="addUserMode" >
         <input type="submit" value="Add User" v-on:click.prevent="addUser">
@@ -57,15 +57,18 @@
           rePassword: '',
         },
         showError: false,
+        errorMessage: '',
         showAddUserSuccess: false,
-        mode: 'login'
+        mode: 'login',
+        minPasswordLength: 8,
       }
     },
     computed: {
       loginValidation() {
         return {
-          email: emailRE.test(this.User.email),
-          password: !!this.User.password.trim()
+          id: !!this.User.id.trim(),
+          password: !!this.User.password.trim(),
+          lengthPassword: this.User.password.length >= this.minPasswordLength
         }
       },
       userValidation() {
@@ -89,7 +92,19 @@
       },
       login() {
         if(this.isValid(this.loginValidation)) {
-          this.$router.push('games');
+          axios.post('/api/login',{
+            loginId: this.User.id,
+            password: this.User.password
+          })
+          .then(res =>  {
+            // ログイン成功
+            this.$router.push('games');
+          })
+          .catch(error => {
+            // ログイン失敗
+            this.errorMessage = error.response.data.message;
+            this.showError = true;
+          });
         } else {
           this.showError = true;
         }
