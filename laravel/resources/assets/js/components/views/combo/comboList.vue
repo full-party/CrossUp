@@ -9,6 +9,7 @@
           <p>Stun : {{combo.stun}}</p>
           <p>Memo : {{combo.memo}}</p>
           <p>Character : {{combo.character.name}}</p>
+          <p>Meter : {{combo.meter}}</p>
         </router-link>
       </li>
     </ul>
