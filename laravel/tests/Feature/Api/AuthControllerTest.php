@@ -8,11 +8,11 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use UserService;
 
-class UserControllerTest extends TestCase
+class AuthControllerTest extends TestCase
 {
     public function testLogin()
     {
-        $response = $this->json('GET', '/api/login', ['loginId' => 'admin', 'password' => 'admin1234']);
+        $response = $this->json('POST', '/api/login', ['loginId' => 'admin', 'password' => 'admin1234']);
         $response->assertStatus(200);
         $response->assertSessionHas('UserInfo');
     }
@@ -25,7 +25,7 @@ class UserControllerTest extends TestCase
      */
     public function testLoginValidationFailed(string $loginId, string $password, array $errorkeys)
     {
-        $response = $this->json('GET', '/api/login', ['loginId' => $loginId, 'password' => $password]);
+        $response = $this->json('POST', '/api/login', ['loginId' => $loginId, 'password' => $password]);
         $response->assertStatus(422);
         $data = $response->json();
         foreach ($errorkeys as $key) {
@@ -39,7 +39,7 @@ class UserControllerTest extends TestCase
      */
     public function testLoginFailed(string $loginId, string $password)
     {
-        $response = $this->json('GET', '/api/login', ['loginId' => $loginId, 'password' => $password]);
+        $response = $this->json('POST', '/api/login', ['loginId' => $loginId, 'password' => $password]);
         $response->assertStatus(401);
         $response->assertSessionMissing('UserInfo');
     }
