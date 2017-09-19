@@ -7,6 +7,7 @@ use ComboService;
 use Illuminate\Http\Request;
 use Throwable;
 use Log;
+use App\Http\Requests\ComboStore;
 
 class ComboController extends Controller
 {
@@ -24,9 +25,19 @@ class ComboController extends Controller
         }
     }
 
-    public function create()
+    /**
+     * コンボ登録API
+     * @param ComboStore $request コンボ登録用リクエストパラメーター
+     * @return int 成功時コンボIDを返す。失敗時は500エラー
+     */
+    public function store(ComboStore $request)
     {
-
+        try {
+            return ComboService::store($request->all());
+        } catch (Throwable $t) {
+            Log::error($t);
+            return response(['message' => 'internal server error'], 500);
+        }
     }
 
     /**
