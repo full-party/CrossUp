@@ -55,6 +55,11 @@
         <p @click="init">create combo</p>
       </div>
     </modal>
+    <modal v-if="errorModal" @close="errorModal = false">
+      <div slot="modal-contents">
+        <h3>Error</h3>
+      </div>
+    </modal>
     <router-link to="/combos">back combo list</router-link>
   </section>
 </template>
@@ -98,6 +103,7 @@
         moves: [],
         charaModal: false,
         createModal: false,
+        errorModal: false,
         Combo: {
           selectCharacterName: '',
           selectCharacterId: '',
@@ -127,7 +133,13 @@
         });
       },
       create() {
-        this.createModal = true;
+        axios.post('/api/combos',this.Combo)
+        .then(res => {
+          this.createModal = true;
+        })
+        .catch(err => {
+          this.errorModal = true;
+        });
       },
       init() {
         this.createModal = false;

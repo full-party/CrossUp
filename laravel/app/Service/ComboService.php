@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Model\Combo;
+use App\Model\Recipe;
 
 /**
  * Class ComboService
@@ -10,6 +11,34 @@ use App\Model\Combo;
  */
 class ComboService
 {
+
+    /**
+     * コンボ作成関数
+     *
+     * @param array $comboData コンボ登録データ
+     * @return int 作成したコンボID
+     */
+    public function store(array $comboData): int
+    {
+        $combo = new Combo();
+        $combo->character_id = $comboData['selectCharacterId'];
+        $combo->damage = $comboData['damage'];
+        $combo->stun = $comboData['stun'];
+        $combo->memo = $comboData['memo'];
+        $combo->user_id = $comboData['user_id'];
+        $combo->save();
+
+        $comboId = $combo->id;
+        foreach ($comboData['combo'] as $key => $value) {
+            $model = new Recipe();
+            $model->combo_id = $comboId;
+            $model->move_id = $value['id'];
+            $model->order = $key;
+            $model->save();
+        }
+        return $combo->id;
+    }
+
     /**
      * @param int $id
      * @return mixed
