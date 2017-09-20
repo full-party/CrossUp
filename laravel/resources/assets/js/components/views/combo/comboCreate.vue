@@ -133,9 +133,7 @@
         });
       },
       create() {
-        axios.post('/api/combos',{
-          data: this.Combo,
-        })
+        axios.post('/api/combos',this.Combo)
         .then(res => {
           this.createModal = true;
         })

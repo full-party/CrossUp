@@ -36,7 +36,7 @@ class ComboController extends Controller
     {
         try {
             // コンボ登録用データを作る
-            $comboData = $request->all()['data'];
+            $comboData = $request->all();
             $UserInfo = Session::get('UserInfo');
             $comboData['user_id'] = $UserInfo[0]['id'];
             DB::transaction(function () use($comboData) {
