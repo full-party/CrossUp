@@ -5,6 +5,9 @@ install: true
 script:
  - cd laravel
  - composer install
+ - php artisan migrate
  - phpunit
 notifications:
  slack: full-party:ITmQQI6GSQEkcoU6e0NN3X2B
+services:
+ - mysql
