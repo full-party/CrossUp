@@ -1,4 +1,6 @@
 language: PHP
+PHP:
+  - 7.1
 install: true
 script:
  - cd laravel
