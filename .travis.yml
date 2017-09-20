@@ -6,6 +6,7 @@ before_script:
 install: true
 script:
  - cd laravel
+ - cp .env.testing .env
  - composer install
  - php artisan migrate --force
  - phpunit
