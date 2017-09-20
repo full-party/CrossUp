@@ -4,7 +4,6 @@ namespace App\Service;
 
 use App\Model\Combo;
 use App\Model\Recipe;
-use Session;
 
 /**
  * Class ComboService
@@ -16,23 +15,21 @@ class ComboService
     /**
      * コンボ作成関数
      *
-     * @param array $param コンボ登録パラメーター
+     * @param array $comboData コンボ登録データ
      * @return int 作成したコンボID
      */
-    public function store(array $param): int
+    public function store(array $comboData): int
     {
-        $comboParam = $param['data'];
         $combo = new Combo();
-        $combo->character_id = $comboParam['selectCharacterId'];
-        $combo->damage = $comboParam['damage'];
-        $combo->stun = $comboParam['stun'];
-        $combo->memo = $comboParam['memo'];
-        $UserInfo = Session::get('UserInfo');
-        $combo->user_id = $UserInfo[0]['id'];
+        $combo->character_id = $comboData['selectCharacterId'];
+        $combo->damage = $comboData['damage'];
+        $combo->stun = $comboData['stun'];
+        $combo->memo = $comboData['memo'];
+        $combo->user_id = $comboData['user_id'];
         $combo->save();
 
         $comboId = $combo->id;
-        foreach ($comboParam['combo'] as $key => $value) {
+        foreach ($comboData['combo'] as $key => $value) {
             $model = new Recipe();
             $model->combo_id = $comboId;
             $model->move_id = $value['id'];

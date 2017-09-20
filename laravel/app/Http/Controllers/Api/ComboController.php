@@ -7,6 +7,7 @@ use ComboService;
 use Illuminate\Http\Request;
 use Throwable;
 use Log;
+use Session;
 use App\Http\Requests\ComboStore;
 
 class ComboController extends Controller
@@ -33,7 +34,12 @@ class ComboController extends Controller
     public function store(ComboStore $request)
     {
         try {
-            return ComboService::store($request->all());
+            // コンボ登録用データを作る
+            $comboData = $request->all()['data'];
+            $UserInfo = Session::get('UserInfo');
+            $comboData['user_id'] = $UserInfo[0]['id'];
+            Log::info($comboData);
+            return ComboService::store($comboData);
         } catch (Throwable $t) {
             Log::error($t);
             return response(['message' => 'internal server error'], 500);
