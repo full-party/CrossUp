@@ -7,6 +7,7 @@ use ComboService;
 use Illuminate\Http\Request;
 use Throwable;
 use Log;
+use DB;
 use Session;
 use App\Http\Requests\ComboStore;
 
@@ -38,8 +39,9 @@ class ComboController extends Controller
             $comboData = $request->all()['data'];
             $UserInfo = Session::get('UserInfo');
             $comboData['user_id'] = $UserInfo[0]['id'];
-            Log::info($comboData);
-            return ComboService::store($comboData);
+            DB::transaction(function () use($comboData) {
+                return ComboService::store($comboData);
+            });
         } catch (Throwable $t) {
             Log::error($t);
             return response(['message' => 'internal server error'], 500);
