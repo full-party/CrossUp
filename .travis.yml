@@ -2,12 +2,12 @@ language: php
 php:
  - 7.1
 before_script:
-  - mysql -uroot -e "create database cross_up"
+ - mysql -uroot -e "create database cross_up"
 install: true
 script:
  - cd laravel
  - composer install
- - php artisan migrate
+ - php artisan migrate --force
  - phpunit
 notifications:
  slack: full-party:ITmQQI6GSQEkcoU6e0NN3X2B
