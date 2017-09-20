@@ -1,6 +1,8 @@
 language: php
 php:
  - 7.1
+before_script:
+  - mysql -uroot -e "create database cross_up"
 install: true
 script:
  - cd laravel
