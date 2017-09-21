@@ -13,7 +13,7 @@
           <li @click="show = false"><router-link to="/combos/create">create combo</router-link></li>
           <li @click="show = false"><router-link to="/games">Select to games</router-link></li>
           <li @click="show = false"><router-link to="/setting">setting</router-link></li>
-          <li>logout</li>
+          <li @click="logout">logout</li>
         </ul>
       </nav>
     </transition>
@@ -69,6 +69,15 @@
       return {
         show: false
       }
-    }
+    },
+    methods: {
+      logout() {
+        axios.post('/api/logout')
+        .then(res => {
+          this.show = false;
+          this.$router.push('/');
+        });
+      }
+     }
   }
 </script>
