@@ -5,6 +5,7 @@ namespace App\Service;
 use App\Model\Combo;
 use App\Model\Recipe;
 use Log;
+use Config;
 
 /**
  * Class ComboService
@@ -59,14 +60,19 @@ class ComboService
     public function list(array $params)
     {
         if (count($params) > 0) {
-            // オブジェクトを連想配列に変換
-            $filter = (array)json_decode($params['filter']);
-            $query = Combo::where($filter)->with('character');
+            $query = Combo::with('character');
         } else {
             $query = Combo::with('character');
         }
-        $resultList = $query->with('recipes.move')->orderBy('damage', 'desc')->get()->toArray();
 
+        $sortList = Config::get('sort');
+        if (isset($params['selectSortId']) && isset($sortList[$params['selectSortId']])) {
+            // パラメーターにソートが指定されている場合、ソートを設定
+            $sortInfo = $sortList[$params['selectSortId']];
+            $query = $query->orderBy($sortInfo['column'], $sortInfo['order']);
+        }
+
+        $resultList = $query->with('recipes.move')->get()->toArray();
         foreach ($resultList as &$result) {
             $result['meter'] = $this->sumMeter($result['recipes']);
         }
