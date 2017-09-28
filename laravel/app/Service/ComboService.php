@@ -4,7 +4,6 @@ namespace App\Service;
 
 use App\Model\Combo;
 use App\Model\Recipe;
-use Log;
 use Config;
 
 /**
@@ -59,6 +58,7 @@ class ComboService
      */
     public function list(array $params)
     {
+        // 絞り込みできないので修正する
         if (count($params) > 0) {
             $query = Combo::with('character');
         } else {
