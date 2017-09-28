@@ -32,9 +32,9 @@
           <accordionBox>
             <span slot="accordion-title">Select Move</span>
             <div slot="accordion-contents">
-              <p>Now Select : {{search.selectMove}}</p>
-              <div v-for="move in search.moves">
-                <input type="radio" v-bind:id="'moveId_' + move.id" v-bind:value="move.name" v-model="search.selectMove">
+              <p>Now Select : {{selectMove}}</p>
+              <div v-for="move in moves">
+                <input type="radio" v-bind:id="'moveId_' + move.id" v-bind:value="move.name" v-model="selectMove">
                 <label v-bind:for="'moveId_' + move.id">{{move.name}}</label>
               </div>
             </div>
@@ -43,9 +43,9 @@
             <span slot="accordion-title">Select Sort</span>
             <div slot="accordion-contents">
               <p>Now Select : {{search.selectSort}}</p>
-              <div v-for="sort in search.sorts">
-                <input type="radio" v-bind:id="'sort' + sort.id" v-bind:value="sort.name" v-model="search.selectSort">
-                <label v-bind:for="'sort' + sort.id">{{sort.name}}</label>
+              <div v-for="(sort, key) in sorts">
+                <input type="radio" v-bind:id="key" v-bind:value="sort.dispName" v-model="selectSort">
+                <label v-bind:for="key">{{sort.dispName}}</label>
               </div>
             </div>
           </accordionBox>
@@ -88,39 +88,53 @@
         combos: [],
         showModal: false,
         characters: [],
+        sorts: [],
+        moves: [],
+        selectCharacter: '',
+        selectSort: '',
+        selectMove: '',
         search: {
-          selectCharacter: '',
-          selectCharacterId: '',
-          moves: [],
-          selectMove: '',
-          sorts: [],
-          selectSort: '',
+          filter: {
+            character_id: 1,
+          },
+          selectSortId: '',
         },
         gameId: localStorage.getItem('gameId'),
         gameTitle: ''
       }
     },
     watch: {
-      'search.selectCharacter': {
+      'selectCharacter': {
         handler: function () {
           for(let id in this.characters) {
-            if(this.search.selectCharacter === this.characters[id].name) {
-              this.search.selectCharacterId = this.characters[id].id;
+            if(this.selectCharacter === this.characters[id].name) {
+              this.search.filter.character_id = this.characters[id].id;
               break;
             }
           }
           axios.get('/api/moves', {
             params: {
-              characterId: this.search.selectCharacterId,
+              characterId: this.search.filter.character_id,
             }
           })
           .then(res =>  {
-            this.search.selectMove = '';
-            this.search.moves = res.data;
+            this.selectMove = '';
+            this.moves = res.data;
           });
         },
         deep: true
       },
+      'selectSort': {
+        handler: function() {
+          for(let id in this.sorts) {
+            if(this.selectSort === this.sorts[id].dispName) {
+              this.search.selectSortId = id;
+            }
+          }
+          console.log(this.search.selectSortId);
+        },
+        deep: true
+      }
     },
     methods: {
       getGame() {
@@ -130,7 +144,9 @@
         })
       },
       getCombos() {
-        axios.get('/api/combos')
+        axios.get('/api/combos',{
+          params: this.search
+        })
         .then(res =>  {
           this.combos = res.data;
         })
@@ -148,7 +164,7 @@
       getSorts() {
        axios.get('/api/sortList')
         .then(res =>  {
-          this.search.sorts = res.data;
+          this.sorts = res.data[0];
         })
       }
     }

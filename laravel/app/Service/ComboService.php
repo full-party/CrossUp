@@ -4,6 +4,7 @@ namespace App\Service;
 
 use App\Model\Combo;
 use App\Model\Recipe;
+use Log;
 
 /**
  * Class ComboService
@@ -58,11 +59,13 @@ class ComboService
     public function list(array $params)
     {
         if (count($params) > 0) {
-            $query = Combo::where($params)->with('character');
+            // オブジェクトを連想配列に変換
+            $filter = (array)json_decode($params['filter']);
+            $query = Combo::where($filter)->with('character');
         } else {
             $query = Combo::with('character');
         }
-        $resultList = $query->with('recipes.move')->get()->toArray();
+        $resultList = $query->with('recipes.move')->orderBy('damage', 'desc')->get()->toArray();
 
         foreach ($resultList as &$result) {
             $result['meter'] = $this->sumMeter($result['recipes']);

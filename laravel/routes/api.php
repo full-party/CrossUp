@@ -3,10 +3,7 @@
 use Illuminate\Http\Request;
 
 Route::get('sortList',  function() {
-  return [
-    ['id' => '1', 'name' => 'ダメージ値降順'],
-    ['id' => '2', 'name' => 'ダメージ値昇順'],
-  ];
+  return [Config::get('sort')];
 });
 
 
