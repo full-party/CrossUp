@@ -50,4 +50,12 @@ class AuthController extends Controller
         Session::push('UserInfo', $userInfo);
         return response(['message' => 'login success']);
     }
+
+    /**
+     * ログアウト関数
+     */
+    public function logout() {
+        Session::flush();
+        return response(['message' => 'logout success']);
+    }
 }

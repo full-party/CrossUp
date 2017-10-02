@@ -18,6 +18,7 @@ Route::get('sortList',  function() {
 |
 */
 Route::post('login', 'Api\AuthController@login');
+Route::post('logout', 'Api\AuthController@logout');
 Route::resource('users', 'Api\AuthController', ['only' => ['store']]);
 Route::resource('games', 'Api\GameController', ['only' => ['index', 'show']]);
 Route::resource('combos', 'Api\ComboController', ['only' => ['index', 'store', 'show', 'update', 'destroy']]);
