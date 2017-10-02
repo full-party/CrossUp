@@ -22,7 +22,7 @@
           <accordionBox>
             <span slot="accordion-title">Select Charactor</span>
             <div slot="accordion-contents">
-              <p>Now Select : {{search.selectCharacter}}</p>
+              <p>Now Select : {{selectCharacter}}</p>
               <div v-for="character in characters">
                 <input type="radio" v-bind:id="'character' + character.id" v-bind:value="character.name" v-model="search.selectCharacter">
                 <label v-bind:for="'character' + character.id">{{character.name}}</label>
@@ -32,9 +32,9 @@
           <accordionBox>
             <span slot="accordion-title">Select Move</span>
             <div slot="accordion-contents">
-              <p>Now Select : {{search.selectMove}}</p>
-              <div v-for="move in search.moves">
-                <input type="radio" v-bind:id="'moveId_' + move.id" v-bind:value="move.name" v-model="search.selectMove">
+              <p>Now Select : {{selectMove}}</p>
+              <div v-for="move in moves">
+                <input type="radio" v-bind:id="'moveId_' + move.id" v-bind:value="move.name" v-model="selectMove">
                 <label v-bind:for="'moveId_' + move.id">{{move.name}}</label>
               </div>
             </div>
@@ -42,10 +42,10 @@
           <accordionBox>
             <span slot="accordion-title">Select Sort</span>
             <div slot="accordion-contents">
-              <p>Now Select : {{search.selectSort}}</p>
-              <div v-for="sort in search.sorts">
-                <input type="radio" v-bind:id="'sort' + sort.id" v-bind:value="sort.name" v-model="search.selectSort">
-                <label v-bind:for="'sort' + sort.id">{{sort.name}}</label>
+              <p>Now Select : {{selectSort}}</p>
+              <div v-for="(sort, key) in sorts">
+                <input type="radio" v-bind:id="key" v-bind:value="sort.dispName" v-model="selectSort">
+                <label v-bind:for="key">{{sort.dispName}}</label>
               </div>
             </div>
           </accordionBox>
@@ -55,7 +55,7 @@
             </div>
           </p>
           <p>
-            <div @click="showModal = false">
+            <div @click="searchCombo">
               ok
             </div>
           </p>
@@ -85,56 +85,84 @@
       },
     data() {
       return {
+        // コンボのリスト
         combos: [],
+        // 検索モーダル表示フラグ
         showModal: false,
+        // キャラクターリスト
         characters: [],
+        // コンボのソートリスト
+        sorts: [],
+        // キャラクターの技リスト
+        moves: [],
+        // 選択されているキャラクター
+        selectCharacter: '',
+        // 選択されているソート名（初期ソート値を指定）
+        selectSort: 'ダメージ値降順',
+        // 選択されている始動技
+        selectMove: '',
+        // 検索用パラメーター
         search: {
-          selectCharacter: '',
-          selectCharacterId: '',
-          moves: [],
-          selectMove: '',
-          sorts: [],
-          selectSort: '',
+          selectSortId: '',
         },
+        // 選択しているゲームID
         gameId: localStorage.getItem('gameId'),
+        // 選択しているゲーム名
         gameTitle: ''
       }
     },
     watch: {
-      'search.selectCharacter': {
+      // キャラクターが選択されたらキャラクターの技をサーバーから取得する
+      'selectCharacter': {
         handler: function () {
           for(let id in this.characters) {
-            if(this.search.selectCharacter === this.characters[id].name) {
-              this.search.selectCharacterId = this.characters[id].id;
+            if(this.selectCharacter === this.characters[id].name) {
+              this.search.character_id = this.characters[id].id;
               break;
             }
           }
           axios.get('/api/moves', {
             params: {
-              characterId: this.search.selectCharacterId,
+              characterId: this.search.filter.character_id,
             }
           })
           .then(res =>  {
-            this.search.selectMove = '';
-            this.search.moves = res.data;
+            this.selectMove = '';
+            this.moves = res.data;
           });
         },
         deep: true
       },
+      // ソートが選択されたらソートIDを取得する
+      'selectSort': {
+        handler: function() {
+          for(let id in this.sorts) {
+            if(this.selectSort === this.sorts[id].dispName) {
+              this.search.selectSortId = id;
+            }
+          }
+        },
+        deep: true
+      }
     },
     methods: {
+      // ゲーム名を取得関数
       getGame() {
         axios.get('/api/games/' + this.gameId)
         .then(res =>  {
           this.gameTitle = res.data.name;
         })
       },
+      // コンボ取得関数
       getCombos() {
-        axios.get('/api/combos')
+        axios.get('/api/combos',{
+          params: this.search
+        })
         .then(res =>  {
           this.combos = res.data;
         })
       },
+      // キャラクター取得関数
       getCharacters() {
         axios.get('/api/characters',{
           params: {
@@ -145,11 +173,17 @@
           this.characters = res.data.data;
         })
       },
+      // ソート取得関数
       getSorts() {
-       axios.get('/api/sortList')
+        axios.get('/api/sortList')
         .then(res =>  {
-          this.search.sorts = res.data;
+          this.sorts = res.data[0];
         })
+      },
+      // コンボを検索して検索モーダルを非表示にする
+      searchCombo() {
+        this.getCombos();
+        this.showModal = false;
       }
     }
   }
