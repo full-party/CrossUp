@@ -185,8 +185,6 @@ return [
         App\Providers\ComboServiceProvider::class,
         App\Providers\MoveServiceProvider::class,
         App\Providers\CharacterServiceProvider::class,
-
-        Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
     ],
 
     /*
