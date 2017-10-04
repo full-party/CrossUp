@@ -14,7 +14,7 @@ class CreateCombosTable extends Migration
     public function up()
     {
         Schema::create('combos', function (Blueprint $table) {
-            $table->integer('id', true);
+            $table->integer('id', false);
             $table->integer('character_id')->index('id_idx');
             $table->integer('damage')->nullable();
             $table->integer('stun')->nullable();
