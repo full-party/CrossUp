@@ -6,7 +6,7 @@ services:
     ports:
      - '8000:80'
     volumes:
-     - ./laravel:/var/www/html
+     - ./:/var/www/html
      - ./docker/web/000-default.conf:/etc/apache2/sites-available/000-default.conf
     links:
      - mysql
