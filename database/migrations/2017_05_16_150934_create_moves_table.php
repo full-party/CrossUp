@@ -14,7 +14,7 @@ class CreateMovesTable extends Migration
     public function up()
     {
         Schema::create('moves', function (Blueprint $table) {
-            $table->integer('id', true);
+            $table->integer('id');
             $table->integer('character_id')->index('_idx');
             $table->string('name', 200)->nullable();
             $table->integer('damage')->nullable();
@@ -22,6 +22,7 @@ class CreateMovesTable extends Migration
             $table->integer('meter')->nullable();
             $table->timestamps();
             $table->softDeletes();
+            $table->primary('id');
         });
     }
 
