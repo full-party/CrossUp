@@ -14,11 +14,12 @@ class CreateGamesTable extends Migration
     public function up()
     {
         Schema::create('games', function (Blueprint $table) {
-            $table->integer('id', true);
+            $table->integer('id');
             $table->string('name', 45)->nullable();
             $table->string('logo', 200)->nullable();
             $table->timestamps();
             $table->softDeletes();
+            $table->primary('id');
         });
     }
 

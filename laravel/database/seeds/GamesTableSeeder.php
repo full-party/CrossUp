@@ -12,9 +12,10 @@ class GamesTableSeeder extends Seeder
      */
     public function run()
     {
-        $games = ['Street Fighter V', 'Guilty Gear Xrd'];
-        foreach ($games as $game) {
+        $games = [1 => 'Street Fighter V', 2 => 'Guilty Gear Xrd'];
+        foreach ($games as $id => $game) {
             $model = new Game();
+            $model->id = $id;
             $model->name = $game;
             $model->save();
         }
