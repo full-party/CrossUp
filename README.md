@@ -5,16 +5,23 @@
 ## development init
 
 ```
-cd laravel
-npm install
+git clone [url]
+cd CrossUp
 
-composer dump-autoload
+cp .env.exsample .env
+docker-compose build
+docker-compose up -d
+
+composer install
+yarn
 ```
 
 ## migration
 ```
-docker exec -it crossup_web_1 bash
-php artisan migrate:refresh --seed
+docker exec -it crossup_web_1 php artisan migrate --seed
+
+# rebuild
+migrate →　migrate:refresh
 
 # error occurs
 composer dump-autoload
