@@ -14,7 +14,7 @@ class CreateGamesTable extends Migration
     public function up()
     {
         Schema::create('games', function (Blueprint $table) {
-            $table->integer('id', false);
+            $table->integer('id', true);
             $table->string('name', 45)->nullable();
             $table->string('logo', 200)->nullable();
             $table->timestamps();

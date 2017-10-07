@@ -14,7 +14,7 @@ class CreateRecipesTable extends Migration
     public function up()
     {
         Schema::create('recipes', function (Blueprint $table) {
-            $table->integer('id', false);
+            $table->integer('id', true);
             $table->integer('combo_id')->index('id_idx');
             $table->integer('move_id')->index('id_idx1');
             $table->integer('order');
