@@ -16,7 +16,7 @@ class RecipesTableSeeder extends Seeder
             // リュウ
             1 => [
                 1 => [
-                    [2, 1], [2, 2], [3, 3]
+                    [1002, 1], [1002, 2], [1003, 3]
                 ]
             ],
         ];
