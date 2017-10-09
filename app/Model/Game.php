@@ -10,5 +10,5 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Game extends Model
 {
-    protected $fillable = ['name', 'logo'];
+    protected $fillable = ['id', 'name', 'logo'];
 }

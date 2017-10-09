@@ -13,12 +13,13 @@ class CharactersTableSeeder extends Seeder
     public function run()
     {
         $list = [
-            1 => ['リュウ', '春麗'],
-            2 => ['ソル', 'カイ']
+            1 => [1 => 'リュウ', 2 => '春麗'],
+            2 => [101 => 'ソル', 102 => 'カイ']
         ];
         foreach ($list as $gameId => $characters) {
-            foreach ($characters as $character) {
+            foreach ($characters as $id => $character) {
                 $model = new Character();
+                $model->id = $id;
                 $model->game_id = $gameId;
                 $model->name = $character;
                 $model->save();
