@@ -23,6 +23,6 @@ class Combo extends Model
      */
     public function recipes()
     {
-        return $this->hasMany('App\Model\recipe');
+        return $this->hasMany('App\Model\Recipe');
     }
 }
