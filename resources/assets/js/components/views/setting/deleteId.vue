@@ -17,7 +17,7 @@
   export default {
     methods: {
       deleteId() {
-        console.log('delete');
+        console.log('good by');
       }
     }
   }
