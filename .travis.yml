@@ -16,5 +16,5 @@ services:
 deploy:
  provider: heroku
  api_key:
-  secure: 5f311716-9974-411e-a745-73f71fc48f33
+  secure: db849b51-7ec7-408e-97dd-7f456080940f
   app: kakumemo
