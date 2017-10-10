@@ -1,20 +1,20 @@
 language: php
 php:
- - 7.1
+- 7.1
 before_script:
- - mysql -uroot -e "create database cross_up"
+- mysql -uroot -e "create database cross_up"
 install: true
 script:
- - cp .env.testing .env
- - composer install
- - php artisan migrate --force --seed
- - phpunit
+- cp .env.testing .env
+- composer install
+- php artisan migrate --force --seed
+- phpunit
 notifications:
- slack: full-party:ITmQQI6GSQEkcoU6e0NN3X2B
+  slack: full-party:ITmQQI6GSQEkcoU6e0NN3X2B
 services:
- - mysql
+- mysql
 deploy:
- provider: heroku
- api_key:
-  secure: db849b51-7ec7-408e-97dd-7f456080940f
+  provider: heroku
+  api_key:
+    secure: l2GxOCxO3MaZ35K7ns+JtlrLBNWGsstpqYRtVm8vIkSNzEzjKuSxb7ZIxw/JJNVFv1QRwbsbEg9rhE9J32I7AcvzQ1oBJZgRhZP8htRukEtvxmdwV2uV7v5fcuPxnQegpaHS1xk0el5sOm7A4H01mbGwN+7JtClVW5OXkVPnJsHg6SjBHtmWj7NQm6t3GW/rBCWN1SsCVE47T+q6H6YnXrfvc5Ia3daZ2SG8/m4cA/xi+W2gM6WlBurzKtuIUyvQpLF/v9QyHkFILTbIIOntC0llRUqecUYH9arDt3Xul2x2tN54VFfjGqHdede0+9ER+VUFqUDlmbRNsChaS2iJRH4e+dwqn8ZK9JfIk1lxq34KzJ5wCFhN6SqXLYrVHCopgCqH3W4BbGaaKOqfKVwcIcRYdaoydka7WBrGlCFdUlRgC6Bnt7fcaW8jAwZYm49BsmywxoTi50sftsrbHHmh/HOFXs7/5Vt/SqLkyRmsxewceWFTrR7pDkNV3Aq/IivK1T9vk1HFCsNqjZ8VOmo64i3xy/PETBERxoGJTqA8SrpaGLpTlR6CI6b9qTr3gLbnMmYMQNWuysdAIyQO//wUw84dHtvfx9uvhEdz3LGernPJyEXVrFPQdWXqAx361WJRVQH6VU7zvnImVqdtEJfCbJmp9FtnIkuI511/OzlpTUE=
   app: kakumemo
