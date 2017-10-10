@@ -13,3 +13,8 @@ notifications:
  slack: full-party:ITmQQI6GSQEkcoU6e0NN3X2B
 services:
  - mysql
+deploy:
+ provider: heroku
+ api_key:
+  secure: 5f311716-9974-411e-a745-73f71fc48f33
+  app: kakumemo
