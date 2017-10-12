@@ -103,7 +103,7 @@
         selectMove: '',
         // 検索用パラメーター
         search: {
-          selectSortId: '',
+          selectSortId: 'DAMAGE_DESC',
         },
         // 選択しているゲームID
         gameId: localStorage.getItem('gameId'),
