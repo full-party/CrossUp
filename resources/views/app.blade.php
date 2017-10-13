@@ -13,7 +13,7 @@
 </head>
 <body>
 <div id="app">
-  <app-header></app-header>
+  <router-view name="header"></router-view>
   <div class="wrapper">
     <router-view></router-view>
   </div>

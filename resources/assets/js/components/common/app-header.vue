@@ -3,7 +3,7 @@
     <div class="logo">
       Header
     </div>
-    <app-sidebar></app-sidebar>
+    <sidebar></sidebar>
   </header>
 </template>
 
@@ -21,3 +21,11 @@
     height: 100%;
   }
 </style>
+
+<script>
+  export default {
+    components: {
+      sidebar: require('./app-sidebar.vue')
+    }
+  }
+</script>
