@@ -24,7 +24,7 @@
             <div slot="accordion-contents">
               <p>Now Select : {{selectCharacter}}</p>
               <div v-for="character in characters">
-                <input type="radio" v-bind:id="'character' + character.id" v-bind:value="character.name" v-model="search.selectCharacter">
+                <input type="radio" v-bind:id="'character' + character.id" v-bind:value="character.name" v-model="selectCharacter">
                 <label v-bind:for="'character' + character.id">{{character.name}}</label>
               </div>
             </div>
@@ -104,6 +104,8 @@
         // 検索用パラメーター
         search: {
           selectSortId: 'DAMAGE_DESC',
+          character_id: '',
+          move_id: '',
         },
         // 選択しているゲームID
         gameId: localStorage.getItem('gameId'),
@@ -114,7 +116,7 @@
     watch: {
       // キャラクターが選択されたらキャラクターの技をサーバーから取得する
       'selectCharacter': {
-        handler: function () {
+        handler: function() {
           for(let id in this.characters) {
             if(this.selectCharacter === this.characters[id].name) {
               this.search.character_id = this.characters[id].id;
@@ -123,15 +125,26 @@
           }
           axios.get('/api/moves', {
             params: {
-              characterId: this.search.filter.character_id,
+              characterId: this.search.character_id,
             }
           })
           .then(res =>  {
             this.selectMove = '';
+            this.search.move_id = '';
             this.moves = res.data;
           });
-        },
-        deep: true
+        }
+      },
+      // 始動技が選択されたら、技IDを研削パラメーターに追加する
+      'selectMove': {
+        handler: function() {
+          for(let id in this.moves) {
+            if(this.selectMove === this.moves[id].name) {
+              this.search.move_id = this.moves[id].id;
+              break;
+            }
+          }
+        }
       },
       // ソートが選択されたらソートIDを取得する
       'selectSort': {
@@ -141,8 +154,7 @@
               this.search.selectSortId = id;
             }
           }
-        },
-        deep: true
+        }
       }
     },
     methods: {
