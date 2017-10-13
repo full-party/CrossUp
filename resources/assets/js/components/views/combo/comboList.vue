@@ -114,7 +114,8 @@
       }
     },
     watch: {
-      // キャラクターが選択されたらキャラクターの技をサーバーから取得する
+      // キャラクターが選択されたらキャラクターを検索パラメーターに追加する
+      // 追加後キャラクターの技をAPIを叩き取得する
       'selectCharacter': {
         handler: function() {
           for(let id in this.characters) {
@@ -135,7 +136,7 @@
           });
         }
       },
-      // 始動技が選択されたら、技IDを研削パラメーターに追加する
+      // 始動技が選択されたら技IDを検索パラメーターに追加する
       'selectMove': {
         handler: function() {
           for(let id in this.moves) {
@@ -146,7 +147,7 @@
           }
         }
       },
-      // ソートが選択されたらソートIDを取得する
+      // ソートが選択されたらソートIDを検索パラメーターに追加する
       'selectSort': {
         handler: function() {
           for(let id in this.sorts) {
@@ -158,7 +159,7 @@
       }
     },
     methods: {
-      // ゲーム名を取得関数
+      // ゲーム名取得関数
       getGame() {
         axios.get('/api/games/' + this.gameId)
         .then(res =>  {
