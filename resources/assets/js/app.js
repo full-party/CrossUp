@@ -8,9 +8,6 @@ window.axios.defaults.headers.common = {
     'X-Requested-With': 'XMLHttpRequest'
 };
 
-Vue.component('app-header', require('./components/common/app-header.vue'));
-Vue.component('app-sidebar', require('./components/common/app-sidebar.vue'));
-
 const app = new Vue({
     router,
     el: '#app',
