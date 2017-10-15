@@ -62,7 +62,7 @@ class ComboService
 
         // キャラクターの絞り込み
         if (isset($params['character_id']) && !is_null($params['character_id']) && is_numeric($params['character_id'])) {
-            $query = $query->where('character_id', $params['character_id']);
+            $query = $query->character($params['character_id']);
         }
 
         // ソート
