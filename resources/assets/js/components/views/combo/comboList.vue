@@ -24,7 +24,7 @@
             <div slot="accordion-contents">
               <p>Now Select : {{selectCharacter}}</p>
               <div v-for="character in characters">
-                <input type="radio" v-bind:id="'character' + character.id" v-bind:value="character.name" v-model="search.selectCharacter">
+                <input type="radio" v-bind:id="'character' + character.id" v-bind:value="character.name" v-model="selectCharacter">
                 <label v-bind:for="'character' + character.id">{{character.name}}</label>
               </div>
             </div>
@@ -103,7 +103,9 @@
         selectMove: '',
         // 検索用パラメーター
         search: {
-          selectSortId: '',
+          selectSortId: 'DAMAGE_DESC',
+          characterId: '',
+          moveId: '',
         },
         // 選択しているゲームID
         gameId: localStorage.getItem('gameId'),
@@ -112,28 +114,40 @@
       }
     },
     watch: {
-      // キャラクターが選択されたらキャラクターの技をサーバーから取得する
+      // キャラクターが選択されたらキャラクターを検索パラメーターに追加する
+      // 追加後キャラクターの技をAPIを叩き取得する
       'selectCharacter': {
-        handler: function () {
+        handler: function() {
           for(let id in this.characters) {
             if(this.selectCharacter === this.characters[id].name) {
-              this.search.character_id = this.characters[id].id;
+              this.search.characterId = this.characters[id].id;
               break;
             }
           }
           axios.get('/api/moves', {
             params: {
-              characterId: this.search.filter.character_id,
+              characterId: this.search.characterId,
             }
           })
           .then(res =>  {
             this.selectMove = '';
+            this.search.moveId = '';
             this.moves = res.data;
           });
-        },
-        deep: true
+        }
       },
-      // ソートが選択されたらソートIDを取得する
+      // 始動技が選択されたら技IDを検索パラメーターに追加する
+      'selectMove': {
+        handler: function() {
+          for(let id in this.moves) {
+            if(this.selectMove === this.moves[id].name) {
+              this.search.moveId = this.moves[id].id;
+              break;
+            }
+          }
+        }
+      },
+      // ソートが選択されたらソートIDを検索パラメーターに追加する
       'selectSort': {
         handler: function() {
           for(let id in this.sorts) {
@@ -141,12 +155,11 @@
               this.search.selectSortId = id;
             }
           }
-        },
-        deep: true
+        }
       }
     },
     methods: {
-      // ゲーム名を取得関数
+      // ゲーム名取得関数
       getGame() {
         axios.get('/api/games/' + this.gameId)
         .then(res =>  {

@@ -58,23 +58,34 @@ class ComboService
      */
     public function list(array $params)
     {
-        // 絞り込みできないので修正する
-        if (count($params) > 0) {
-            $query = Combo::with('character');
-        } else {
-            $query = Combo::with('character');
+        $query = Combo::with('character');
+
+        // キャラクターの絞り込み
+        if (isset($params['characterId']) && !is_null($params['characterId']) && is_numeric($params['characterId'])) {
+            $query = $query->character($params['characterId']);
         }
 
-        $sortList = Config::get('sort');
-        if (isset($params['selectSortId']) && isset($sortList[$params['selectSortId']])) {
+        // ソート
+        $sort = Config::get('sort');
+        if (isset($params['selectSortId']) && isset($sort[$params['selectSortId']])) {
             // パラメーターにソートが指定されている場合、ソートを設定
-            $sortInfo = $sortList[$params['selectSortId']];
+            $sortInfo = $sort[$params['selectSortId']];
             $query = $query->orderBy($sortInfo['column'], $sortInfo['order']);
         }
 
+        // コンボ取得
         $resultList = $query->with('recipes.move')->get()->toArray();
+
+        // 各コンボの技ゲージの合計値を計算し追加
         foreach ($resultList as &$result) {
             $result['meter'] = $this->sumMeter($result['recipes']);
+        }
+
+        // 始動技の絞り込み
+        if (isset($params['moveId']) && !is_null($params['moveId']) && is_numeric($params['moveId'])) {
+            $resultList = array_filter($resultList, function($result) use($params) {
+                return strcmp($result['recipes'][0]['move_id'], $params['moveId']) === 0;
+            });
         }
 
         return response($resultList);
