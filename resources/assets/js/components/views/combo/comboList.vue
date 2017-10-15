@@ -104,8 +104,8 @@
         // 検索用パラメーター
         search: {
           selectSortId: 'DAMAGE_DESC',
-          character_id: '',
-          move_id: '',
+          characterId: '',
+          moveId: '',
         },
         // 選択しているゲームID
         gameId: localStorage.getItem('gameId'),
@@ -120,18 +120,18 @@
         handler: function() {
           for(let id in this.characters) {
             if(this.selectCharacter === this.characters[id].name) {
-              this.search.character_id = this.characters[id].id;
+              this.search.characterId = this.characters[id].id;
               break;
             }
           }
           axios.get('/api/moves', {
             params: {
-              characterId: this.search.character_id,
+              characterId: this.search.characterId,
             }
           })
           .then(res =>  {
             this.selectMove = '';
-            this.search.move_id = '';
+            this.search.moveId = '';
             this.moves = res.data;
           });
         }
@@ -141,7 +141,7 @@
         handler: function() {
           for(let id in this.moves) {
             if(this.selectMove === this.moves[id].name) {
-              this.search.move_id = this.moves[id].id;
+              this.search.moveId = this.moves[id].id;
               break;
             }
           }

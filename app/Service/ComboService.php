@@ -61,8 +61,8 @@ class ComboService
         $query = Combo::with('character');
 
         // キャラクターの絞り込み
-        if (isset($params['character_id']) && !is_null($params['character_id']) && is_numeric($params['character_id'])) {
-            $query = $query->character($params['character_id']);
+        if (isset($params['characterId']) && !is_null($params['characterId']) && is_numeric($params['characterId'])) {
+            $query = $query->character($params['characterId']);
         }
 
         // ソート
@@ -82,9 +82,9 @@ class ComboService
         }
 
         // 始動技の絞り込み
-        if (isset($params['move_id']) && !is_null($params['move_id']) && is_numeric($params['move_id'])) {
+        if (isset($params['moveId']) && !is_null($params['moveId']) && is_numeric($params['moveId'])) {
             $resultList = array_filter($resultList, function($result) use($params) {
-                return strcmp($result['recipes'][0]['move_id'], $params['move_id']) === 0;
+                return strcmp($result['recipes'][0]['move_id'], $params['moveId']) === 0;
             });
         }
 
