@@ -68,8 +68,16 @@ class ComboController extends Controller
 
     }
 
-    public function destroy()
+    public function destroy(int $comboId)
     {
-
+        try {
+            $UserInfo = Session::get('UserInfo');
+            DB::transaction(function () use($comboId, $UserInfo) {
+                return ComboService::delete($comboId, $UserInfo[0]['id']);
+            });
+        } catch (Throwable $t) {
+            Log::error($t);
+            return response(['message' => 'internal server error'], 500);
+        }
     }
 }

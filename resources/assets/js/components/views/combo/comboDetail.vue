@@ -18,6 +18,7 @@
     <p>
       <router-link :to="'/combos/' + $route.params.id + '/edit'">edit combo</router-link>
     </p>
+    <p @click="delCombo">del</p>
     <p>
       <router-link to="/combos">back combo list</router-link>
     </p>
@@ -50,6 +51,13 @@
           this.combo = res.data;
         })
       },
+      delCombo() {
+        console.log(this.combo.id);
+        axios.delete('/api/combos/' + this.combo.id)
+        .then(res => {
+          console.log(res);
+        });
+      }
     }
   }
 </script>

@@ -94,6 +94,12 @@ class ComboService
         return response($resultList);
     }
 
+    public function delete(int $comboId, int $myUserId) {
+        // レシピがコンボIDに紐付いているため先にレシピを削除する
+        Recipe::where('combo_id', $comboId)->delete();
+        return Combo::where('user_id', $myUserId)->find($comboId)->delete();
+    }
+
     /**
      * レシピコレクションから技ゲージの合計値を返す
      *
