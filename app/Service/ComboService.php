@@ -41,13 +41,16 @@ class ComboService
     }
 
     /**
-     * @param int $id
+     * @param int $id コンボのID
+     * @param int $myUserId 自分のID
      * @return mixed
      */
-    public function find(int $id)
+    public function find(int $id, int $myUserId)
     {
         $result = Combo::with('character', 'recipes.move')->find($id)->toArray();
         $result['meter'] = $this->sumMeter($result['recipes']);
+        // 自分の登録したコンボかチェックする
+        $result['myComboFlg'] = $myUserId === $result['user_id'] ? true : false;
 
         return response($result);
     }

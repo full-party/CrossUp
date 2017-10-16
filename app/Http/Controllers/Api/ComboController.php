@@ -55,7 +55,8 @@ class ComboController extends Controller
     public function show(int $comboId)
     {
         try {
-            return ComboService::find($comboId);
+            $UserInfo = Session::get('UserInfo');
+            return ComboService::find($comboId, $UserInfo[0]['id']);
         } catch (Throwable $t) {
             Log::error($t);
             return response(['message' => 'internal server error'], 500);
