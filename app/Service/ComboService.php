@@ -94,6 +94,12 @@ class ComboService
         return response($resultList);
     }
 
+    /**
+     * コンボ削除
+     *
+     * @param $comboId コンボID
+     * @param $myUserId ユーザーID
+     */
     public function delete(int $comboId, int $myUserId) {
         // レシピがコンボIDに紐付いているため先にレシピを削除する
         Recipe::where('combo_id', $comboId)->delete();

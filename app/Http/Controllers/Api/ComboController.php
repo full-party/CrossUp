@@ -68,6 +68,11 @@ class ComboController extends Controller
 
     }
 
+    /**
+     * コンボ削除API
+     * @param $comboId コンボID
+     * @return 失敗時は500エラー
+     */
     public function destroy(int $comboId)
     {
         try {
