@@ -41,9 +41,11 @@ class ComboService
     }
 
     /**
+     * コンボIDでコンボを検索して返す
+     *
      * @param int $id コンボのID
      * @param int $myUserId 自分のID
-     * @return mixed
+     * @return array コンボ情報
      */
     public function find(int $id, int $myUserId)
     {
@@ -52,7 +54,7 @@ class ComboService
         // 自分の登録したコンボかチェックする
         $result['myComboFlg'] = $myUserId === $result['user_id'] ? true : false;
 
-        return response($result);
+        return $result;
     }
 
     /**
