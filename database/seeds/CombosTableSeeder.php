@@ -12,6 +12,10 @@ class CombosTableSeeder extends Seeder
      */
     public function run()
     {
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+        DB::table('combos')->truncate();
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+
         $list = [
             // リュウ
             1 => [

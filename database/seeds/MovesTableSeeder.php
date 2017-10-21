@@ -12,6 +12,10 @@ class MovesTableSeeder extends Seeder
      */
     public function run()
     {
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+        DB::table('moves')->truncate();
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+
         $list = [
             // リュウ
             1 => [
