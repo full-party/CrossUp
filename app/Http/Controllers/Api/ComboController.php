@@ -55,7 +55,8 @@ class ComboController extends Controller
     public function show(int $comboId)
     {
         try {
-            return ComboService::find($comboId);
+            $UserInfo = Session::get('UserInfo');
+            return response(ComboService::find($comboId, $UserInfo[0]['id']));
         } catch (Throwable $t) {
             Log::error($t);
             return response(['message' => 'internal server error'], 500);
@@ -67,8 +68,28 @@ class ComboController extends Controller
 
     }
 
-    public function destroy()
+    /**
+     * コンボ削除API
+     *
+     * @param $comboId コンボID
+     * @return 失敗時は500エラー,他人のコンボIDの場合は400エラー
+     */
+    public function destroy(int $comboId)
     {
-
+        try {
+            $UserInfo = Session::get('UserInfo');
+            $combo = ComboService::find($comboId, $UserInfo[0]['id']);
+            if ($combo['myComboFlg']) {
+                // 自分のコンボの場合削除する
+                DB::transaction(function () use($comboId, $UserInfo) {
+                    return ComboService::delete($comboId, $UserInfo[0]['id']);
+                });
+            } else {
+                return response(['message' => 'invalid combo id'], 400);
+            }
+        } catch (Throwable $t) {
+            Log::error($t);
+            return response(['message' => 'internal server error'], 500);
+        }
     }
 }

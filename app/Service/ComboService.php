@@ -41,15 +41,20 @@ class ComboService
     }
 
     /**
-     * @param int $id
-     * @return mixed
+     * コンボIDでコンボを検索して返す
+     *
+     * @param int $id コンボのID
+     * @param int $myUserId 自分のID
+     * @return array コンボ情報
      */
-    public function find(int $id)
+    public function find(int $id, int $myUserId)
     {
         $result = Combo::with('character', 'recipes.move')->find($id)->toArray();
         $result['meter'] = $this->sumMeter($result['recipes']);
+        // 自分の登録したコンボかチェックする
+        $result['myComboFlg'] = $myUserId === $result['user_id'] ? true : false;
 
-        return response($result);
+        return $result;
     }
 
     /**
@@ -89,6 +94,18 @@ class ComboService
         }
 
         return response($resultList);
+    }
+
+    /**
+     * コンボ削除
+     *
+     * @param $comboId コンボID
+     * @param $myUserId ユーザーID
+     */
+    public function delete(int $comboId, int $myUserId) {
+        // レシピがコンボIDに紐付いているため先にレシピを削除する
+        Recipe::where('combo_id', $comboId)->delete();
+        return Combo::where('user_id', $myUserId)->find($comboId)->delete();
     }
 
     /**
