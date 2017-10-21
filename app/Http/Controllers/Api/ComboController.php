@@ -79,7 +79,6 @@ class ComboController extends Controller
         try {
             $UserInfo = Session::get('UserInfo');
             $combo = ComboService::find($comboId, $UserInfo[0]['id']);
-            Log:;info($combo);
             if ($combo['myComboFlg']) {
                 // 自分のコンボの場合削除する
                 DB::transaction(function () use($comboId, $UserInfo) {
