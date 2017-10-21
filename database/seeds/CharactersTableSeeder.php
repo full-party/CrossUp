@@ -16,16 +16,15 @@ class CharactersTableSeeder extends Seeder
         DB::table('characters')->truncate();
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
-        $list = [
-            1 => [1 => 'リュウ', 2 => '春麗'],
-            2 => [101 => 'ソル', 102 => 'カイ']
-        ];
-        foreach ($list as $gameId => $characters) {
-            foreach ($characters as $id => $character) {
+        $data = new SplFileObject('database/seeds/data/character.csv');
+        $data->setFlags(SplFileObject::READ_CSV);
+
+        foreach ($data as $index => $line) {
+            if ($index > 0) {
                 $model = new Character();
-                $model->id = $id;
-                $model->game_id = $gameId;
-                $model->name = $character;
+                $model->id = $line[1];
+                $model->game_id = $line[0];
+                $model->name = $line[2];
                 $model->save();
             }
         }
