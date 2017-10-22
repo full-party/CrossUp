@@ -53,3 +53,8 @@ npm run watch
 cd laravel
 npm run prod
 ```
+
+## unit test
+```
+docker exec -it crossup_web_1 vendor/bin/phpunit
+```
