@@ -20,6 +20,7 @@ class MovesTableSeeder extends Seeder
         $data->setFlags(SplFileObject::READ_CSV);
 
         foreach ($data as $index => $line) {
+            // 1行目はヘッダー行なのでスキップ
             if ($index > 0) {
                 $model = new Move();
                 $model->character_id = $line[0];
