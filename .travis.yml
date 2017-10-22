@@ -5,7 +5,7 @@ before_script:
 - mysql -uroot -e "create database cross_up"
 install: true
 script:
-- cp .env.testing .env
+- cp .env.travis .env
 - composer install
 - php artisan migrate --force
 - php artisan db:seed
