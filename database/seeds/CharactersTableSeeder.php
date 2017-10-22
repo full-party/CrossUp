@@ -12,6 +12,10 @@ class CharactersTableSeeder extends Seeder
      */
     public function run()
     {
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+        DB::table('characters')->truncate();
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+
         $list = [
             1 => [1 => 'リュウ', 2 => '春麗'],
             2 => [101 => 'ソル', 102 => 'カイ']

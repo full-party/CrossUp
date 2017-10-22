@@ -7,7 +7,9 @@ install: true
 script:
 - cp .env.testing .env
 - composer install
-- php artisan migrate --force --seed
+- php artisan migrate --force
+- php artisan db:seed
+- php artisan db:seed --class=TestDatabaseSeeder
 - phpunit
 notifications:
   slack: full-party:ITmQQI6GSQEkcoU6e0NN3X2B

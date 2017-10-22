@@ -18,7 +18,14 @@ yarn
 
 ## migration
 ```
-docker exec -it crossup_web_1 php artisan migrate --seed
+# table
+docker exec -it crossup_web_1 php artisan migrate
+
+# master data
+docker exec -it crossup_web_1 php artisan db:seed
+
+# test data
+docker exec -it crossup_web_1 php artisan db:seed --class=TestDatabaseSeeder
 
 # rebuild
 migrate →　migrate:refresh
