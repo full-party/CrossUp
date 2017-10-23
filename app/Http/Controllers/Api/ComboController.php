@@ -10,6 +10,7 @@ use Log;
 use DB;
 use Session;
 use App\Http\Requests\ComboStore;
+use App\Http\Requests\ComboUpdate;
 
 class ComboController extends Controller
 {
@@ -63,9 +64,28 @@ class ComboController extends Controller
         }
     }
 
-    public function update()
+    /**
+     * コンボ更新API
+     *
+     * @param ComboUpdate $request コンボ登録用リクエストパラメーター
+     */
+    public function update(ComboUpdate $request)
     {
-
+        try {
+            $newCombo = $request->all();
+            $UserInfo = Session::get('UserInfo');
+            $oldCombo = ComboService::find($newCombo['id'], $UserInfo[0]['id']);
+            if ($oldCombo['myComboFlg']) {
+                DB::transaction(function () use($oldCombo, $newCombo) {
+                    return ComboService::update($newCombo);
+                });
+            } else {
+                return response(['message' => 'invalid combo id'], 400);
+            }
+        } catch (Throwable $t) {
+            Log::error($t);
+            return response(['message' => 'internal server error'], 500);
+        }
     }
 
     /**

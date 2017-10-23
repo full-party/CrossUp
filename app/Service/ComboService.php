@@ -109,6 +109,37 @@ class ComboService
     }
 
     /**
+     * コンボ更新
+     *
+     * @param array newCombo 更新をする新しいコンボ情報
+     * @return int コンボID
+     */
+    public function update(array $newCombo): int
+    {
+        // 更新するコンボを取得
+        $comboId = $newCombo['id'];
+        // コントローラで取得した情報を利用したかったがComboService::findが配列を返すため
+        // 関数内で再度取得する
+        $oldCombo = Combo::with('character', 'recipes.move')->find($comboId);
+        // コンボの情報を更新
+        $oldCombo->damage = $newCombo['damage'];
+        $oldCombo->stun = $newCombo['stun'];
+        $oldCombo->memo = $newCombo['memo'];
+        // 更新
+        $oldCombo->save();
+        // レシピは削除して、再作成する
+        Recipe::where('combo_id', $comboId)->delete();
+        foreach ($newCombo['combo'] as $key => $value) {
+            $model = new Recipe();
+            $model->combo_id = $comboId;
+            $model->move_id = $value['id'];
+            $model->order = $key;
+            $model->save();
+        }
+        return $comboId;
+    }
+
+    /**
      * レシピコレクションから技ゲージの合計値を返す
      *
      * @param $recipes
