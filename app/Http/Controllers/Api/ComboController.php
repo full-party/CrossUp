@@ -76,7 +76,7 @@ class ComboController extends Controller
             $UserInfo = Session::get('UserInfo');
             $oldCombo = ComboService::find($newCombo['id'], $UserInfo[0]['id']);
             if ($oldCombo['myComboFlg']) {
-                DB::transaction(function () use($oldCombo, $newCombo) {
+                DB::transaction(function () use($newCombo) {
                     return ComboService::update($newCombo);
                 });
             } else {
