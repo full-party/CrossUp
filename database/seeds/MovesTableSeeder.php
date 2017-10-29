@@ -17,7 +17,7 @@ class MovesTableSeeder extends Seeder
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
         // キャラのCSVファイルを読み込む
-        foreach(glob('database/seeds/data/moves/*.csv') as $file){
+        foreach (glob('database/seeds/data/moves/*.csv') as $file) {
             $data = new SplFileObject($file);
             $data->setFlags(SplFileObject::READ_CSV);
 
@@ -30,11 +30,15 @@ class MovesTableSeeder extends Seeder
                 if ($index > 0) {
                     $model = new Move();
                     $model->character_id = $characterId;
-                    $model->id = $line[0];
-                    $model->name = $line[1];
-                    $model->damage = $line[2];
-                    $model->stun = $line[3];
-                    $model->meter = $line[4];
+                    $model->name = $line[0];
+                    $model->damage = $line[1];
+                    $model->stun = $line[2];
+                    $model->meter = $line[3];
+
+                    // 技ID生成に失敗した場合は停止
+                    if ($model->setMoveId($index - 1)) {
+                        throw new Exception('failed set MoveId');
+                    }
                     $model->save();
                 }
             }
