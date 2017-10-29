@@ -1,4 +1,4 @@
-moveId,name,damage,stun,meter
-100001,5P,10,0,0
-100002,5K,28,0,0
-100003,ガンフレイム,50,0,0
+name,damage,stun,meter
+5P,10,0,0
+5K,28,0,0
+ガンフレイム,50,0,0

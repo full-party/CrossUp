@@ -1,4 +1,4 @@
-moveId,name,damage,stun,meter
-101001,5P,10,0,0
-101002,5K,28,0,0
-101003,スタンエッジ,60,10,0
+name,damage,stun,meter
+5P,10,0,0
+5K,28,0,0
+スタンエッジ,60,10,0
