@@ -17,7 +17,7 @@ class MovesTableSeeder extends Seeder
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
         // キャラのCSVファイルを読み込む
-        foreach(glob('database/seeds/data/moves/{*.csv}',GLOB_BRACE) as $file){
+        foreach(glob('database/seeds/data/moves/*.csv') as $file){
             $data = new SplFileObject($file);
             $data->setFlags(SplFileObject::READ_CSV);
 
