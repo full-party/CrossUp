@@ -36,7 +36,7 @@ class MovesTableSeeder extends Seeder
                     $model->meter = $line[3];
 
                     // 技ID生成に失敗した場合は停止
-                    if ($model->setMoveId($index - 1)) {
+                    if (!$model->setMoveId($index - 1)) {
                         throw new Exception('failed set MoveId');
                     }
                     $model->save();
