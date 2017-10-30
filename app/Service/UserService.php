@@ -40,22 +40,29 @@ class UserService
     /**
      * @param int $userId
      * @param array $parameter
+     * @return int
+     */
+    public function update(int $userId, array $parameter): int
+    {
+        User::find($userId)->fill($parameter)->save();
+        return $userId;
+    }
+
+    /**
+     * 指定ユーザー以外の値重複チェック
+     *
+     * @param int $userId
+     * @param string $column
+     * @param string $value
      * @return bool
      */
-    public function update(int $userId, array $parameter): bool
+    public function checkDuplicate(int $userId, string $column, string $value): bool
     {
-        $user = User::find($userId);
-        if ($user->count() === 0) {
-            Log::error('invalid userId :' . $userId);
-            return false;
-        }
+        $user = User::where([
+            ['id', '!=', $userId],
+            [$column, $value]
+        ]);
 
-        // パスワードはハッシュ化する。
-        $updateParameter = [];
-        if (isset($parameter['password'])) {
-            $updateParameter['password'] = Hash::make($parameter['password']);
-        }
-
-        return $user->fill(array_merge($updateParameter, $parameter))->save();
+        return $user->count() > 0;
     }
 }

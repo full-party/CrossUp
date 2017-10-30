@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UserUpdate;
 use Log;
-use Request;
 use Session;
 use Throwable;
 use UserService;
@@ -16,13 +16,21 @@ use UserService;
 class UserController extends Controller
 {
     /**
-     * @param Request $request
+     * @param int $userId
+     * @param UserUpdate $request
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
      */
-    public function update(Request $request)
+    public function update(int $userId, UserUpdate $request)
     {
+        if ($userId !== intval(Session::get('UserInfo')[0]['id'])) {
+            return response(['message' => 'Forbidden'], 403);
+        }
+
+        if ($request->has('email') && UserService::checkDuplicate($userId, 'email', $request->get('email'))) {
+            return response(['message' => 'email duplicate : ' . $request->get('email')], 412);
+        }
+
         try {
-            $userId = Session::get('UserInfo')[0]['id'];
             return UserService::update($userId, $request->all());
         } catch (Throwable $t) {
             Log::error($t);
