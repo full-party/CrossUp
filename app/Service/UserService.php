@@ -49,7 +49,8 @@ class UserService
     }
 
     /**
-     * 指定ユーザー以外の値重複チェック
+     * Usersテーブルのデータに対し、指定ユーザー以外の重複チェックを行う。
+     * メールアドレス重複チェックなど、ログインユーザー以外の存在チェックで利用する。
      *
      * @param int $userId
      * @param string $column
@@ -58,6 +59,7 @@ class UserService
      */
     public function checkDuplicate(int $userId, string $column, string $value): bool
     {
+        // 指定ユーザー以外に、カラムとバリューのセットが存在すればtrueを返す。
         $user = User::where([
             ['id', '!=', $userId],
             [$column, $value]
