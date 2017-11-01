@@ -35,7 +35,10 @@ class UserControllerTest extends TestCase
             [1, ['email' => 'test'], 422],
             [2, ['email' => 'test@example.com'], 403],
             [1, ['email' => 'test@example.com'], 412],
-            [1, ['email' => 'admin@example.com'], 200]
+            [1, ['email' => 'admin@example.com'], 200],
+            [1, ['login_id' => 'test'], 412],
+            [1, ['login_id' => 'admin2'], 200],
+            [1, ['login_id' => 'admin3', 'email' => 'admin3@example.com'], 200]
         ];
     }
 

@@ -26,6 +26,10 @@ class UserController extends Controller
             return response(['message' => 'Forbidden'], 403);
         }
 
+        if ($request->has('login_id') && UserService::checkDuplicate($userId, 'login_id', $request->get('login_id'))) {
+            return response(['message' => 'login_id duplicate : ' . $request->get('login_id')], 412);
+        }
+
         if ($request->has('email') && UserService::checkDuplicate($userId, 'email', $request->get('email'))) {
             return response(['message' => 'email duplicate : ' . $request->get('email')], 412);
         }
