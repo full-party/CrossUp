@@ -24,6 +24,7 @@ class UserUpdate extends FormRequest
     public function rules()
     {
         return [
+            'login_id' => 'alpha_dash',
             'email' => 'email|max:45',
         ];
     }
