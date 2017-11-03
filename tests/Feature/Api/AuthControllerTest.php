@@ -15,6 +15,7 @@ class AuthControllerTest extends TestCase
         $response = $this->json('POST', '/api/login', ['loginId' => 'admin', 'password' => 'admin1234']);
         $response->assertStatus(200);
         $response->assertSessionHas('UserInfo');
+        $response->assertJson(['id' => 1]);
     }
 
     /**

@@ -5,7 +5,7 @@
       <input type="email" v-model="email" placeholder="Email">
       <p v-show="!emailValidation.validationRe">Please Input Email</p>
       <p v-show="emailValidation.validationRe">Email OK!</p>
-      <router-link to="/setting">setting</router-link>
+      <router-link to="/setting">back</router-link>
       <input type="submit" value="Change" v-on:click.prevent="change">
     </form>
   </section>
@@ -36,7 +36,13 @@
     methods: {
       change() {
         if (this.emailValidation.validationRe) {
-          console.log('true');
+          axios.put('/api/users/' + localStorage.getItem('id') , {email: this.email})
+            .then(res => {
+              console.log('ok');
+            })
+            .catch(err => {
+              console.log('error');
+            });
         } else {
           console.log('false');
         }

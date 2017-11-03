@@ -17,7 +17,7 @@ export default new VueRouter({
     },
     { path: '/setting/id',
       components: {
-        dafault: require('./components/views/setting/id.vue'),
+        default: require('./components/views/setting/id.vue'),
         header: header
       }
     },
