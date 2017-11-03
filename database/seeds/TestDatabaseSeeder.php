@@ -14,5 +14,6 @@ class TestDatabaseSeeder extends Seeder
         $this->call(UsersTableSeeder::class);
         $this->call(CombosTableSeeder::class);
         $this->call(RecipesTableSeeder::class);
+        $this->call(ComboStatusTableSeeder::class);
     }
 }
