@@ -36,7 +36,13 @@
     methods: {
       change(){
         if (this.idValidation.validationRe) {
-          console.log(true);
+          axios.put('/api/users/' + localStorage.getItem('id') , {login_id: this.id})
+            .then(res => {
+              console.log('ok')
+            })
+            .catch(err => {
+              console.log('error');
+            });
         } else {
           console.log(false);
         }

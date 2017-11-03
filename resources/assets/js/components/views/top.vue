@@ -97,7 +97,8 @@
             password: this.User.password
           })
           .then(res =>  {
-            // ログイン成功
+            // ログイン成功、ローカルストレージにユーザー情報を格納する
+            localStorage.setItem('id', res.data.id);
             this.$router.push('games');
           })
           .catch(error => {

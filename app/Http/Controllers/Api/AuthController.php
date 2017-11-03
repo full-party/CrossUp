@@ -45,10 +45,11 @@ class AuthController extends Controller
         if (is_null($userInfo) || !Hash::check($request->password, $userInfo['password'])) {
             return response(['message' => 'login failed'], 401);
         }
+
         // セッション内のデータを全て削除しユーザーデータをセッションに追加
         Session::flush();
         Session::push('UserInfo', $userInfo);
-        return response(['message' => 'login success']);
+        return response(['message' => 'login success', 'id' => $userInfo['id']]);
     }
 
     /**

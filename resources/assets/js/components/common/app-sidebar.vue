@@ -74,6 +74,7 @@
       logout() {
         axios.post('/api/logout')
         .then(res => {
+          localStorage.clear();
           this.show = false;
           this.$router.push('/');
         });
