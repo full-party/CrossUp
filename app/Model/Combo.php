@@ -29,6 +29,14 @@ class Combo extends Model
     }
 
     /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function comboStatuses()
+    {
+        return $this->hasMany('App\Model\ComboStatus');
+    }
+
+    /**
      * キャラクターの絞り込み
      * @param $query クエリービルドインスタンス
      * @param $character_id キャラクターID

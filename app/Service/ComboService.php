@@ -48,6 +48,8 @@ class ComboService
     {
         $result = Combo::with('character', 'recipes.move')->find($id)->toArray();
         $result['meter'] = $this->sumMeter($result['recipes']);
+
+        // TODO: vuexを入れてフロントでユーザーIDを保持するようになったらいらないかも？
         // 自分の登録したコンボかチェックする
         $result['myComboFlg'] = $myUserId === $result['user_id'] ? true : false;
 
@@ -76,7 +78,7 @@ class ComboService
         }
 
         // コンボ取得
-        $resultList = $query->with('recipes.move')->get()->toArray();
+        $resultList = $query->with(['recipes.move', 'comboStatuses.status'])->get()->toArray();
 
         // 各コンボの技ゲージの合計値を計算し追加
         foreach ($resultList as &$result) {
