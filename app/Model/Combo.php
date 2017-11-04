@@ -26,7 +26,7 @@ class Combo extends Model
     public function recipes()
     {
         return $this->hasMany('App\Model\Recipe');
-    }    /**
+    }
 
     /**
      * キャラクターの絞り込み
