@@ -10,6 +10,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Recipe extends Model
 {
+    protected $fillable =['combo_id', 'move_id', 'order'];
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */

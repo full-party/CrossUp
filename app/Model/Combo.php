@@ -10,6 +10,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Combo extends Model
 {
+    protected $fillable=['character_id', 'damage', 'stun', 'memo', 'user_id'];
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
