@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Combo extends Model
 {
-    protected $fillable=['character_id', 'damage', 'stun', 'memo', 'user_id'];
+    protected $fillable = ['character_id', 'damage', 'stun', 'memo', 'user_id'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -26,7 +26,7 @@ class Combo extends Model
     public function recipes()
     {
         return $this->hasMany('App\Model\Recipe');
-    }
+    }    /**
 
     /**
      * キャラクターの絞り込み
@@ -34,7 +34,8 @@ class Combo extends Model
      * @param $character_id キャラクターID
      * @return クエリービルドインスタンス
      */
-    public function scopeCharacter($query, $character_id) {
+    public function scopeCharacter($query, $character_id)
+    {
         return $query->where('character_id', $character_id);
     }
 }
