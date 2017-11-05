@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Model\Combo;
+use App\Model\ComboStatus;
 use App\Model\Recipe;
 use Config;
 
@@ -12,7 +13,6 @@ use Config;
  */
 class ComboService
 {
-
     /**
      * コンボ作成関数
      *
@@ -21,23 +21,20 @@ class ComboService
      */
     public function store(array $comboData): int
     {
-        $combo = new Combo();
-        $combo->character_id = $comboData['selectCharacterId'];
-        $combo->damage = $comboData['damage'];
-        $combo->stun = $comboData['stun'];
-        $combo->memo = $comboData['memo'];
-        $combo->user_id = $comboData['user_id'];
-        $combo->save();
+        // TODO: リクエストパラメータをcharacter_idにしてしまって良いかも？？
+        $comboData['character_id'] = $comboData['selectCharacterId'];
+        $combo = Combo::create($comboData);
 
         $comboId = $combo->id;
         foreach ($comboData['combo'] as $key => $value) {
-            $model = new Recipe();
-            $model->combo_id = $comboId;
-            $model->move_id = $value['id'];
-            $model->order = $key;
-            $model->save();
+            Recipe::create(['combo_id' => $comboId, 'move_id' => $value['id'], 'order' => $key]);
         }
-        return $combo->id;
+
+        foreach ($comboData['status'] ?? [] as $status_id) {
+            ComboStatus::create(['combo_id' => $comboId, 'status_id' => $status_id]);
+        }
+
+        return $comboId;
     }
 
     /**
