@@ -34,7 +34,7 @@ class ComboService
             ComboStatus::create(['combo_id' => $comboId, 'status_id' => $status_id]);
         }
 
-        return $combo->id;
+        return $comboId;
     }
 
     /**
