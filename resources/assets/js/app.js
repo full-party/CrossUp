@@ -1,4 +1,5 @@
 import Vue from 'vue';
+import store from './store';
 import router from './router';
 
 window.axios = require('axios');
@@ -11,4 +12,5 @@ window.axios.defaults.headers.common = {
 const app = new Vue({
     router,
     el: '#app',
+    store,
 });
