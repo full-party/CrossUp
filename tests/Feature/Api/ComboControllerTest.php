@@ -35,6 +35,18 @@ class ComboControllerTest extends TestCase
         $response->assertStatus($status);
     }
 
+    /**
+     * @dataProvider showDataProvider
+     * @param int $comboId
+     * @param int $status
+     */
+    public function testShow(int $comboId, int $status)
+    {
+        $this->withSession(['UserInfo' => [['id' => 1]]]);
+        $response = $this->json('GET', '/api/combos/' . $comboId);
+        $response->assertStatus($status);
+    }
+
     public function storeDataProvider()
     {
         return [
@@ -50,6 +62,13 @@ class ComboControllerTest extends TestCase
             [[], 200],
             [['character_id' => 1], 200],
             [['status' => [2]], 200],
+        ];
+    }
+
+    public function showDataProvider()
+    {
+        return [
+            [1, 200]
         ];
     }
 }

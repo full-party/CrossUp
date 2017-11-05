@@ -46,7 +46,7 @@ class ComboService
      */
     public function find(int $id, int $myUserId)
     {
-        $result = Combo::with('character', 'recipes.move')->find($id)->toArray();
+        $result = Combo::with('character', 'recipes.move', 'comboStatuses.status')->find($id)->toArray();
         $result['meter'] = $this->sumMeter($result['recipes']);
 
         // TODO: vuexを入れてフロントでユーザーIDを保持するようになったらいらないかも？
