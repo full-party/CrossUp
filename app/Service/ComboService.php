@@ -69,6 +69,11 @@ class ComboService
             $query = $query->character($params['characterId']);
         }
 
+        // コンボステータス絞り込み
+        if (isset($params['status'])) {
+            $query = $query->comboStatus($params['status']);
+        }
+
         // ソート
         $sort = Config::get('sort');
         if (isset($params['selectSortId']) && isset($sort[$params['selectSortId']])) {

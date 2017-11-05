@@ -2,6 +2,7 @@
 
 namespace App\Model;
 
+use DB;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -34,6 +35,22 @@ class Combo extends Model
     public function comboStatuses()
     {
         return $this->hasMany('App\Model\ComboStatus');
+    }
+
+    /**
+     * コンボステータス絞り込み
+     * @param $query
+     * @param array $statusIds
+     * @return mixed
+     */
+    public function scopeComboStatus($query, array $statusIds)
+    {
+        return $query->whereExists(function ($query) use ($statusIds) {
+            $query->select(DB::raw(1))
+                ->from('combo_statuses')
+                ->whereRaw('combo_statuses.combo_id = combos.id')
+                ->whereIn('status_id', $statusIds);
+        });
     }
 
     /**

@@ -49,6 +49,7 @@ class ComboControllerTest extends TestCase
         return [
             [[], 200],
             [['character_id' => 1], 200],
+            [['status' => [2]], 200],
         ];
     }
 }
