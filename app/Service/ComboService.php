@@ -14,22 +14,26 @@ use Config;
 class ComboService
 {
     /**
-     * コンボ作成関数
+     * コンボ登録・更新
      *
      * @param array $comboData コンボ登録データ
+     * @param int|null $comboId 更新の場合はidを渡す
      * @return int 作成したコンボID
      */
-    public function store(array $comboData): int
+    public function storeOrUpdate(array $comboData, int $comboId = null): int
     {
-        // TODO: リクエストパラメータをcharacter_idにしてしまって良いかも？？
-        $comboData['character_id'] = $comboData['selectCharacterId'];
-        $combo = Combo::create($comboData);
+        // コンボIDが設定されている場合は更新、レシピとステータスはDELETE・INSERTする。
+        if (is_null($comboId)) {
+            $comboId = Combo::create($comboData)->id;
+        } else {
+            Combo::find($comboId)->fill($comboData)->save();
+            Recipe::where('combo_id', $comboId)->delete();
+            ComboStatus::where('combo_id', $comboId)->delete();
+        }
 
-        $comboId = $combo->id;
         foreach ($comboData['combo'] as $key => $value) {
             Recipe::create(['combo_id' => $comboId, 'move_id' => $value['id'], 'order' => $key]);
         }
-
         foreach ($comboData['status'] ?? [] as $status_id) {
             ComboStatus::create(['combo_id' => $comboId, 'status_id' => $status_id]);
         }
@@ -46,7 +50,11 @@ class ComboService
      */
     public function find(int $id, int $myUserId)
     {
-        $result = Combo::with('character', 'recipes.move', 'comboStatuses.status')->find($id)->toArray();
+        $combo = Combo::with('character', 'recipes.move', 'comboStatuses.status')->find($id);
+        if (is_null($combo)) {
+            return [];
+        }
+        $result = $combo->toArray();
         $result['meter'] = $this->sumMeter($result['recipes']);
 
         // TODO: vuexを入れてフロントでユーザーIDを保持するようになったらいらないかも？
@@ -103,44 +111,15 @@ class ComboService
     /**
      * コンボ削除
      *
-     * @param $comboId コンボID
-     * @param $myUserId ユーザーID
+     * @param int $comboId コンボID
+     * @param int $myUserId ユーザーID
+     * @return bool|null
      */
     public function delete(int $comboId, int $myUserId) {
-        // レシピがコンボIDに紐付いているため先にレシピを削除する
+        // レシピとコンボステータスがコンボIDに紐付いているため先にレシピを削除する
         Recipe::where('combo_id', $comboId)->delete();
+        ComboStatus::where('combo_id', $comboId)->delete();
         return Combo::where('user_id', $myUserId)->find($comboId)->delete();
-    }
-
-    /**
-     * コンボ更新
-     *
-     * @param array newCombo 更新をする新しいコンボ情報
-     * @return int コンボID
-     */
-    public function update(array $newCombo): int
-    {
-        // 更新するコンボを取得
-        $comboId = $newCombo['id'];
-        // コントローラで取得した情報を利用したかったがComboService::findが配列を返すため
-        // 関数内で再度取得する
-        $oldCombo = Combo::with('character', 'recipes.move')->find($comboId);
-        // コンボの情報を更新
-        $oldCombo->damage = $newCombo['damage'];
-        $oldCombo->stun = $newCombo['stun'];
-        $oldCombo->memo = $newCombo['memo'];
-        // 更新
-        $oldCombo->save();
-        // レシピは削除して、再作成する
-        Recipe::where('combo_id', $comboId)->delete();
-        foreach ($newCombo['combo'] as $key => $value) {
-            $model = new Recipe();
-            $model->combo_id = $comboId;
-            $model->move_id = $value['id'];
-            $model->order = $key;
-            $model->save();
-        }
-        return $comboId;
     }
 
     /**

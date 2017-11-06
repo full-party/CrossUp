@@ -47,6 +47,30 @@ class ComboControllerTest extends TestCase
         $response->assertStatus($status);
     }
 
+    /**
+     * @dataProvider updateDataProvider
+     * @param array $params
+     * @param int $status
+     */
+    public function testUpdate(array $params, int $status)
+    {
+        $this->withSession(['UserInfo' => [['id' => 1]]]);
+        $response = $this->json('PUT', '/api/combos/' . $params['id'], $params);
+        $response->assertStatus($status);
+    }
+
+    /**
+     * @dataProvider deleteDataProvider
+     * @param int $comboId
+     * @param int $status
+     */
+    public function testDelete(int $comboId, int $status)
+    {
+        $this->withSession(['UserInfo' => [['id' => 1]]]);
+        $response = $this->json('DELETE', '/api/combos/' . $comboId);
+        $response->assertStatus($status);
+    }
+
     public function storeDataProvider()
     {
         return [
@@ -69,6 +93,24 @@ class ComboControllerTest extends TestCase
     {
         return [
             [1, 200]
+        ];
+    }
+
+    public function updateDataProvider()
+    {
+        return [
+            [['id'=>1, 'damage'=>999, 'stun'=>999, 'meter'=>3, 'memo' =>'test', 'combo' => [1 => ['id' => 1]], 'status' => [1,2]], 200],
+            [['id'=>1, 'damage'=>999, 'stun'=>999, 'meter'=>3, 'memo' =>'test', 'combo' => [1 => ['id' => 1]]], 200],
+            [['id'=>3, 'damage'=>999, 'stun'=>999, 'meter'=>3, 'memo' =>'test', 'combo' => [1 => ['id' => 1]]], 400],
+            [['id'=>1, 'damage'=>999, 'stun'=>999, 'meter'=>3], 422],
+        ];
+    }
+
+    public function deleteDataProvider()
+    {
+        return [
+            [1, 200],
+            [10, 400]
         ];
     }
 }

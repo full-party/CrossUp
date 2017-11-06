@@ -40,8 +40,9 @@ class ComboController extends Controller
             $comboData = $request->all();
             $UserInfo = Session::get('UserInfo');
             $comboData['user_id'] = $UserInfo[0]['id'];
+            $comboData['character_id'] = $comboData['selectCharacterId'];
             DB::transaction(function () use($comboData) {
-                return ComboService::store($comboData);
+                return ComboService::storeOrUpdate($comboData);
             });
         } catch (Throwable $t) {
             Log::error($t);
@@ -67,17 +68,19 @@ class ComboController extends Controller
     /**
      * コンボ更新API
      *
+     * @param int $comboId
      * @param ComboUpdate $request コンボ登録用リクエストパラメーター
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
      */
-    public function update(ComboUpdate $request)
+    public function update(int $comboId, ComboUpdate $request)
     {
         try {
             $newCombo = $request->all();
             $UserInfo = Session::get('UserInfo');
-            $oldCombo = ComboService::find($newCombo['id'], $UserInfo[0]['id']);
-            if ($oldCombo['myComboFlg']) {
-                DB::transaction(function () use($newCombo) {
-                    return ComboService::update($newCombo);
+            $oldCombo = ComboService::find($comboId, $UserInfo[0]['id']);
+            if (count($oldCombo) > 0 && $oldCombo['myComboFlg']) {
+                DB::transaction(function () use($newCombo, $comboId) {
+                    return ComboService::storeOrUpdate($newCombo, $comboId);
                 });
             } else {
                 return response(['message' => 'invalid combo id'], 400);
@@ -91,15 +94,15 @@ class ComboController extends Controller
     /**
      * コンボ削除API
      *
-     * @param $comboId コンボID
-     * @return 失敗時は500エラー,他人のコンボIDの場合は400エラー
+     * @param int $comboId コンボID
+     * @return 失敗時は500エラー ,他人のコンボIDの場合は400エラー
      */
     public function destroy(int $comboId)
     {
         try {
             $UserInfo = Session::get('UserInfo');
             $combo = ComboService::find($comboId, $UserInfo[0]['id']);
-            if ($combo['myComboFlg']) {
+            if (count($combo) > 0 && $combo['myComboFlg']) {
                 // 自分のコンボの場合削除する
                 DB::transaction(function () use($comboId, $UserInfo) {
                     return ComboService::delete($comboId, $UserInfo[0]['id']);
