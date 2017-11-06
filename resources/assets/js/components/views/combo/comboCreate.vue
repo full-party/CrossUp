@@ -1,7 +1,6 @@
 <template>
   <section>
     <h1>Combo Create</h1>
-    <h2>Game is {{gameTitle}}</h2>
     <form id="form">
       <h3 @click="charaModal = true">Choose Character</h3>
       <p>Now Select : {{Combo.selectCharacterName}}</p>
@@ -41,7 +40,6 @@
     <modal v-if="createModal" @close="createModal = false">
       <div slot="modal-contents">
         <h3>Create!</h3>
-        <p>Game : {{gameTitle}} / {{gameId}}</p>
         <p>Character : {{Combo.selectCharacterName}} / {{Combo.selectCharacterId}}</p>
         <p>Combo</p>
         <span v-for="move in Combo.combo">
@@ -93,12 +91,9 @@
     },
     created() {
       this.getCharacters();
-      this.getGame();
     },
     data() {
       return {
-        gameId: localStorage.getItem('gameId'),
-        gameTitle: '',
         characters: [],
         moves: [],
         charaModal: false,
@@ -116,16 +111,10 @@
       };
     },
     methods: {
-      getGame() {
-        axios.get('/api/games/' + this.gameId)
-        .then(res =>  {
-          this.gameTitle = res.data.name;
-        });
-      },
       getCharacters() {
         axios.get('/api/characters',{
           params: {
-            gameId: this.gameId,
+            gameId: this.$store.state.game.id,
           }
         })
         .then(res => {

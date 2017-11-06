@@ -6,7 +6,7 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    gameId: '',
+    game: {},
   },
   actions: actions,
   mutations: mutations,

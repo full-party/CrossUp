@@ -1,7 +1,6 @@
 <template>
   <section>
     <h1>Combo List</h1>
-    <h2>{{gameTitle}}</h2>
     <ul>
       <li v-for="combo in combos">
         <router-link :to="'/combos/' + combo.id">
@@ -81,7 +80,6 @@
         this.getCombos();
         this.getCharacters();
         this.getSorts();
-        this.getGame();
       },
     data() {
       return {
@@ -107,10 +105,6 @@
           characterId: '',
           moveId: '',
         },
-        // 選択しているゲームID
-        gameId: localStorage.getItem('gameId'),
-        // 選択しているゲーム名
-        gameTitle: ''
       }
     },
     watch: {
@@ -159,13 +153,6 @@
       }
     },
     methods: {
-      // ゲーム名取得関数
-      getGame() {
-        axios.get('/api/games/' + this.gameId)
-        .then(res =>  {
-          this.gameTitle = res.data.name;
-        })
-      },
       // コンボ取得関数
       getCombos() {
         axios.get('/api/combos',{
@@ -179,7 +166,7 @@
       getCharacters() {
         axios.get('/api/characters',{
           params: {
-            gameId: this.gameId
+            gameId: this.$store.state.game.id,
           }
         })
         .then(res =>  {

@@ -1,5 +1,6 @@
 export default {
-  setGameId (context, gameId) {
-    context.commit('SET_GAME_ID',gameId);
+  setGame (context, game) {
+    localStorage.setItem('game', JSON.stringify(game));
+    context.commit('SET_GAME', game);
   },
 }

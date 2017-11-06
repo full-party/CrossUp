@@ -1,5 +1,5 @@
 export default {
-  SET_GAME_ID (state, gameId) {
-    state.gameId = gameId;
+  SET_GAME (state, game) {
+    state.game = game;
   },
 }
