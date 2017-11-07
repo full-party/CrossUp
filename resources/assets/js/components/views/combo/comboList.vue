@@ -2,17 +2,7 @@
   <section>
     <h1>Combo List</h1>
     <ul>
-      <li v-for="combo in combos">
-        <router-link :to="'/combos/' + combo.id">
-          <p>Damege : {{combo.damage}}</p>
-          <p>Stun : {{combo.stun}}</p>
-          <p>Memo : {{combo.memo}}</p>
-          <p>Character : {{combo.character.name}}</p>
-          <p>Meter : {{combo.meter}}</p>
-          <p>First Move : {{combo.recipes[0].move.name}}</p>
-          <p>End Move : {{combo.recipes[combo.recipes.length - 1].move.name}}</p>
-        </router-link>
-      </li>
+      <comboCassette v-for="combo in combos" :key="combo.id" :combo="combo"></comboCassette>
     </ul>
     <fab @click="showModal = true"></fab>
     <modal v-if="showModal">
@@ -67,6 +57,10 @@
   h1 {
     color: red;
   }
+  ul {
+    margin: 0;
+    padding: 0;
+  }
 </style>
 
 <script>
@@ -75,6 +69,7 @@
       fab: require('../../common/button/floating-action-button.vue'),
       modal: require('../../common/modal.vue'),
       accordionBox: require('../../common/box/accordion-box.vue'),
+      comboCassette: require('../../common/combo-cassette.vue'),
     },
     created() {
         this.getCombos();
