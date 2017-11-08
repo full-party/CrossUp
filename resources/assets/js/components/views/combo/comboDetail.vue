@@ -20,7 +20,7 @@
       </section>
       <section class="combo__memo">
         <p>メモ</p>
-        <p>Memo : {{combo.memo}}</p>
+        <p>{{combo.memo}}</p>
       </section>
     </section>
     <section class="menu">
