@@ -24,9 +24,18 @@
       </section>
     </section>
     <section class="menu">
-      <router-link class="back-link" to="/combos">戻る</router-link>
-      <router-link class="combo__edit-link" :to="'/combos/' + $route.params.id + '/edit'">編集</router-link>
-      <div class="comob__delete-link" @click="delCombo" v-if="combo.myComboFlg">削除</div>
+      <router-link class="back-link" to="/combos">
+        <img src="/img/left-arrow.png" alt="left arrow">
+        戻る
+      </router-link>
+      <router-link class="combo__edit-link" :to="'/combos/' + $route.params.id + '/edit'">
+        <img src="/img/pen.png" alt="pen">
+        編集
+      </router-link>
+      <div class="comob__delete-link" @click="delCombo" v-if="combo.myComboFlg">
+        <img src="/img/garbage.png" alt="garbage">
+        削除
+      </div>
     </section>
   </div>
 </template>
