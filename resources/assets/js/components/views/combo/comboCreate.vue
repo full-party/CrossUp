@@ -1,9 +1,21 @@
 <template>
   <section>
-    <h1>Combo Create</h1>
     <form id="form">
-      <h3 @click="charaModal = true">Choose Character</h3>
-      <p>Now Select : {{Combo.selectCharacterName}}</p>
+      <section class="combo__main-info">
+        <div @click="charaModal = true" class="combo__character">
+          <img src="/img/character.png" alt="character image">
+          <p class="combo__character__name">{{Combo.selectCharacterName}}</p>
+        </div>
+        <p class="combo__damage">
+          ダメージ : <input type="number" v-model="Combo.damage" placeholder="Input Total Damage">
+        </p>
+        <p class="combo__stun">
+          スタン : <input type="number" v-model="Combo.stun" placeholder="Input Total Stun">
+        </p>
+        <p class="combo__meter">
+          メーター : <input type="number" v-model="Combo.meter" placeholder="Input Total Meter">
+        </p>
+      </section>
       <modal v-if="charaModal" @close="charaModalClose">
         <div slot="modal-contents">
           <p>Now Select : {{Combo.selectCharacterName}}</p>
@@ -15,27 +27,28 @@
           <button @click.prevent="charaModalClose">OK</button>
         </div>
       </modal>
-      <h3>Input Combo</h3>
-      <span v-for="move in Combo.combo">
-        {{move.name}}
-      </span>
+      <section class="combo__recipes">
+        <p>コンボ</p>
+        <ol>
+          <li v-for="move in Combo.combo">
+            {{move.name}}
+          </li>
+        </ol>
+      </section>
+      <section class="combo__move__input">
+        <span>コンボ入力</span>
+        <button @click.prevent="allDelete">All Delete</button>
+        <button @click.prevent="oneDelete">One Delete</button>
+        <div class="moveList">
+          <div v-for="move in moves" class="move" :move-id="move.id" @click="setMove(move)">
+            {{move.name}}
+          </div>
       </div>
-      <div class="moveList">
-        <div v-for="move in moves" class="move" :move-id="move.id" @click="setMove(move)">
-          {{move.name}}
-        </div>
-      </div>
-      <button @click.prevent="allDelete">All Delete</button>
-      <button @click.prevent="oneDelete">One Delete</button>
-      <h3>Input Total Damage</h3>
-      <input type="number" v-model="Combo.damage" placeholder="Input Total Damage">
-      <h3>Input Total Stun</h3>
-      <input type="number" v-model="Combo.stun" placeholder="Input Total Stun">
-      <h3>Input Total Meter</h3>
-      <input type="number" v-model="Combo.meter" placeholder="Input Total Meter">
-      <h3>Input Memo</h3>
-      <textarea v-model="Combo.memo" placeholder="Input Memo"></textarea>
-      <input type="submit" value="Create" v-on:click.prevent="create">
+      </section>
+      <section class="combo__memo">
+        <p>メモ</p>
+        <textarea v-model="Combo.memo" placeholder="Input Memo"></textarea>
+      </section>
     </form>
     <modal v-if="createModal" @close="createModal = false">
       <div slot="modal-contents">
@@ -69,7 +82,59 @@
   textarea {
     width: 100%;
   }
-
+  ol {
+    list-style: none;
+    padding: 0;
+  }
+  p {
+    margin: 0;
+  }
+  li {
+    display: inline-block;
+  }
+  li + li:before{
+      content: " > ";
+      padding: 0 10px;
+  }
+  #form {
+    padding-top: 20px;
+  }
+  .combo__main-info {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    grid-template-rows: repeat(3, 1fr);
+    border: 1px solid #D0D0D0;
+    background: #fff;
+    padding: 10px;
+    margin-bottom: 15px;
+  }
+  .combo__character {
+    grid-row: 1 / 4;
+    grid-column: 1 / 2;
+    padding-right: 15px;
+    text-align: center;
+  }
+  .combo__damage {
+    grid-row: 1 / 2;
+    grid-column: 2 / 3;
+  }
+  .combo__stun {
+    grid-row: 2 / 3;
+    grid-column: 2 / 3;
+  }
+  .combo__meter {
+    grid-row: 3 / 4;
+    grid-column: 2 / 3;
+  }
+  .combo__character__name {
+    padding: 10px 0;
+  }
+  .combo__move__input, .combo__recipes, .combo__memo {
+    border: 1px solid #D0D0D0;
+    background: #fff;
+    padding: 10px;
+    margin-bottom: 15px;
+  }
   .moveList {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
