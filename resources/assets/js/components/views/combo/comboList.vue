@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section class="combo-list">
     <h1>Combo List</h1>
     <ul>
       <comboCassette v-for="combo in combos" :key="combo.id" :combo="combo"></comboCassette>
@@ -60,6 +60,9 @@
   ul {
     margin: 0;
     padding: 0;
+  }
+  .combo-list {
+    padding: 0 6px;
   }
 </style>
 
