@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section class="combo__create">
     <form id="form">
       <section class="combo__main-info">
         <div @click="charaModal = true" class="combo__character">
@@ -36,14 +36,18 @@
         </ol>
       </section>
       <section class="combo__move__input">
-        <span>コンボ入力</span>
-        <button @click.prevent="allDelete">All Delete</button>
-        <button @click.prevent="oneDelete">One Delete</button>
+        <div class="combo__move__input__header">
+          <span class="combo__move__input__text">コンボ入力</span>
+          <div class="combo__move__input__menu">
+            <button @click.prevent="oneDelete" class="combo__move__input__one-delete">1つ削除</button>
+            <button @click.prevent="allDelete" class="combo__move__input__all-delete">全て削除</button>
+          </div>
+        </div>
         <div class="moveList">
           <div v-for="move in moves" class="move" :move-id="move.id" @click="setMove(move)">
-            {{move.name}}
+            <span class="move__text">{{move.name}}</span>
           </div>
-      </div>
+        </div>
       </section>
       <section class="combo__memo">
         <p>メモ</p>
@@ -71,7 +75,14 @@
         <h3>Error</h3>
       </div>
     </modal>
-    <router-link to="/combos">back combo list</router-link>
+    <section class="menu">
+      <div class="menu__back">
+        <router-link to="/combos" class="menu__back__button">キャンセル</router-link>
+      </div>
+      <div class="menu__create">
+        <input type="submit" value="Create" v-on:click.prevent="create" class="menu__create__button">
+      </div>
+    </section>
   </section>
 </template>
 
@@ -81,6 +92,7 @@
   }
   textarea {
     width: 100%;
+    border: 1px solid black;
   }
   ol {
     list-style: none;
@@ -95,6 +107,9 @@
   li + li:before{
       content: " > ";
       padding: 0 10px;
+  }
+  .combo__create {
+    padding-bottom: 20px;
   }
   #form {
     padding-top: 20px;
@@ -135,18 +150,69 @@
     padding: 10px;
     margin-bottom: 15px;
   }
-  .moveList {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
-    grid-column-gap: 10px;
-    grid-row-gap: 10px;
+  .combo__move__input__header {
+    padding-bottom: 10px;
   }
-
+  .combo__move__input__header:after {
+    content:" ";
+    display:block;
+    clear:both;
+  }
+  .combo__move__input__text {
+    float: left;
+  }
+  .combo__move__input__menu {
+    display: inline-block;
+    float: right;
+  }
+  .combo__move__input__one-delete, .combo__move__input__all-delete {
+    background: #E6E6E6;
+    border: none;
+    height: 26px;
+    padding: 0;
+    width: 96px;
+    margin: auto;
+  }
   .move {
-    background-color: #00AC0D;
-    text-align: center;
+    display: inline-block;
+    padding: 7px 5px;
   }
-
+  .move__text {
+    background-color: #00AC0D;
+    padding: 5px 11px;
+  }
+  .menu {
+    display: grid;
+    grid-template-columns: 40% 60%;
+    grid-template-rows: 1fr;
+    text-align: center;
+    height: 40px;
+    line-height: 40px;
+  }
+  .menu__back {
+    grid-row: 1 / 2;
+    grid-column: 1 / 2;
+  }
+  .menu__back__button {
+    background: #E6E6E6;
+    border: none;
+    height: 40px;
+    padding: 0;
+    width: 100px;
+    display: block;
+    margin: auto;
+  }
+  .menu__create {
+    grid-row: 1 / 2;
+    grid-column: 2 / 3;
+  }
+  .menu__create__button {
+    background: #00CDFF;
+    border: none;
+    height: 40px;
+    padding: 0;
+    width: 150px;
+  }
 </style>
 
 <script>
