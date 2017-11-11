@@ -74,7 +74,7 @@ class ComboControllerTest extends TestCase
     public function storeDataProvider()
     {
         return [
-            [['selectCharacterId' => 1, 'damage' => 100, 'stun' => 200, 'meter' => 0, 'memo' => 'test' , 'combo' => [1 => ['id' => 1]], 'status' => [1,2]], 200],
+            [['selectCharacterId' => 1, 'damage' => 100, 'stun' => 200, 'meter' => 0, 'memo' => 'test' , 'combo' => [1 => ['id' => 1]], 'statuses' => [1,2]], 200],
             [['selectCharacterId' => 1, 'damage' => 100, 'stun' => 200, 'meter' => 0, 'memo' => 'test' , 'combo' => [1 => ['id' => 1]]], 200],
             [['damage' => 100, 'stun' => 200, 'meter' => 0, 'memo' => 'test' , 'combo' => [1 => ['id' => 1]]], 422]
         ];
@@ -99,7 +99,7 @@ class ComboControllerTest extends TestCase
     public function updateDataProvider()
     {
         return [
-            [['id'=>1, 'damage'=>999, 'stun'=>999, 'meter'=>3, 'memo' =>'test', 'combo' => [1 => ['id' => 1]], 'status' => [1,2]], 200],
+            [['id'=>1, 'damage'=>999, 'stun'=>999, 'meter'=>3, 'memo' =>'test', 'combo' => [1 => ['id' => 1]], 'statuses' => [1,2]], 200],
             [['id'=>1, 'damage'=>999, 'stun'=>999, 'meter'=>3, 'memo' =>'test', 'combo' => [1 => ['id' => 1]]], 200],
             [['id'=>3, 'damage'=>999, 'stun'=>999, 'meter'=>3, 'memo' =>'test', 'combo' => [1 => ['id' => 1]]], 400],
             [['id'=>1, 'damage'=>999, 'stun'=>999, 'meter'=>3], 422],

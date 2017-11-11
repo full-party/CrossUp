@@ -3,7 +3,6 @@
 namespace App\Service;
 
 use App\Model\Combo;
-use App\Model\ComboStatus;
 use App\Model\Recipe;
 use Config;
 
@@ -14,31 +13,49 @@ use Config;
 class ComboService
 {
     /**
-     * コンボ登録・更新
+     * コンボ登録
      *
      * @param array $comboData コンボ登録データ
-     * @param int|null $comboId 更新の場合はidを渡す
      * @return int 作成したコンボID
      */
-    public function storeOrUpdate(array $comboData, int $comboId = null): int
+    public function store(array $comboData): int
     {
-        // コンボIDが設定されている場合は更新、レシピとステータスはDELETE・INSERTする。
-        if (is_null($comboId)) {
-            $comboId = Combo::create($comboData)->id;
-        } else {
-            Combo::find($comboId)->fill($comboData)->save();
-            Recipe::where('combo_id', $comboId)->delete();
-            ComboStatus::where('combo_id', $comboId)->delete();
+        $combo = Combo::create($comboData);
+
+        // コンボレシピとステータスはDELETE・INSERTする
+        // TODO コンボレシピもstatusと同じ記述にリファクタできる
+        foreach ($comboData['combo'] as $key => $value) {
+            Recipe::create(['combo_id' => $combo->id, 'move_id' => $value['id'], 'order' => $key]);
         }
 
+        if (isset($comboData['statuses'])) {
+            $combo->statuses()->attach($comboData['statuses']);
+        }
+
+        return $combo->id;
+    }
+
+    /**
+     * コンボ更新
+     *
+     * @param array $comboData
+     * @param int $comboId
+     * @return int|mixed
+     */
+    public function update(array $comboData, int $comboId)
+    {
+        $combo = Combo::find($comboId);
+        $combo->fill($comboData)->save();
+
+        // TODO コンボレシピもstatusと同じ記述にリファクタできる
+        Recipe::where('combo_id', $comboId)->delete();
         foreach ($comboData['combo'] as $key => $value) {
             Recipe::create(['combo_id' => $comboId, 'move_id' => $value['id'], 'order' => $key]);
         }
-        foreach ($comboData['status'] ?? [] as $status_id) {
-            ComboStatus::create(['combo_id' => $comboId, 'status_id' => $status_id]);
-        }
 
-        return $comboId;
+        $combo->statuses()->sync($comboData['statuses'] ?? []);
+
+        return $combo->id;
     }
 
     /**
@@ -50,7 +67,7 @@ class ComboService
      */
     public function find(int $id, int $myUserId)
     {
-        $combo = Combo::with('character', 'recipes.move', 'comboStatuses.status')->find($id);
+        $combo = Combo::with('character', 'recipes.move', 'statuses')->find($id);
         if (is_null($combo)) {
             return [];
         }
@@ -91,7 +108,7 @@ class ComboService
         }
 
         // コンボ取得
-        $resultList = $query->with(['recipes.move', 'comboStatuses.status'])->get()->toArray();
+        $resultList = $query->with(['recipes.move', 'statuses'])->get()->toArray();
 
         // 各コンボの技ゲージの合計値を計算し追加
         foreach ($resultList as &$result) {
@@ -100,7 +117,7 @@ class ComboService
 
         // 始動技の絞り込み
         if (isset($params['moveId']) && !is_null($params['moveId']) && is_numeric($params['moveId'])) {
-            $resultList = array_filter($resultList, function($result) use($params) {
+            $resultList = array_filter($resultList, function ($result) use ($params) {
                 return strcmp($result['recipes'][0]['move_id'], $params['moveId']) === 0;
             });
         }
@@ -115,11 +132,13 @@ class ComboService
      * @param int $myUserId ユーザーID
      * @return bool|null
      */
-    public function delete(int $comboId, int $myUserId) {
+    public function delete(int $comboId, int $myUserId)
+    {
         // レシピとコンボステータスがコンボIDに紐付いているため先にレシピを削除する
+        $combo = Combo::where('user_id', $myUserId)->find($comboId);
         Recipe::where('combo_id', $comboId)->delete();
-        ComboStatus::where('combo_id', $comboId)->delete();
-        return Combo::where('user_id', $myUserId)->find($comboId)->delete();
+        $combo->statuses()->detach();
+        return $combo->delete();
     }
 
     /**

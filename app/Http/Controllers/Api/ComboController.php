@@ -42,7 +42,7 @@ class ComboController extends Controller
             $comboData['user_id'] = $UserInfo[0]['id'];
             $comboData['character_id'] = $comboData['selectCharacterId'];
             DB::transaction(function () use($comboData) {
-                return ComboService::storeOrUpdate($comboData);
+                return ComboService::store($comboData);
             });
         } catch (Throwable $t) {
             Log::error($t);
@@ -80,7 +80,7 @@ class ComboController extends Controller
             $oldCombo = ComboService::find($comboId, $UserInfo[0]['id']);
             if (count($oldCombo) > 0 && $oldCombo['myComboFlg']) {
                 DB::transaction(function () use($newCombo, $comboId) {
-                    return ComboService::storeOrUpdate($newCombo, $comboId);
+                    return ComboService::update($newCombo, $comboId);
                 });
             } else {
                 return response(['message' => 'invalid combo id'], 400);

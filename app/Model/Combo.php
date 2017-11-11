@@ -38,6 +38,14 @@ class Combo extends Model
     }
 
     /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function statuses()
+    {
+        return $this->belongsToMany('App\Model\Status')->withTimestamps();
+    }
+
+    /**
      * コンボステータス絞り込み
      * @param $query
      * @param array $statusIds
@@ -47,8 +55,8 @@ class Combo extends Model
     {
         return $query->whereExists(function ($query) use ($statusIds) {
             $query->select(DB::raw(1))
-                ->from('combo_statuses')
-                ->whereRaw('combo_statuses.combo_id = combos.id')
+                ->from('combo_status')
+                ->whereRaw('combo_status.combo_id = combos.id')
                 ->whereIn('status_id', $statusIds);
         });
     }

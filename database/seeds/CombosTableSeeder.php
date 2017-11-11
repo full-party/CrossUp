@@ -14,12 +14,13 @@ class CombosTableSeeder extends Seeder
     {
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
         DB::table('combos')->truncate();
+        DB::table('combo_status')->truncate();
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
         $list = [
             // リュウ
             1 => [
-                [130, 150, '基本コンボ', 1],
+                [130, 150, '基本コンボ', 1, [1, 2]],
             ],
         ];
         foreach ($list as $characterId => $combos) {
@@ -31,6 +32,8 @@ class CombosTableSeeder extends Seeder
                 $model->memo = $combo[2];
                 $model->user_id = $combo[3];
                 $model->save();
+
+                $model->statuses()->attach($combo[4]);
             }
         }
     }
