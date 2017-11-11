@@ -36,29 +36,6 @@ class ComboService
     }
 
     /**
-     * コンボ更新
-     *
-     * @param array $comboData
-     * @param int $comboId
-     * @return int|mixed
-     */
-    public function update(array $comboData, int $comboId)
-    {
-        $combo = Combo::find($comboId);
-        $combo->fill($comboData)->save();
-
-        // TODO コンボレシピもstatusと同じ記述にリファクタできる
-        Recipe::where('combo_id', $comboId)->delete();
-        foreach ($comboData['combo'] as $key => $value) {
-            Recipe::create(['combo_id' => $comboId, 'move_id' => $value['id'], 'order' => $key]);
-        }
-
-        $combo->statuses()->sync($comboData['statuses'] ?? []);
-
-        return $combo->id;
-    }
-
-    /**
      * コンボIDでコンボを検索して返す
      *
      * @param int $id コンボのID
@@ -139,6 +116,29 @@ class ComboService
         Recipe::where('combo_id', $comboId)->delete();
         $combo->statuses()->detach();
         return $combo->delete();
+    }
+
+    /**
+     * コンボ更新
+     *
+     * @param array $comboData
+     * @param int $comboId
+     * @return int|mixed
+     */
+    public function update(array $comboData, int $comboId)
+    {
+        $combo = Combo::find($comboId);
+        $combo->fill($comboData)->save();
+
+        // TODO コンボレシピもstatusと同じ記述にリファクタできる
+        Recipe::where('combo_id', $comboId)->delete();
+        foreach ($comboData['combo'] as $key => $value) {
+            Recipe::create(['combo_id' => $comboId, 'move_id' => $value['id'], 'order' => $key]);
+        }
+
+        $combo->statuses()->sync($comboData['statuses'] ?? []);
+
+        return $combo->id;
     }
 
     /**
