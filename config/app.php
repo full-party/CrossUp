@@ -185,6 +185,7 @@ return [
         App\Providers\ComboServiceProvider::class,
         App\Providers\MoveServiceProvider::class,
         App\Providers\CharacterServiceProvider::class,
+        App\Providers\Combos\StatusServiceProvider::class,
     ],
 
     /*
@@ -239,6 +240,7 @@ return [
         'ComboService' => App\Facades\ComboService::class,
         'MoveService' => App\Facades\MoveService::class,
         'CharacterService' => App\Facades\CharacterService::class,
+        'CombosStatusService' => App\Facades\Combos\StatusService::class,
     ],
 
 ];
