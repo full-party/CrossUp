@@ -8,8 +8,17 @@ use CombosStatusService;
 use Log;
 use Throwable;
 
+/**
+ * Class StatusController
+ * @package App\Http\Controllers\Api\Combos
+ */
 class StatusController extends Controller
 {
+    /**
+     * コンボステータス一覧取得
+     * @param StatusIndex $request
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
+     */
     public function index(StatusIndex $request)
     {
         try {
