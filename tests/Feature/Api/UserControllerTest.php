@@ -20,7 +20,7 @@ class UserControllerTest extends TestCase
     {
         $this->createTestUser();
 
-        $this->withSession(['UserInfo' => [['id' => $userId]]]);
+        $this->login($userId);
         $response = $this->json('PUT', '/api/users/1', $params);
         $response->assertStatus($status);
     }

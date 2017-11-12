@@ -12,6 +12,7 @@ class CharacterControllerTest extends TestCase
 {
     public function testIndexGameId1()
     {
+        $this->login();
         $response = $this->json('GET', '/api/characters/?gameId=1');
         $response->assertStatus(200);
         $response->assertJson([
@@ -25,6 +26,7 @@ class CharacterControllerTest extends TestCase
 
     public function testIndexGameId2()
     {
+        $this->login();
         $response = $this->json('GET', '/api/characters/?gameId=2');
         $response->assertStatus(200);
         $response->assertJson([
@@ -38,6 +40,7 @@ class CharacterControllerTest extends TestCase
 
     public function testValidatorGameId3()
     {
+        $this->login();
         $response = $this->json('GET', '/api/characters/?gameId=3');
         $response->assertStatus(400);
         $response->assertJson([
@@ -47,6 +50,7 @@ class CharacterControllerTest extends TestCase
 
     public function testValidatorGameIdNoNum()
     {
+        $this->login();
         $response = $this->json('GET', '/api/characters/?gameId=a');
         $response->assertStatus(400);
         $response->assertJson([
@@ -56,6 +60,7 @@ class CharacterControllerTest extends TestCase
 
     public function testValidatorNoGameId()
     {
+        $this->login();
         $response = $this->json('GET', '/api/characters/');
         $response->assertStatus(400);
         $response->assertJson([

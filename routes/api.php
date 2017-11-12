@@ -17,12 +17,16 @@ Route::get('sortList',  function() {
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+
 Route::post('login', 'Api\AuthController@login');
-Route::post('logout', 'Api\AuthController@logout');
 Route::post('users', 'Api\AuthController@store');
-Route::resource('users', 'Api\UserController', ['only' => ['update']]);
-Route::resource('games', 'Api\GameController', ['only' => ['index', 'show']]);
-Route::resource('combos/statuses', 'Api\Combos\StatusController', ['only' => ['index']]);
-Route::resource('combos', 'Api\ComboController', ['only' => ['index', 'store', 'show', 'update', 'destroy']]);
-Route::resource('moves', 'Api\MoveController', ['only' => ['index']]);
-Route::resource('characters', 'Api\CharacterController', ['only' => ['index', 'show']]);
+
+Route::group(['middleware' => 'login:api'], function () {
+    Route::post('logout', 'Api\AuthController@logout');
+    Route::resource('users', 'Api\UserController', ['only' => ['update']]);
+    Route::resource('games', 'Api\GameController', ['only' => ['index', 'show']]);
+    Route::resource('combos/statuses', 'Api\Combos\StatusController', ['only' => ['index']]);
+    Route::resource('combos', 'Api\ComboController', ['only' => ['index', 'store', 'show', 'update', 'destroy']]);
+    Route::resource('moves', 'Api\MoveController', ['only' => ['index']]);
+    Route::resource('characters', 'Api\CharacterController', ['only' => ['index', 'show']]);
+});

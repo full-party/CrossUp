@@ -18,7 +18,7 @@ class ComboControllerTest extends TestCase
      */
     public function testStore(array $params, int $status)
     {
-        $this->withSession(['UserInfo' => [['id' => 1]]]);
+        $this->login();
         $response = $this->json('POST', '/api/combos', $params);
         $response->assertStatus($status);
     }
@@ -30,7 +30,7 @@ class ComboControllerTest extends TestCase
      */
     public function testIndex(array $params, int $status)
     {
-        $this->withSession(['UserInfo' => [['id' => 1]]]);
+        $this->login();
         $response = $this->json('GET', '/api/combos', $params);
         $response->assertStatus($status);
     }
@@ -42,7 +42,7 @@ class ComboControllerTest extends TestCase
      */
     public function testShow(int $comboId, int $status)
     {
-        $this->withSession(['UserInfo' => [['id' => 1]]]);
+        $this->login();
         $response = $this->json('GET', '/api/combos/' . $comboId);
         $response->assertStatus($status);
     }
@@ -54,7 +54,7 @@ class ComboControllerTest extends TestCase
      */
     public function testUpdate(array $params, int $status)
     {
-        $this->withSession(['UserInfo' => [['id' => 1]]]);
+        $this->login();
         $response = $this->json('PUT', '/api/combos/' . $params['id'], $params);
         $response->assertStatus($status);
     }
@@ -66,7 +66,7 @@ class ComboControllerTest extends TestCase
      */
     public function testDelete(int $comboId, int $status)
     {
-        $this->withSession(['UserInfo' => [['id' => 1]]]);
+        $this->login();
         $response = $this->json('DELETE', '/api/combos/' . $comboId);
         $response->assertStatus($status);
     }
