@@ -3,7 +3,6 @@
 namespace App\Service;
 
 use App\Model\Combo;
-use App\Model\ComboStatus;
 use App\Model\Recipe;
 use Config;
 
@@ -14,27 +13,26 @@ use Config;
 class ComboService
 {
     /**
-     * コンボ作成関数
+     * コンボ登録
      *
      * @param array $comboData コンボ登録データ
      * @return int 作成したコンボID
      */
     public function store(array $comboData): int
     {
-        // TODO: リクエストパラメータをcharacter_idにしてしまって良いかも？？
-        $comboData['character_id'] = $comboData['selectCharacterId'];
         $combo = Combo::create($comboData);
 
-        $comboId = $combo->id;
+        // コンボレシピとステータスはDELETE・INSERTする
+        // TODO コンボレシピもstatusと同じ記述にリファクタできる
         foreach ($comboData['combo'] as $key => $value) {
-            Recipe::create(['combo_id' => $comboId, 'move_id' => $value['id'], 'order' => $key]);
+            Recipe::create(['combo_id' => $combo->id, 'move_id' => $value['id'], 'order' => $key]);
         }
 
-        foreach ($comboData['status'] ?? [] as $status_id) {
-            ComboStatus::create(['combo_id' => $comboId, 'status_id' => $status_id]);
+        if (isset($comboData['statuses'])) {
+            $combo->statuses()->attach($comboData['statuses']);
         }
 
-        return $comboId;
+        return $combo->id;
     }
 
     /**
@@ -46,7 +44,11 @@ class ComboService
      */
     public function find(int $id, int $myUserId)
     {
-        $result = Combo::with('character', 'recipes.move', 'comboStatuses.status')->find($id)->toArray();
+        $combo = Combo::with('character', 'recipes.move', 'statuses')->find($id);
+        if (is_null($combo)) {
+            return [];
+        }
+        $result = $combo->toArray();
         $result['meter'] = $this->sumMeter($result['recipes']);
 
         // TODO: vuexを入れてフロントでユーザーIDを保持するようになったらいらないかも？
@@ -83,7 +85,7 @@ class ComboService
         }
 
         // コンボ取得
-        $resultList = $query->with(['recipes.move', 'comboStatuses.status'])->get()->toArray();
+        $resultList = $query->with(['recipes.move', 'statuses'])->get()->toArray();
 
         // 各コンボの技ゲージの合計値を計算し追加
         foreach ($resultList as &$result) {
@@ -92,7 +94,7 @@ class ComboService
 
         // 始動技の絞り込み
         if (isset($params['moveId']) && !is_null($params['moveId']) && is_numeric($params['moveId'])) {
-            $resultList = array_filter($resultList, function($result) use($params) {
+            $resultList = array_filter($resultList, function ($result) use ($params) {
                 return strcmp($result['recipes'][0]['move_id'], $params['moveId']) === 0;
             });
         }
@@ -103,44 +105,40 @@ class ComboService
     /**
      * コンボ削除
      *
-     * @param $comboId コンボID
-     * @param $myUserId ユーザーID
+     * @param int $comboId コンボID
+     * @param int $myUserId ユーザーID
+     * @return bool|null
      */
-    public function delete(int $comboId, int $myUserId) {
-        // レシピがコンボIDに紐付いているため先にレシピを削除する
+    public function delete(int $comboId, int $myUserId)
+    {
+        // レシピとコンボステータスがコンボIDに紐付いているため先にレシピを削除する
+        $combo = Combo::where('user_id', $myUserId)->find($comboId);
         Recipe::where('combo_id', $comboId)->delete();
-        return Combo::where('user_id', $myUserId)->find($comboId)->delete();
+        $combo->statuses()->detach();
+        return $combo->delete();
     }
 
     /**
      * コンボ更新
      *
-     * @param array newCombo 更新をする新しいコンボ情報
-     * @return int コンボID
+     * @param array $comboData
+     * @param int $comboId
+     * @return int|mixed
      */
-    public function update(array $newCombo): int
+    public function update(array $comboData, int $comboId)
     {
-        // 更新するコンボを取得
-        $comboId = $newCombo['id'];
-        // コントローラで取得した情報を利用したかったがComboService::findが配列を返すため
-        // 関数内で再度取得する
-        $oldCombo = Combo::with('character', 'recipes.move')->find($comboId);
-        // コンボの情報を更新
-        $oldCombo->damage = $newCombo['damage'];
-        $oldCombo->stun = $newCombo['stun'];
-        $oldCombo->memo = $newCombo['memo'];
-        // 更新
-        $oldCombo->save();
-        // レシピは削除して、再作成する
+        $combo = Combo::find($comboId);
+        $combo->fill($comboData)->save();
+
+        // TODO コンボレシピもstatusと同じ記述にリファクタできる
         Recipe::where('combo_id', $comboId)->delete();
-        foreach ($newCombo['combo'] as $key => $value) {
-            $model = new Recipe();
-            $model->combo_id = $comboId;
-            $model->move_id = $value['id'];
-            $model->order = $key;
-            $model->save();
+        foreach ($comboData['combo'] as $key => $value) {
+            Recipe::create(['combo_id' => $comboId, 'move_id' => $value['id'], 'order' => $key]);
         }
-        return $comboId;
+
+        $combo->statuses()->sync($comboData['statuses'] ?? []);
+
+        return $combo->id;
     }
 
     /**
