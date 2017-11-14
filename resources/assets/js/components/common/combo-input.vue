@@ -1,7 +1,7 @@
 <template>
   <form id="form">
     <section class="combo__main-info">
-      <div @click="charaModal = true" class="combo__character">
+      <div @click="charaModalOpen" class="combo__character">
         <img src="/img/character.png" alt="character image">
         <p class="combo__character__name">{{Combo.selectCharacterName}}</p>
       </div>
@@ -153,6 +153,10 @@
         type: Object,
         required: true
       },
+      // trueの場合キャラクター選択ができない
+      disabledSelectCharacter: {
+        type: Boolean,
+      }
     },
     created() {
       this.getCharacters();
@@ -161,7 +165,20 @@
       return {
         characters: [],
         charaModal: false,
-        moves: []
+        moves: [],
+        // watchでは変更前の値が取得できないため定義
+        nowSelectCharacterId: ''
+      }
+    },
+    watch: {
+      Combo: {
+        handler: function() {
+          // キャラクターが選択されたら技を取得する
+          if (this.Combo.character_id === this.nowSelectCharacterId) {return;}
+          this.nowSelectCharacterId = this.Combo.character_id;
+          this.getMove(this.Combo.character_id);
+        },
+        deep: true,
       }
     },
     methods: {
@@ -175,6 +192,10 @@
           this.characters = res.data.data;
         });
       },
+      charaModalOpen() {
+        if(this.disabledSelectCharacter) {return;}
+        this.charaModal = true;
+      },
       charaModalClose() {
         this.charaModal = false;
         this.setCharacter();
@@ -182,13 +203,15 @@
       setCharacter() {
         for(let id in this.characters) {
           if(this.Combo.selectCharacterName === this.characters[id].name) {
-            this.Combo.selectCharacterId = this.characters[id].id;
+            this.Combo.character_id = this.characters[id].id;
             break;
           }
         }
+      },
+      getMove(character_id) {
         axios.get('/api/moves', {
           params: {
-            characterId: this.Combo.selectCharacterId,
+            characterId: character_id,
           }
         })
         .then(res =>  {

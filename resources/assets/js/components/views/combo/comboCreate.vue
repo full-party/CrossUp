@@ -92,7 +92,7 @@
         errorModal: false,
         Combo: {
           selectCharacterName: '',
-          selectCharacterId: '',
+          character_id: '',
           combo: [],
           damage: '',
           stun: '',

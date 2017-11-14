@@ -1,7 +1,7 @@
 <template>
   <section>
     <h1>Combo Edit</h1>
-    <comboInput :Combo="Combo"></comboInput>
+    <comboInput :Combo="Combo" :disabledSelectCharacter="true"></comboInput>
     <p @click="updateCombo" v-if="Combo.myComboFlg">update</p>
     <router-link :to="'/combos/' + $route.params.id">back combo detail</router-link>
   </section>
@@ -24,9 +24,7 @@
       },
     data() {
       return {
-        Combo: {
-          character: '',
-        },
+        Combo: {},
       }
     },
     methods: {
@@ -39,18 +37,8 @@
           for(let recipe of this.Combo.recipes) {
             this.Combo.combo.push(recipe.move);
           }
-          this.getMove();
+          this.Combo.selectCharacterName = this.Combo.character.name;
         })
-      },
-      getMove() {
-        axios.get('/api/moves', {
-          params: {
-            characterId: this.Combo.character_id,
-          }
-        })
-        .then(res =>  {
-          this.moves = res.data;
-        });
       },
       updateCombo() {
         console.log(this.Combo);
