@@ -25,6 +25,7 @@ class UserUpdate extends FormRequest
     {
         return [
             'login_id' => 'alpha_dash',
+            'password' => 'min:8|alpha_dash',
             'email' => 'email|max:45',
         ];
     }

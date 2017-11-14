@@ -113,7 +113,7 @@
       addUser() {
         if(this.isValid(this.userValidation)) {
           axios.post('/api/users',{
-            loginId: this.User.id,
+            login_id: this.User.id,
             password: this.User.password,
             email: this.User.email
           })
