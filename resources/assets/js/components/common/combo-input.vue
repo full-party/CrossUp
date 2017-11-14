@@ -59,6 +59,9 @@
   p {
     margin: 0;
   }
+  #form {
+    padding-top: 20px;
+  }
   .combo__main-info {
     display: grid;
     grid-template-columns: 80px 1fr;

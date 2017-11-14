@@ -34,17 +34,11 @@
 </template>
 
 <style scoped>
-  h1 {
-    color: red;
-  }
   p {
     margin: 0;
   }
   .combo__create {
     padding-bottom: 20px;
-  }
-  #form {
-    padding-top: 20px;
   }
   .menu {
     display: grid;

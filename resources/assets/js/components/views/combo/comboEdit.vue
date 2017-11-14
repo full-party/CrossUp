@@ -1,6 +1,5 @@
 <template>
   <section>
-    <h1>Combo Edit</h1>
     <comboInput :Combo="Combo" :disabledSelectCharacter="true"></comboInput>
     <p @click="updateCombo" v-if="Combo.myComboFlg">update</p>
     <router-link :to="'/combos/' + $route.params.id">back combo detail</router-link>
@@ -8,9 +7,6 @@
 </template>
 
 <style scoped>
-  h1 {
-    color: red;
-  }
 </style>
 
 
