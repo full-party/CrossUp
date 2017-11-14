@@ -12,6 +12,7 @@ class GameControllerTest extends TestCase
 {
     public function testIndex()
     {
+        $this->login();
         $response = $this->json('GET', '/api/games');
         $response->assertStatus(200);
         $response->assertJson([
@@ -25,6 +26,7 @@ class GameControllerTest extends TestCase
 
     public function testShow()
     {
+        $this->login();
         $response = $this->json('GET', '/api/games/1');
         $response->assertStatus(200);
         $response->assertJson([
@@ -34,6 +36,7 @@ class GameControllerTest extends TestCase
 
     public function testShow400()
     {
+        $this->login();
         $response = $this->json('GET', '/api/games/0');
         $response->assertStatus(400);
         $response->assertJson([
@@ -43,6 +46,7 @@ class GameControllerTest extends TestCase
 
     public function testShow500()
     {
+        $this->login();
         $response = $this->json('GET', '/api/games/AAA');
         $response->assertStatus(500);
         $response->assertJson([
