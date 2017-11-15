@@ -3,7 +3,7 @@
     <section class="combo__main-info">
       <div @click="charaModalOpen" class="combo__character">
         <img src="/img/character.png" alt="character image">
-        <p class="combo__character__name">{{Combo.selectCharacterName}}</p>
+        <p class="combo__character__name">{{selectCharacterName}}</p>
       </div>
       <p class="combo__damage">
         ダメージ : <input type="number" v-model="Combo.damage" placeholder="Input Total Damage">
@@ -17,10 +17,10 @@
     </section>
     <modal v-if="charaModal" @close="charaModalClose">
       <div slot="modal-contents">
-        <p>Now Select : {{Combo.selectCharacterName}}</p>
+        <p>Now Select : {{selectCharacterName}}</p>
         <div v-for="character in characters">
           <label v-bind:for="'character' + character.id">
-            <input type="radio" v-bind:id="'character' + character.id" v-bind:value="character.name" v-model="Combo.selectCharacterName">{{character.name}}
+            <input type="radio" v-bind:id="'character' + character.id" v-bind:value="character.id" v-model="Combo.character_id">{{character.name}}
           </label>
         </div>
         <button @click.prevent="charaModalClose">OK</button>
@@ -169,19 +169,20 @@
         characters: [],
         charaModal: false,
         moves: [],
-        // watchでは変更前の値が取得できないため定義
-        nowSelectCharacterId: ''
       }
     },
-    watch: {
-      Combo: {
-        handler: function() {
-          // キャラクターが選択されたら技を取得する
-          if (this.Combo.character_id === this.nowSelectCharacterId) {return;}
-          this.nowSelectCharacterId = this.Combo.character_id;
-          this.getMove(this.Combo.character_id);
-        },
-        deep: true,
+    computed: {
+      selectCharacterName() {
+        if(!this.Combo.character_id) {return '';}
+        let name = '';
+        this.getMove(this.Combo.character_id);
+        for(let id in this.characters) {
+          if(this.Combo.character_id === this.characters[id].id) {
+            name = this.characters[id].name;
+            break;
+          }
+        }
+        return name;
       }
     },
     methods: {
@@ -201,15 +202,6 @@
       },
       charaModalClose() {
         this.charaModal = false;
-        this.setCharacter();
-      },
-      setCharacter() {
-        for(let id in this.characters) {
-          if(this.Combo.selectCharacterName === this.characters[id].name) {
-            this.Combo.character_id = this.characters[id].id;
-            break;
-          }
-        }
       },
       getMove(character_id) {
         axios.get('/api/moves', {

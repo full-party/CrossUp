@@ -85,7 +85,6 @@
         createModal: false,
         errorModal: false,
         Combo: {
-          selectCharacterName: '',
           character_id: '',
           combo: [],
           damage: '',

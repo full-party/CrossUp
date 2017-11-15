@@ -33,7 +33,6 @@
           for(let recipe of this.Combo.recipes) {
             this.Combo.combo.push(recipe.move);
           }
-          this.Combo.selectCharacterName = this.Combo.character.name;
         })
       },
       updateCombo() {
