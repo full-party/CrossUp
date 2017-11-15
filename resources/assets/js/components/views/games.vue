@@ -1,9 +1,11 @@
 <template>
   <section>
-    <h1>Select Games</h1>
+    <h1>ゲーム選択</h1>
     <ul>
       <li v-for="game in games">
-        <span @click="setGame(game)">{{game.name}}</span>
+        <div @click="setGame(game)">
+          <img v-bind:src="game.logo" alt="game logo">
+        </div>
       </li>
     </ul>
   </section>
@@ -11,7 +13,19 @@
 
 <style scoped>
   h1 {
-    color: red;
+    padding-left: 10px;
+  }
+  ul {
+    list-style: none;
+    padding: 0;
+  }
+  li {
+    display: inline-block;
+    width: 50%;
+  }
+  img {
+    object-fit: contain;
+    width: 100%;
   }
 </style>
 
