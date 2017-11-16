@@ -40,7 +40,6 @@ class ComboController extends Controller
             $comboData = $request->all();
             $UserInfo = Session::get('UserInfo');
             $comboData['user_id'] = $UserInfo[0]['id'];
-            $comboData['character_id'] = $comboData['selectCharacterId'];
             DB::transaction(function () use($comboData) {
                 return ComboService::store($comboData);
             });

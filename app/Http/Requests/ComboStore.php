@@ -24,7 +24,7 @@ class ComboStore extends FormRequest
     public function rules()
     {
         return [
-            'selectCharacterId' => 'required',
+            'character_id' => 'required',
             'combo' => 'required',
             'damage' => 'required',
             'stun' => 'required',
