@@ -19,13 +19,7 @@ class UserService
      */
     public function store(array $parameter): int
     {
-        $user = new User();
-        $user->login_id = $parameter['loginId'];
-        $user->password = Hash::make($parameter['password']);
-        $user->email = $parameter['email'];
-        $user->save();
-
-        return $user->id;
+        return User::create($parameter)->id;
     }
 
     /**

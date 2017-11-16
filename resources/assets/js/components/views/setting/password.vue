@@ -45,9 +45,15 @@
       },
       change() {
         if (this.isValid(this.passwordValidation)) {
-          console.log('true');
+          axios.put('/api/users/' + localStorage.getItem('id') , {password: this.password})
+            .then(res => {
+              console.log('ok')
+            })
+            .catch(err => {
+              console.log('error');
+            });
         } else {
-          console.log('false');
+          console.log('error');
         }
       },
     },
