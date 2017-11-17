@@ -20,6 +20,7 @@
         <p>Now Select : {{selectCharacterName}}</p>
         <div v-for="character in characters">
           <label v-bind:for="'character' + character.id">
+            <img v-bind:src="'/img/character/' + character.image" alt="character image">
             <input type="radio" v-bind:id="'character' + character.id" v-bind:value="character.id" v-model="Combo.character_id">{{character.name}}
           </label>
         </div>
