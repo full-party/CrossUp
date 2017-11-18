@@ -6,15 +6,20 @@
     </ul>
     <fab @click="showModal = true"></fab>
     <modal v-if="showModal">
-      <div slot="modal-contents">
-        <h2>Search</h2>
-          <accordionBox>
-            <span slot="accordion-title">Select Charactor</span>
+      <div slot="modal-contents" class="modal__contents">
+        <h2>検索</h2>
+        <p>キャラクター：{{selectCharacterName}} <span v-if="search.characterId !== ''" @click="search.characterId = ''">×</span></p>
+          <accordionBox ref="character" class="character__select">
+            <span slot="accordion-title">キャラクター</span>
             <div slot="accordion-contents">
-              <p>Now Select : {{selectCharacter}}</p>
-              <div v-for="character in characters">
-                <input type="radio" v-bind:id="'character' + character.id" v-bind:value="character.name" v-model="selectCharacter">
-                <label v-bind:for="'character' + character.id">{{character.name}}</label>
+              <div class="character__list">
+                <div v-for="character in characters" class="character__list__item">
+                  <label v-bind:for="'character' + character.id" @click="characterClose">
+                    <img v-bind:src="'/img/character/' + character.image" alt="character image" class="character__image">
+                    <input class="character__radio-button" type="radio" v-bind:id="'character' + character.id" v-bind:value="character.id" v-model="search.characterId">
+                    {{character.name}}
+                  </label>
+                </div>
               </div>
             </div>
           </accordionBox>
@@ -64,6 +69,25 @@
   .combo-list {
     padding: 0 6px;
   }
+  .modal__contents {
+    padding: 0 10px;
+  }
+  .character__list {
+    display: grid;
+    grid-auto-rows: minmax(100px, auto);
+    grid-template-columns: repeat(auto-fit, 74px);
+    justify-content: center;
+  }
+  .character__list__item {
+    padding: 0 5px;
+    text-align: center;
+  }
+  .character__image {
+    width: 100%;
+  }
+  .character__radio-button {
+    display: none;
+  }
 </style>
 
 <script>
@@ -91,8 +115,6 @@
         sorts: [],
         // キャラクターの技リスト
         moves: [],
-        // 選択されているキャラクター
-        selectCharacter: '',
         // 選択されているソート名（初期ソート値を指定）
         selectSort: 'ダメージ値降順',
         // 選択されている始動技
@@ -105,29 +127,21 @@
         },
       }
     },
-    watch: {
-      // キャラクターが選択されたらキャラクターを検索パラメーターに追加する
-      // 追加後キャラクターの技をAPIを叩き取得する
-      'selectCharacter': {
-        handler: function() {
-          for(let id in this.characters) {
-            if(this.selectCharacter === this.characters[id].name) {
-              this.search.characterId = this.characters[id].id;
-              break;
-            }
+    computed: {
+      selectCharacterName() {
+        if(!this.search.characterId) {return '';}
+        let name = '';
+        this.getMove(this.search.characterId);
+        for(let id in this.characters) {
+          if(this.search.characterId === this.characters[id].id) {
+            name = this.characters[id].name;
+            break;
           }
-          axios.get('/api/moves', {
-            params: {
-              characterId: this.search.characterId,
-            }
-          })
-          .then(res =>  {
-            this.selectMove = '';
-            this.search.moveId = '';
-            this.moves = res.data;
-          });
         }
+        return name;
       },
+    },
+    watch: {
       // 始動技が選択されたら技IDを検索パラメーターに追加する
       'selectMove': {
         handler: function() {
@@ -171,6 +185,16 @@
           this.characters = res.data.data;
         })
       },
+      getMove(character_id) {
+        axios.get('/api/moves', {
+          params: {
+            characterId: character_id,
+          }
+        })
+        .then(res =>  {
+          this.moves = res.data;
+        });
+      },
       // ソート取得関数
       getSorts() {
         axios.get('/api/sortList')
@@ -182,6 +206,9 @@
       searchCombo() {
         this.getCombos();
         this.showModal = false;
+      },
+      characterClose() {
+        this.$refs.character.close();
       }
     }
   }
