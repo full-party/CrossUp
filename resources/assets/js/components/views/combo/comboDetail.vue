@@ -3,7 +3,7 @@
     <section class="combo">
       <section class="combo__main-info">
         <div class="combo__character">
-          <img src="/img/character.png" alt="character image">
+          <img v-bind:src="'/img/character/' + combo.character.image" alt="character image" class="combo__character__image">
           <p class="combo__character__name">{{combo.character.name}}</p>
         </div>
         <p class="combo__damage">ダメージ : {{combo.damage}}</p>
@@ -73,6 +73,9 @@
     padding-right: 15px;
     text-align: center;
   }
+  .combo__character__image {
+    width: 100%;
+   }
   .combo__damage {
     grid-row: 1 / 2;
     grid-column: 2 / 3;
