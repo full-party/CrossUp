@@ -28,7 +28,7 @@
         <img src="/img/left-arrow.png" alt="left arrow">
         戻る
       </router-link>
-      <router-link class="combo__edit-link" :to="'/combos/' + $route.params.id + '/edit'">
+      <router-link v-if="combo.myComboFlg" class="combo__edit-link" :to="'/combos/' + $route.params.id + '/edit'">
         <img src="/img/pen.png" alt="pen">
         編集
       </router-link>
