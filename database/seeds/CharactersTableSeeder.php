@@ -26,6 +26,11 @@ class CharactersTableSeeder extends Seeder
                 $model->id = $line[1];
                 $model->game_id = $line[0];
                 $model->name = $line[2];
+                // ストファイしか追加していないので存在かくにん
+                // ギルティギアも追加したらifは削除
+                if (isset($line[3])) {
+                    $model->image = $line[3];
+                }
                 $model->save();
             }
         }
