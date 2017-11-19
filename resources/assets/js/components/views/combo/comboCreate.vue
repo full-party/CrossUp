@@ -1,18 +1,18 @@
 <template>
   <section class="combo__create">
-    <comboInput :Combo="Combo"></comboInput>
+    <comboInput v-if="reset" v-model="inputCombo"></comboInput>
     <modal v-if="createModal" @close="createModal = false">
       <div slot="modal-contents">
         <h3>Create!</h3>
-        <p>Character : {{Combo.selectCharacterName}} / {{Combo.selectCharacterId}}</p>
+        <p>Character : {{inputCombo.selectCharacterName}} / {{inputCombo.selectCharacterId}}</p>
         <p>Combo</p>
-        <span v-for="move in Combo.combo">
+        <span v-for="move in inputCombo.combo">
           {{move.name}}
         </span>
-        <p>Damage : {{Combo.damage}}</p>
-        <p>Stun : {{Combo.stun}}</p>
-        <p>Mete : {{Combo.meter}}</p>
-        <p>Memo : {{Combo.memo}}</p>
+        <p>Damage : {{inputCombo.damage}}</p>
+        <p>Stun : {{inputCombo.stun}}</p>
+        <p>Mete : {{inputCombo.meter}}</p>
+        <p>Memo : {{inputCombo.memo}}</p>
         <router-link to="/combos">back combo list</router-link>
         <p @click="init">create combo</p>
       </div>
@@ -84,19 +84,14 @@
       return {
         createModal: false,
         errorModal: false,
-        Combo: {
-          character_id: '',
-          combo: [],
-          damage: '',
-          stun: '',
-          meter: '',
-          memo: '',
-        },
+        inputCombo: {},
+        defaultCombo: {},
+        reset: true,
       };
     },
     methods: {
       create() {
-        axios.post('/api/combos',this.Combo)
+        axios.post('/api/combos',this.inputCombo)
         .then(res => {
           this.createModal = true;
         })
@@ -106,13 +101,12 @@
       },
       init() {
         this.createModal = false;
-        for(let id in this.Combo) {
-          if(Array.isArray(this.Combo[id])) {
-            this.Combo[id] = [];
-          } else {
-            this.Combo[id] = '';
-          }
-        }
+
+        // TODO 他にいい方法を探す。。
+        this.reset = false;
+        this.$nextTick(function () {
+          this.reset = true;
+        });
       },
     },
   };
