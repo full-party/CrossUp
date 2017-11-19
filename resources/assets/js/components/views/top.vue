@@ -19,9 +19,9 @@
         最適なコンボを探すことができます。
       </p>
     </section>
-    <section class="screen-shorts">
-      <h2>Screen Shorts</h2>
-      <img src="/img/screenshorts/1.png" alt="screen shorts" class="screen-shorts__img">
+    <section class="screen-shots">
+      <h2>Screen shot</h2>
+      <img src="/img/screenshots/1.png" alt="screen shots" class="screen-shots__img">
     </section>
     <section class="contact">
       <h2>Contact</h2>
@@ -70,11 +70,11 @@
     padding: 0 10px;
     line-height: 2;
   }
-  .screen-shorts {
+  .screen-shots {
     background-color: #fff;
     padding-bottom: 20px;
   }
-  .screen-shorts__img {
+  .screen-shots__img {
     width: 80%;
     border-radius: 20px;
     padding: 10px;
