@@ -2,6 +2,7 @@
 
 namespace App\Model;
 
+use Hash;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -16,6 +17,15 @@ class User extends Model
      * @var array
      */
     protected $fillable = [
-        'login_id', 'email'
+        'login_id', 'email', 'password'
     ];
+
+    /**
+     * パスワード登録時にハッシュ化する
+     * @param $value
+     */
+    public function setPasswordAttribute($value)
+    {
+        $this->attributes['password'] = Hash::make($value);
+    }
 }

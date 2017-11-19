@@ -19,11 +19,7 @@ class UsersTableSeeder extends Seeder
 
         $users = [['admin', 'admin1234', 'admin@example.com', '格メモ管理者']];
         foreach ($users as $user) {
-            $model = new User();
-            $model->login_id = $user[0];
-            $model->password = Hash::make($user[1]);
-            $model->email = $user[2];
-            $model->save();
+            User::create(['login_id' => $user[0], 'password' => $user[1], 'email' => $user[2]]);
         }
     }
 }
