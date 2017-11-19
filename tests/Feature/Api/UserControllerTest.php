@@ -26,6 +26,20 @@ class UserControllerTest extends TestCase
     }
 
     /**
+     * @dataProvider destroyDataProvider
+     * @param int $userId
+     * @param int $status
+     */
+    public function testDestroy(int $userId, int $status)
+    {
+        $this->createTestUser();
+
+        $this->login();
+        $response = $this->json('DELETE', '/api/users/' . $userId);
+        $response->assertStatus($status);
+    }
+
+    /**
      * updateAPI用テストデータ
      * @return array
      */
@@ -39,6 +53,17 @@ class UserControllerTest extends TestCase
             [1, ['login_id' => 'test'], 412],
             [1, ['login_id' => 'admin2'], 200],
             [1, ['login_id' => 'admin3', 'email' => 'admin3@example.com'], 200]
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    public function destroyDataProvider()
+    {
+        return [
+            [1, 200],
+            [2, 403]
         ];
     }
 

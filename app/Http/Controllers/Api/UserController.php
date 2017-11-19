@@ -41,4 +41,22 @@ class UserController extends Controller
             return response(['message' => 'internal server error'], 500);
         }
     }
+
+    /**
+     * @param int $userId
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
+     */
+    public function destroy(int $userId)
+    {
+        if ($userId !== intval(Session::get('UserInfo')[0]['id'])) {
+            return response(['message' => 'Forbidden'], 403);
+        }
+
+        try {
+            return UserService::destroy($userId);
+        } catch (Throwable $t) {
+            Log::error($t);
+            return response(['message' => 'internal server error'], 500);
+        }
+    }
 }

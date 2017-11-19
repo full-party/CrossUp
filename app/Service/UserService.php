@@ -43,6 +43,15 @@ class UserService
     }
 
     /**
+     * @param int $userId
+     * @return int
+     */
+    public function destroy(int $userId): int
+    {
+        return User::destroy($userId);
+    }
+
+    /**
      * Usersテーブルのデータに対し、指定ユーザー以外の重複チェックを行う。
      * メールアドレス重複チェックなど、ログインユーザー以外の存在チェックで利用する。
      *
