@@ -21,7 +21,7 @@
 
 <style scoped>
   h1 {
-    color: red;
+    padding: 0 0 10px 10px;
   }
   .address__edit {
     background-color: #fff;
