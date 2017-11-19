@@ -2,7 +2,7 @@
   <form id="form">
     <section class="combo__main-info">
       <div @click="charaModalOpen" class="combo__character">
-        <img src="/img/character.png" alt="character image">
+        <img v-bind:src="selectCharacterImage" alt="character image" class="combo__character__image">
         <p class="combo__character__name">{{selectCharacterName}}</p>
       </div>
       <p class="combo__damage">
@@ -17,14 +17,16 @@
     </section>
     <modal v-if="charaModal" @close="charaModalClose">
       <div slot="modal-contents">
-        <p>Now Select : {{selectCharacterName}}</p>
-        <div v-for="character in characters">
-          <label v-bind:for="'character' + character.id">
-            <img v-bind:src="'/img/character/' + character.image" alt="character image">
-            <input type="radio" v-bind:id="'character' + character.id" v-bind:value="character.id" v-model="Combo.character_id">{{character.name}}
-          </label>
+        <p class="character__title">キャラクター選択</p>
+        <div class="character__list">
+          <div v-for="character in characters" class="character__list__item">
+            <label v-bind:for="'character' + character.id" @click="charaModalClose">
+              <img v-bind:src="'/img/character/' + character.image" alt="character image" class="character__image">
+              <input class="character__radio-button" type="radio" v-bind:id="'character' + character.id" v-bind:value="character.id" v-model="Combo.character_id">
+              {{character.name}}
+            </label>
+          </div>
         </div>
-        <button @click.prevent="charaModalClose">OK</button>
       </div>
     </modal>
     <section class="combo__recipes">
@@ -92,6 +94,29 @@
   }
   .combo__character__name {
     padding: 10px 0;
+  }
+  .combo__character__image {
+    width: 100%;
+  }
+  .character__title {
+    padding: 10px;
+    font-size: 16px;
+  }
+  .character__list {
+    display: grid;
+    grid-auto-rows: minmax(100px, auto);
+    grid-template-columns: repeat(auto-fit, 80px);
+    justify-content: center;
+  }
+  .character__list__item {
+    padding: 0 5px;
+    text-align: center;
+  }
+  .character__image {
+    width: 100%;
+  }
+  .character__radio-button {
+    display: none;
   }
   ol {
     list-style: none;
@@ -184,6 +209,17 @@
           }
         }
         return name;
+      },
+      selectCharacterImage() {
+        if(!this.Combo.character_id) {return '/img/character.png';}
+        let image = '/img/character/';
+        for(let id in this.characters) {
+          if(this.Combo.character_id === this.characters[id].id) {
+            image += this.characters[id].image;
+            break;
+          }
+        }
+        return image;
       }
     },
     methods: {
