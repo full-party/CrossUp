@@ -95,49 +95,5 @@
     components: {
       userInput: require('../common/user-input.vue'),
     },
-    methods: {
-      isValid(validation) {
-        return Object.keys(validation).every(key=> {
-          return validation[key];
-        })
-      },
-      login() {
-        if(this.isValid(this.loginValidation)) {
-          axios.post('/api/login',{
-            loginId: this.User.id,
-            password: this.User.password
-          })
-          .then(res =>  {
-            // ログイン成功、ローカルストレージにユーザー情報を格納する
-            localStorage.setItem('id', res.data.id);
-            this.$router.push('games');
-          })
-          .catch(error => {
-            // ログイン失敗
-            this.errorMessage = error.response.data.message;
-            this.showError = true;
-          });
-        } else {
-          this.showError = true;
-        }
-      },
-      addUser() {
-        if(this.isValid(this.userValidation)) {
-          axios.post('/api/users',{
-            login_id: this.User.id,
-            password: this.User.password,
-            email: this.User.email
-          })
-          .then(res =>  {
-            // 登録成功
-            this.showAddUserSuccess = true;
-          })
-          .catch(error => {
-            // 登録失敗
-          });
-        } else {
-        }
-      }
-    }
   }
 </script>
