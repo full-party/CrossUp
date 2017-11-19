@@ -1,19 +1,69 @@
 <template>
   <section>
-    <h1>Setting Address</h1>
-    <form id="form">
+    <h1>メールアドレス変更</h1>
+    <section class="address__edit">
+      <p class="address_edit__title">
+        Mail Address
+        <span v-show="emailValidation.validationRe">OK!</span>
+      </p>
       <input type="email" v-model="email" placeholder="Email">
-      <p v-show="!emailValidation.validationRe">Please Input Email</p>
-      <p v-show="emailValidation.validationRe">Email OK!</p>
-      <router-link to="/setting">back</router-link>
-      <input type="submit" value="Change" v-on:click.prevent="change">
-    </form>
+      <div class="menu">
+        <div class="menu__back">
+          <router-link to="/setting" class="menu__back__button">キャンセル</router-link>
+        </div>
+        <div class="menu__update">
+          <button v-bind:disabled="!emailValidation.validationRe" @click="change()" class="menu__update__button">変更</button>
+        </div>
+      </div>
+    </section>
   </section>
 </template>
 
 <style scoped>
   h1 {
     color: red;
+  }
+  .address__edit {
+    background-color: #fff;
+    padding: 10px;
+  }
+  input[type="email"] {
+    border: 1px solid #e5e5e5;
+    width: 100%;
+    height: 40px;
+    margin-bottom: 20px;
+  }
+  .menu {
+    display: grid;
+    grid-template-columns: 40% 60%;
+    grid-template-rows: 1fr;
+    text-align: center;
+    height: 40px;
+    line-height: 40px;
+  }
+  .menu__back {
+    grid-row: 1 / 2;
+    grid-column: 1 / 2;
+  }
+  .menu__back__button {
+    background: #E6E6E6;
+    border: none;
+    height: 40px;
+    padding: 0;
+    width: 100px;
+    display: block;
+    margin: auto;
+  }
+  .menu__update {
+    grid-row: 1 / 2;
+    grid-column: 2 / 3;
+  }
+  .menu__update__button {
+    background: #00CDFF;
+    border: none;
+    height: 40px;
+    padding: 0;
+    width: 150px;
   }
 </style>
 
