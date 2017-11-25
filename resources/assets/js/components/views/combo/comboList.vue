@@ -29,6 +29,16 @@
             </div>
           </accordionBox>
           <accordionBox>
+            <span slot="accordion-title">Select Status</span>
+            <div slot="accordion-contents">
+              <p>Now Select : <span class="status-name" v-for="statusName in selectStatus">{{statusName}}</span></p>
+              <div v-for="(status, key) in statuses">
+                <input type="checkbox" v-bind:id="key" v-bind:value="status.id" v-model="search.status">
+                <label v-bind:for="key">{{status.name}}</label>
+              </div>
+            </div>
+          </accordionBox>
+          <accordionBox>
             <span slot="accordion-title">Select Sort</span>
             <div slot="accordion-contents">
               <p>Now Select : {{selectSort}}</p>
@@ -64,6 +74,9 @@
   .combo-list {
     padding: 0 6px;
   }
+  .status-name + .status-name:before {
+    content: "、";
+  }
 </style>
 
 <script>
@@ -78,6 +91,7 @@
         this.getCombos();
         this.getCharacters();
         this.getSorts();
+        this.getStatuses();
       },
     data() {
       return {
@@ -91,6 +105,8 @@
         sorts: [],
         // キャラクターの技リスト
         moves: [],
+        // ステータスリスト
+        statuses: [],
         // 選択されているキャラクター
         selectCharacter: '',
         // 選択されているソート名（初期ソート値を指定）
@@ -102,6 +118,7 @@
           selectSortId: 'DAMAGE_DESC',
           characterId: '',
           moveId: '',
+          status: [],
         },
       }
     },
@@ -178,10 +195,31 @@
           this.sorts = res.data[0];
         })
       },
+      getStatuses(){
+        axios.get('/api/combos/statuses',{
+          params: {
+            gameId: this.$store.state.game.id,
+          }
+        })
+          .then(res =>  {
+            this.statuses = res.data;
+          })
+      },
       // コンボを検索して検索モーダルを非表示にする
       searchCombo() {
         this.getCombos();
         this.showModal = false;
+      }
+    },
+    computed: {
+      selectStatus(){
+        const names = [];
+        for (const status of this.statuses) {
+          if (this.search.status.indexOf(status.id) >= 0) {
+            names.push(status.name);
+          }
+        }
+        return names;
       }
     }
   }
