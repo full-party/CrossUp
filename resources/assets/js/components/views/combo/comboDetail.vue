@@ -12,11 +12,11 @@
       </section>
       <section class="combo__statuses">
         <p>ステータス</p>
-        <ol>
+        <ul>
           <li v-for="status in combo.statuses">
             {{status.name}}
           </li>
-        </ol>
+        </ul>
       </section>
       <section class="combo__recipes">
         <p>コンボ</p>
@@ -49,6 +49,10 @@
 </template>
 
 <style scoped>
+  ul {
+    list-style: none;
+    padding: 0;
+  }
   ol {
     list-style: none;
     padding: 0;
