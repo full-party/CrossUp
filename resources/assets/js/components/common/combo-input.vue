@@ -204,6 +204,11 @@
           this.$emit('input', inputCombo);
         },
         deep: true
+      },
+      'inputCombo.character_id'(newVal, oldVal) {
+        if (oldVal !== '' && newVal !== oldVal) {
+          this.allDelete()
+        }
       }
     },
     data() {
