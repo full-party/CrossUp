@@ -85,7 +85,6 @@
         createModal: false,
         errorModal: false,
         inputCombo: {},
-        defaultCombo: {},
         reset: true,
       };
     },
