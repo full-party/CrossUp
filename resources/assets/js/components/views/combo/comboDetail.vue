@@ -8,7 +8,15 @@
         </div>
         <p class="combo__damage">ダメージ : {{combo.damage}}</p>
         <p class="combo__stun">スタン : {{combo.stun}}</p>
-        <p class="combo__meter">メーター : {{combo.meter}}</p>
+        <p class="combo__meter">ゲージ : {{combo.meter}}</p>
+      </section>
+      <section class="combo__statuses">
+        <p>ステータス</p>
+        <ul>
+          <li v-for="status in combo.statuses">
+            {{status.name}}
+          </li>
+        </ul>
       </section>
       <section class="combo__recipes">
         <p>コンボ</p>
@@ -41,6 +49,10 @@
 </template>
 
 <style scoped>
+  ul {
+    list-style: none;
+    padding: 0;
+  }
   ol {
     list-style: none;
     padding: 0;
@@ -51,9 +63,12 @@
   li {
     display: inline-block;
   }
-  li + li:before{
-      content: " > ";
-      padding: 0 10px;
+  .combo__recipes li + li:before {
+    content: " > ";
+    padding: 0 10px;
+  }
+  .combo__statuses li + li:before{
+    content: "、";
   }
   .combo {
     padding: 20px 6px 0;
@@ -91,7 +106,7 @@
   .combo__character__name {
     padding: 10px 0;
   }
-  .combo__recipes, .combo__memo {
+  .combo__recipes, .combo__memo, .combo__statuses {
     border: 1px solid #D0D0D0;
     background: #fff;
     padding: 10px;
