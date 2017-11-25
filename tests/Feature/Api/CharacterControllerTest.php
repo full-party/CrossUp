@@ -30,7 +30,7 @@ class CharacterControllerTest extends TestCase
         $response = $this->json('GET', '/api/characters/?gameId=2');
         $response->assertStatus(200);
         $response->assertJson([
-            'count' => 2,
+            'count' => 25,
             'data' => [
                 ['name' => 'ソル'],
                 ['name' => 'カイ']
