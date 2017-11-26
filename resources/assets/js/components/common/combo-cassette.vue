@@ -7,10 +7,9 @@
       </div>
       <p class="combo__damage">ダメージ : {{combo.damage}}</p>
       <p class="combo__stun">スタン : {{combo.stun}}</p>
-      <p class="combo__meter">メーター : {{combo.meter}}</p>
-      <p class="combo__first">始動技 : {{combo.recipes[0].move.name}}</p>
-      <p class="combo__end">終了技 : {{combo.recipes[combo.recipes.length - 1].move.name}}</p>
-      <p class="combo__memo">Memo : {{combo.memo}}</p>
+      <p class="combo__meter">ゲージ : {{combo.meter}}</p>
+      <p class="combo__recipe">レシピ : {{combo.recipes[0].move.name}}&nbsp;…&nbsp;{{combo.recipes[combo.recipes.length - 1].move.name}}</p>
+      <p class="combo__statuses">状態 : <span v-for="status in combo.statuses">{{status.name}}</span></p>
     </router-link>
   </li>
 </template>
@@ -28,8 +27,12 @@
   a {
     display: grid;
     grid-template-columns: 80px 1fr 1fr;
-    grid-template-rows: repeat(5, minmax(30px, auto));
+    grid-template-rows: repeat(4, minmax(30px, auto));
     padding: 10px;
+  }
+  .combo__statuses span + span:before
+  {
+    content: "、";
   }
   .combo__character {
     grid-row: 1 / 4;
@@ -52,20 +55,13 @@
     grid-row: 2 / 3;
     grid-column: 2 / 3;
   }
-  .combo__first {
+  .combo__recipe {
     grid-row: 3 / 4;
     grid-column: 2 / 4;
   }
-  .combo__end {
+  .combo__statuses {
     grid-row: 4 / 5;
     grid-column: 2 / 4;
-  }
-  .combo__memo {
-    grid-row: 5 / 6;
-    grid-column: 2 / 4;
-  }
-  .combo__character__name {
-    padding: 10px 0;
   }
 </style>
 
