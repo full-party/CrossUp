@@ -13,7 +13,8 @@
 
 <style scoped>
   .accordion-wrapper {
-    border: 1px solid #000;
+    border: 1px solid #979797;
+    background-color: #FAFAFA;
     margin-bottom: 3px;
     padding: 3px;
   }

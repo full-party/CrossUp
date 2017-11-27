@@ -6,18 +6,10 @@
     </ul>
     <fab @click="showModal = true"></fab>
     <modal v-if="showModal">
-      <div slot="modal-contents">
-        <h2>Search</h2>
-          <accordionBox>
-            <span slot="accordion-title">Select Charactor</span>
-            <div slot="accordion-contents">
-              <p>Now Select : {{selectCharacter}}</p>
-              <div v-for="character in characters">
-                <input type="radio" v-bind:id="'character' + character.id" v-bind:value="character.name" v-model="selectCharacter">
-                <label v-bind:for="'character' + character.id">{{character.name}}</label>
-              </div>
-            </div>
-          </accordionBox>
+      <div slot="modal-contents" class="modal__contents">
+        <h2>検索</h2>
+        <p>キャラクター：{{selectCharacterName}} <span v-if="search.characterId !== ''" @click="search.characterId = ''">×</span></p>
+        <characterAccordionBox v-model="search.characterId" :characters="characters"></characterAccordionBox>
           <accordionBox>
             <span slot="accordion-title">Select Move</span>
             <div slot="accordion-contents">
@@ -77,6 +69,9 @@
   .status-name + .status-name:before {
     content: "、";
   }
+  .modal__contents {
+    padding: 0 10px;
+  }
 </style>
 
 <script>
@@ -85,6 +80,7 @@
       fab: require('../../common/button/floating-action-button.vue'),
       modal: require('../../common/modal.vue'),
       accordionBox: require('../../common/box/accordion-box.vue'),
+      characterAccordionBox: require('../../common/box/character-accordion-box.vue'),
       comboCassette: require('../../common/combo-cassette.vue'),
     },
     created() {
@@ -107,8 +103,6 @@
         moves: [],
         // ステータスリスト
         statuses: [],
-        // 選択されているキャラクター
-        selectCharacter: '',
         // 選択されているソート名（初期ソート値を指定）
         selectSort: 'ダメージ値降順',
         // 選択されている始動技
@@ -122,29 +116,30 @@
         },
       }
     },
-    watch: {
-      // キャラクターが選択されたらキャラクターを検索パラメーターに追加する
-      // 追加後キャラクターの技をAPIを叩き取得する
-      'selectCharacter': {
-        handler: function() {
-          for(let id in this.characters) {
-            if(this.selectCharacter === this.characters[id].name) {
-              this.search.characterId = this.characters[id].id;
-              break;
-            }
+    computed: {
+      selectCharacterName() {
+        if(!this.search.characterId) {return '';}
+        let name = '';
+        this.getMove(this.search.characterId);
+        for(let id in this.characters) {
+          if(this.search.characterId === this.characters[id].id) {
+            name = this.characters[id].name;
+            break;
           }
-          axios.get('/api/moves', {
-            params: {
-              characterId: this.search.characterId,
-            }
-          })
-          .then(res =>  {
-            this.selectMove = '';
-            this.search.moveId = '';
-            this.moves = res.data;
-          });
         }
+        return name;
       },
+      selectStatus(){
+        const names = [];
+        for (const status of this.statuses) {
+          if (this.search.status.indexOf(status.id) >= 0) {
+            names.push(status.name);
+          }
+        }
+        return names;
+      }
+    },
+    watch: {
       // 始動技が選択されたら技IDを検索パラメーターに追加する
       'selectMove': {
         handler: function() {
@@ -188,6 +183,16 @@
           this.characters = res.data.data;
         })
       },
+      getMove(character_id) {
+        axios.get('/api/moves', {
+          params: {
+            characterId: character_id,
+          }
+        })
+        .then(res =>  {
+          this.moves = res.data;
+        });
+      },
       // ソート取得関数
       getSorts() {
         axios.get('/api/sortList')
@@ -211,16 +216,5 @@
         this.showModal = false;
       }
     },
-    computed: {
-      selectStatus(){
-        const names = [];
-        for (const status of this.statuses) {
-          if (this.search.status.indexOf(status.id) >= 0) {
-            names.push(status.name);
-          }
-        }
-        return names;
-      }
-    }
   }
 </script>

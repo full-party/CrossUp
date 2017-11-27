@@ -29,7 +29,6 @@ class ComboStore extends FormRequest
             'damage' => 'required',
             'stun' => 'required',
             'meter' => 'required',
-            'memo' => 'required',
         ];
     }
 }
