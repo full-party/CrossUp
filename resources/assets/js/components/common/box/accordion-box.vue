@@ -33,13 +33,5 @@
         show: false
       }
     },
-    methods: {
-      open() {
-        this.show = true;
-      },
-      close() {
-        this.show = false;
-      }
-    }
   }
 </script>

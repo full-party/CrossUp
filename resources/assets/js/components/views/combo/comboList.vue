@@ -9,20 +9,7 @@
       <div slot="modal-contents" class="modal__contents">
         <h2>検索</h2>
         <p>キャラクター：{{selectCharacterName}} <span v-if="search.characterId !== ''" @click="search.characterId = ''">×</span></p>
-          <accordionBox ref="character" class="character__select">
-            <span slot="accordion-title">キャラクター</span>
-            <div slot="accordion-contents">
-              <div class="character__list">
-                <div v-for="character in characters" class="character__list__item">
-                  <label v-bind:for="'character' + character.id" @click="characterClose">
-                    <img v-bind:src="'/img/character/' + character.image" alt="character image" class="character__image">
-                    <input class="character__radio-button" type="radio" v-bind:id="'character' + character.id" v-bind:value="character.id" v-model="search.characterId">
-                    {{character.name}}
-                  </label>
-                </div>
-              </div>
-            </div>
-          </accordionBox>
+        <characterAccordionBox v-model="search.characterId" :characters="characters"></characterAccordionBox>
           <accordionBox>
             <span slot="accordion-title">Select Move</span>
             <div slot="accordion-contents">
@@ -72,22 +59,6 @@
   .modal__contents {
     padding: 0 10px;
   }
-  .character__list {
-    display: grid;
-    grid-auto-rows: minmax(100px, auto);
-    grid-template-columns: repeat(auto-fit, 74px);
-    justify-content: center;
-  }
-  .character__list__item {
-    padding: 0 5px;
-    text-align: center;
-  }
-  .character__image {
-    width: 100%;
-  }
-  .character__radio-button {
-    display: none;
-  }
 </style>
 
 <script>
@@ -96,6 +67,7 @@
       fab: require('../../common/button/floating-action-button.vue'),
       modal: require('../../common/modal.vue'),
       accordionBox: require('../../common/box/accordion-box.vue'),
+      characterAccordionBox: require('../../common/box/character-accordion-box.vue'),
       comboCassette: require('../../common/combo-cassette.vue'),
     },
     created() {
@@ -207,9 +179,6 @@
         this.getCombos();
         this.showModal = false;
       },
-      characterClose() {
-        this.$refs.character.close();
-      }
     }
   }
 </script>
