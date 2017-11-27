@@ -6,7 +6,7 @@
     <transition name="slide-in">
       <div class="character__list" v-if="show">
         <div v-for="character in characters" class="character__list__item">
-          <label v-bind:for="'character' + character.id">
+          <label v-bind:for="'character' + character.id" v-on:change="close">
             <img v-bind:src="'/img/character/' + character.image" alt="character image" class="character__image">
             <input class="character__radio-button" type="radio" v-bind:id="'character' + character.id" v-bind:value="character.id" v-model="characterId">
             {{character.name}}
@@ -61,13 +61,11 @@
         characterId: ''
       }
     },
-    watch: {
-      characterId: {
-        handler: function(characterId) {
-          this.show = false;
-          this.$emit('input', characterId);
-        },
+    methods: {
+      close() {
+        this.show = false;
+        this.$emit('input', this.characterId);
       }
-    },
+    }
   }
 </script>
