@@ -32,6 +32,6 @@
       return {
         show: false
       }
-    },
+    }
   }
 </script>

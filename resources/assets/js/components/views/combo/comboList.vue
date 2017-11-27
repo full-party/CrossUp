@@ -178,7 +178,7 @@
       searchCombo() {
         this.getCombos();
         this.showModal = false;
-      },
+      }
     }
   }
 </script>
