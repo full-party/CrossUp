@@ -9,17 +9,9 @@
       <div slot="modal-contents" class="modal__contents">
         <h2>検索</h2>
         <p>キャラクター：{{selectCharacterName}} <span v-if="search.characterId !== ''" @click="search.characterId = ''">×</span></p>
+        <p>始動技：{{selectMove}} <span v-if="search.moveId !== ''" @click="search.moveId = ''">×</span></p>
         <characterAccordionBox v-model="search.characterId" :characters="characters"></characterAccordionBox>
-          <accordionBox>
-            <span slot="accordion-title">Select Move</span>
-            <div slot="accordion-contents">
-              <p>Now Select : {{selectMove}}</p>
-              <div v-for="move in moves">
-                <input type="radio" v-bind:id="'moveId_' + move.id" v-bind:value="move.name" v-model="selectMove">
-                <label v-bind:for="'moveId_' + move.id">{{move.name}}</label>
-              </div>
-            </div>
-          </accordionBox>
+        <moveAccordionBox v-model="search.moveId" :moves="moves" :selectCharacterName="selectCharacterName"></moveAccordionBox>
           <accordionBox>
             <span slot="accordion-title">Select Status</span>
             <div slot="accordion-contents">
@@ -81,6 +73,7 @@
       modal: require('../../common/modal.vue'),
       accordionBox: require('../../common/box/accordion-box.vue'),
       characterAccordionBox: require('../../common/box/character-accordion-box.vue'),
+      moveAccordionBox: require('../../common/box/move-accordion-box.vue'),
       comboCassette: require('../../common/combo-cassette.vue'),
     },
     created() {
@@ -105,8 +98,6 @@
         statuses: [],
         // 選択されているソート名（初期ソート値を指定）
         selectSort: 'ダメージ値降順',
-        // 選択されている始動技
-        selectMove: '',
         // 検索用パラメーター
         search: {
           selectSortId: 'DAMAGE_DESC',
@@ -120,7 +111,6 @@
       selectCharacterName() {
         if(!this.search.characterId) {return '';}
         let name = '';
-        this.getMove(this.search.characterId);
         for(let id in this.characters) {
           if(this.search.characterId === this.characters[id].id) {
             name = this.characters[id].name;
@@ -137,19 +127,30 @@
           }
         }
         return names;
+      },
+      selectMove() {
+        if(!this.search.moveId) {return '';}
+        let name = '';
+        for (let id in this.moves) {
+          if (this.search.moveId === this.moves[id].id) {
+            name = this.moves[id].name;
+          }
+        }
+        return name;
       }
     },
     watch: {
-      // 始動技が選択されたら技IDを検索パラメーターに追加する
-      'selectMove': {
+      // キャラクターが変更されたらコンボを取得し、選択している始動技をクリアする
+      'selectCharacterName': {
         handler: function() {
-          for(let id in this.moves) {
-            if(this.selectMove === this.moves[id].name) {
-              this.search.moveId = this.moves[id].id;
-              break;
-            }
+          if(this.search.characterId) {
+            this.getMove(this.search.characterId);
+          } else {
+            this.moves = [];
           }
-        }
+          this.search.moveId = '';
+        },
+        deep: true
       },
       // ソートが選択されたらソートIDを検索パラメーターに追加する
       'selectSort': {
