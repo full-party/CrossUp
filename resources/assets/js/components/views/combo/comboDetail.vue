@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="wrap">
     <section class="combo">
       <section class="combo__main-info">
         <div class="combo__character">
@@ -131,6 +131,20 @@
   .combo__delete-link {
     grid-row: 1 / 2;
     grid-column: 3 / 4;
+  }
+
+  @media (min-width: 1000px) {
+    .wrap {
+      border: 1px solid #D0D0D0;
+      margin: 20px 160px 0;
+    }
+    .combo {
+      padding: 0;
+    }
+    .combo__main-info, .combo__recipes, .combo__memo, .combo__statuses {
+      border: none;
+      margin-bottom: 0;
+    }
   }
 </style>
 
