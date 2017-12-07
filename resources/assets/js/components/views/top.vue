@@ -88,6 +88,25 @@
   .contact__text {
     padding-top: 10px;
   }
+
+  @media (min-width: 1000px) {
+    .top {
+      position: relative;
+    }
+    .hero-header__title, .hero-header__text {
+      text-align: left;
+      padding-left: 14vw;
+    }
+    .form {
+      position: absolute;
+      right: 5vw;
+      top: 30vh;
+      width: 360px;
+    }
+    .screen-shots__img {
+      width: 300px;
+    }
+  }
 </style>
 
 <script>
