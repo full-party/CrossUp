@@ -10,6 +10,7 @@
         <h2>検索</h2>
         <p>キャラクター：{{selectCharacterName}} <span v-if="search.characterId !== ''" @click="search.characterId = ''">×</span></p>
         <p>始動技：{{selectMove}} <span v-if="search.moveId !== ''" @click="search.moveId = ''">×</span></p>
+        <p>並び順：{{selectSort}}</p>
         <characterAccordionBox v-model="search.characterId" :characters="characters"></characterAccordionBox>
         <moveAccordionBox v-model="search.moveId" :moves="moves" :selectCharacterName="selectCharacterName"></moveAccordionBox>
           <accordionBox>
@@ -22,16 +23,7 @@
               </div>
             </div>
           </accordionBox>
-          <accordionBox>
-            <span slot="accordion-title">Select Sort</span>
-            <div slot="accordion-contents">
-              <p>Now Select : {{selectSort}}</p>
-              <div v-for="(sort, key) in sorts">
-                <input type="radio" v-bind:id="key" v-bind:value="sort.dispName" v-model="selectSort">
-                <label v-bind:for="key">{{sort.dispName}}</label>
-              </div>
-            </div>
-          </accordionBox>
+          <sortAccordionBox v-model="search.selectSortId" :sorts="sorts"></sortAccordionBox>
           <p>
             <div @click="showModal = false">
               chancel
@@ -74,6 +66,7 @@
       accordionBox: require('../../common/box/accordion-box.vue'),
       characterAccordionBox: require('../../common/box/character-accordion-box.vue'),
       moveAccordionBox: require('../../common/box/move-accordion-box.vue'),
+      sortAccordionBox: require('../../common/box/sort-accordion-box.vue'),
       comboCassette: require('../../common/combo-cassette.vue'),
     },
     created() {
@@ -96,8 +89,6 @@
         moves: [],
         // ステータスリスト
         statuses: [],
-        // 選択されているソート名（初期ソート値を指定）
-        selectSort: 'ダメージ値降順',
         // 検索用パラメーター
         search: {
           selectSortId: 'DAMAGE_DESC',
@@ -137,6 +128,15 @@
           }
         }
         return name;
+      },
+      selectSort() {
+        let name = '';
+        for (let id in this.sorts) {
+          if (this.search.selectSortId === id) {
+            name = this.sorts[id].dispName;
+          }
+        }
+        return name;
       }
     },
     watch: {
@@ -152,16 +152,6 @@
         },
         deep: true
       },
-      // ソートが選択されたらソートIDを検索パラメーターに追加する
-      'selectSort': {
-        handler: function() {
-          for(let id in this.sorts) {
-            if(this.selectSort === this.sorts[id].dispName) {
-              this.search.selectSortId = id;
-            }
-          }
-        }
-      }
     },
     methods: {
       // コンボ取得関数
