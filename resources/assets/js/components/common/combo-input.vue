@@ -177,6 +177,19 @@
     width: 100%;
     border: 1px solid black;
   }
+  @media (min-width: 1000px) {
+    .combo__main-info {
+      border: none;
+      margin-bottom: 0;
+    }
+    .combo__move__input, .combo__recipes, .combo__statuses {
+      border: none;
+      margin-bottom: 0;
+    }
+    .combo__memo {
+      border: none;
+    }
+  }
 </style>
 
 <script>

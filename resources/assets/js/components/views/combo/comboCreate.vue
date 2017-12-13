@@ -72,6 +72,12 @@
     padding: 0;
     width: 150px;
   }
+
+  @media (min-width: 1000px) {
+     .combo__create {
+       margin: 20px 160px 0;
+     }
+   }
 </style>
 
 <script>
