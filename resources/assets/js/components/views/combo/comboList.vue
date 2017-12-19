@@ -157,7 +157,7 @@
       // コンボ取得関数
       getCombos() {
         axios.get('/api/combos',{
-          params: this.search
+          params: Object.assign(this.search, {gameId: this.$store.state.game.id})
         })
         .then(res =>  {
           this.combos = res.data;
