@@ -5,11 +5,11 @@
         <img v-bind:src="'/img/character/' + combo.character.image" alt="character image" class="combo__character__image">
         <p class="combo__character__name">{{combo.character.name}}</p>
       </div>
-      <p class="combo__damage">ダメージ : {{combo.damage}}</p>
-      <p class="combo__stun">スタン : {{combo.stun}}</p>
-      <p class="combo__meter">ゲージ : {{combo.meter}}</p>
-      <p class="combo__recipe">レシピ : {{combo.recipes[0].move.name}}&nbsp;…&nbsp;{{combo.recipes[combo.recipes.length - 1].move.name}}</p>
-      <p class="combo__statuses">状態 : <span v-for="status in combo.statuses">{{status.name}}</span></p>
+      <p class="combo__damage">ダメージ : <span class="brand-text">{{combo.damage}}</span></p>
+      <p class="combo__stun">スタン : <span class="brand-text">{{combo.stun}}</span></p>
+      <p class="combo__meter">ゲージ : <span class="brand-text">{{combo.meter}}</span></p>
+      <p class="combo__recipe">レシピ : <span class="brand-text">{{combo.recipes[0].move.name}}&nbsp;…&nbsp;{{combo.recipes[combo.recipes.length - 1].move.name}}</span></p>
+      <p class="combo__statuses">状態 : <span v-for="status in combo.statuses" class="brand-text">{{status.name}}</span></p>
     </router-link>
   </li>
 </template>
@@ -18,6 +18,7 @@
   li {
     list-style: none;
     border: 1px solid #D0D0D0;
+    border-radius: 3px;
     background: #fff;
     margin-bottom: 15px;
   }

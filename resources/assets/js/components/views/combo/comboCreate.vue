@@ -98,6 +98,7 @@
       create() {
         axios.post('/api/combos',this.inputCombo)
         .then(res => {
+          this.init();
           this.createModal = true;
         })
         .catch(err => {

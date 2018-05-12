@@ -40,9 +40,6 @@
 </template>
 
 <style scoped>
-  h1 {
-    color: red;
-  }
   ul {
     margin: 0;
     padding: 0;

@@ -170,6 +170,8 @@
     padding: 7px 5px;
   }
   .move__text {
+    color: white;
+    border-radius: 3px;
     background-color: #00AC0D;
     padding: 5px 11px;
   }
