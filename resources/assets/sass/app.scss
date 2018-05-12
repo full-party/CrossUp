@@ -16,3 +16,7 @@ a, a:focus, a:hover {
     text-decoration: none;
     color: $text-color;
 }
+
+input[type="text"] {
+  font-size: 16px;
+}
