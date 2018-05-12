@@ -5,11 +5,11 @@
         <img v-bind:src="'/img/character/' + combo.character.image" alt="character image" class="combo__character__image">
         <p class="combo__character__name">{{combo.character.name}}</p>
       </div>
-      <p class="combo__damage">ダメージ : <span class="brand-text">{{combo.damage}}</span></p>
-      <p class="combo__stun">スタン : <span class="brand-text">{{combo.stun}}</span></p>
-      <p class="combo__meter">ゲージ : <span class="brand-text">{{combo.meter}}</span></p>
-      <p class="combo__recipe">レシピ : <span class="brand-text">{{combo.recipes[0].move.name}}&nbsp;…&nbsp;{{combo.recipes[combo.recipes.length - 1].move.name}}</span></p>
-      <p class="combo__statuses">状態 : <span v-for="status in combo.statuses" class="brand-text">{{status.name}}</span></p>
+      <p class="combo__damage">ダメージ : <span class="combo__text brand-text">{{combo.damage}}</span></p>
+      <p class="combo__stun">スタン : <span class="combo__text brand-text">{{combo.stun}}</span></p>
+      <p class="combo__meter">ゲージ : <span class="combo__text brand-text">{{combo.meter}}</span></p>
+      <p class="combo__recipe">レシピ : <span class="combo__text brand-text">{{combo.recipes[0].move.name}}&nbsp;…&nbsp;{{combo.recipes[combo.recipes.length - 1].move.name}}</span></p>
+      <p class="combo__statuses">状態 : <span v-for="status in combo.statuses" class="combo__text brand-text">{{status.name}}</span></p>
     </router-link>
   </li>
 </template>
@@ -63,6 +63,9 @@
   .combo__statuses {
     grid-row: 4 / 5;
     grid-column: 2 / 4;
+  }
+  .combo__text {
+    font-weight: bold;
   }
 </style>
 

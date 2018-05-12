@@ -8,11 +8,11 @@
 // Bootstrap
 @import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
 
-.h1, .brand-text {
+h1, .brand-text {
   color: $brand-primary;
 }
 
-a {
+a, a:focus, a:hover {
     text-decoration: none;
     color: #000000;
 }
