@@ -64,7 +64,14 @@ class ComboService
      */
     public function list(array $params)
     {
-        $query = Combo::with('character');
+        // ゲームの絞込
+        if (isset($params['gameId'])) {
+            $query = Combo::with(['character' => function ($query) use ($params) {
+                $query->game($params['gameId']);
+            }]);
+        } else {
+            $query = Combo::with('character');
+        }
 
         // キャラクターの絞り込み
         if (isset($params['characterId']) && !is_null($params['characterId']) && is_numeric($params['characterId'])) {
