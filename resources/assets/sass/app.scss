@@ -17,6 +17,6 @@ a, a:focus, a:hover {
     color: $text-color;
 }
 
-input[type="text"] {
+input[type="text"], input[type="email"], input[type="password"] {
   font-size: 16px;
 }
