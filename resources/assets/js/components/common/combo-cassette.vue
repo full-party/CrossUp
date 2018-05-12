@@ -17,7 +17,7 @@
 <style scoped>
   li {
     list-style: none;
-    border: 1px solid #D0D0D0;
+    border: 2px solid #D0D0D0;
     border-radius: 3px;
     background: #fff;
     margin-bottom: 15px;
